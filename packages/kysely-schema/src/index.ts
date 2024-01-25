@@ -38,3 +38,7 @@ export const KeywordGroupSchema = _KeywordGroupSchema;
 export const KeywordPublisherRelSchema = _KeywordPublisherRelSchema;
 export const KeywordSchema = _KeywordSchema;
 export const PublisherSchema = _PublisherSchema;
+
+// use adapter what you want
+import { SQLiteAdapter as _SQLiteAdapter } from "./adapters/sqlite";
+export const KyselyAdapter = _SQLiteAdapter<DB>;

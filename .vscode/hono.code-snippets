@@ -10,6 +10,18 @@
 		],
 		"description": "hono_app"
 	},
+	"hono-router-init": {
+		"prefix": "hnri",
+		"body": [
+		  "import { OpenAPIHono } from '@hono/zod-openapi';",
+		  "",
+		  "const app = new OpenAPIHono();",
+		  "",
+		  "export default app;",
+		  ""
+		],
+		"description": "hono-router-init"
+	},
 	"hono_add_router": {
 		"prefix": "hnar",
 		"body": ["import $1 from './routes/$1';", "app.route('/$1', $1);", ""],

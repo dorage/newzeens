@@ -2,31 +2,64 @@
 -- SERVICE
 -- ----------------
 
--- GET /nl
-SELECT * FROM newsletters
+-- GET /keyword_group/:id
 
--- GET /nl?{filter_query}
-SELECT nl_id FROM nl_categories
-WHERE name IN (category[]);
+SELECT *
+FROM keywords
+WHERE id IN (
+    SELECT keyword_id
+    FROM keyword_group_rels
+    WHERE keyword_group_id = {:id}
+)
 
-SELECT nl_id FROM nl_keywords
-WHERE name IN (name[]) AND id IN (nl_c);
+-- GET /keyword/:id/publisher
+ 
+SELECT *
+FROM (
+    SELECT *
+    FROM keyword_publisher_rels
+    WHERE keyword_id = {:id}
+) AS kpr
+LEFT JOIN 
+    publishers as p
+ON kpr.publisher_id = p.id
+    
 
-SELECT nl_id FROM nl_periods
-WHERE name IN (period[]) AND id IN (nl_k);
+-- GET /keyword/:id/article
 
-SELECT nl_id FROM nl_price
-WHERE name IN (price[]) AND id IN (nl_p);
+SELECT *
+FROM (
+    SELECT *
+    FROM keyword_article_rels
+    WHERE keyword_id = {:id}
+) AS kar
+LEFT JOIN 
+    articles as a
+ON kar.article_id = a.id
 
-SELECT nl.* FROM filtered_nl fnl
-LEFT JOIN newsletters nl
-ON fnl.id = nl.id
+-- GET /publisher/rank
 
--- GET /nl/:id
--- GET /nl/:id/related
+SELECT *
+FROM publishers
+ORDER BY subscriber DESC
+LIMIT 10;
+
+-- GET /pubisher/:id
+
+SELECT *
+FROM publishers
+WHERE id = {:id};
 
 -- GET /article/:id
--- GET /article/:id/related
+
+SELECT *
+FROM articles
+WHERE id = {:id};
+
+-- GET /serach/:term
+
+SELECT fts_publishers({:term});
+SELECT fts_articles({:term});
 
 
 -- ----------------
@@ -35,15 +68,34 @@ ON fnl.id = nl.id
 
 -- POST /auth/login
 
--- GET /admin/nl
--- POST /admin/nl
+-- GET /keyword_group
 
--- GET /admin/nl/:id
--- PUT /admin/nl/:id
--- DELETE /admin/nl/:id
+SELECT *
+FROM keyword_groups;
 
--- POST /admin/article
+-- POST /keyword_group
 
--- GET /admin/article/:id
--- PUT /admin/article/:id
--- DELETE /admin/article/:id
+-- GET /keyword_group/:id
+-- PUT /keyword_group/:id
+-- DELETE /keyword_group/:id
+
+-- GET /keyword
+-- POST /keyword
+
+-- GET /keyword/:id
+-- PUT /keyword/:id
+-- DELETE /keyword/:id
+
+-- GET /publisher
+-- POST /publisher
+
+-- GET /publisher/:id
+-- PUT /publisher/:id
+-- DELETE /publisher/:id
+
+-- GET /article
+-- POST /article
+
+-- GET /article/:id
+-- PUT /article/:id
+-- DELETE /article/:id
