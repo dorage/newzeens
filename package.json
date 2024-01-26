@@ -2,6 +2,6 @@
   "name": "newzeens",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:backend:service": "pnpm run --filter ./backend/service/ dev"
   }
 }

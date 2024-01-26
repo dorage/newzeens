@@ -2,11 +2,15 @@ import type { Insertable, Selectable, Updateable } from "kysely";
 import { z } from "zod";
 
 export const KeywordPublisherRelSchema = z.object({
-  id: z.string(),
+  keyword_id: z.string(),
+  publisher_id: z.string(),
+  preference: z.number().nullable(),
 });
 
 export interface KyKeywordPublisherRelTable {
-  id: z.infer<typeof KeywordPublisherRelSchema.shape.id>;
+  keyword_id: z.infer<typeof KeywordPublisherRelSchema.shape.keyword_id>;
+  publisher_id: z.infer<typeof KeywordPublisherRelSchema.shape.publisher_id>;
+  preference: z.infer<typeof KeywordPublisherRelSchema.shape.preference>;
 }
 
 export type KeywordPublisherRel = Selectable<KyKeywordPublisherRelTable>;

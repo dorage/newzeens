@@ -3,28 +3,52 @@ import puppeteer from "puppeteer";
 (async () => {
   // Launch the browser and open a new blank page
   const browser = await puppeteer.launch();
-  const page = await browser.newPage();
 
-  // Navigate the page to a URL
-  await page.goto("https://developer.chrome.com/");
+  try {
+    const page = await browser.newPage();
 
-  // Set screen size
-  await page.setViewport({ width: 1080, height: 1024 });
+    // Navigate the page to a URL
+    await page.goto("https://stibee.com/api/v1.0/emails/share/0IBCdTIItTRGEIlnbS3xtiPpxGkZ_To");
 
-  // Type into search box
-  await page.type(".devsite-search-field", "automate beyond recorder");
+    // Set screen size
+    await page.setViewport({ width: 1080, height: 1024 });
 
-  // Wait and click on first result
-  const searchResultSelector = ".devsite-result-item-link";
-  await page.waitForSelector(searchResultSelector);
-  await page.click(searchResultSelector);
+    const content = await page.evaluate(() => {
+      const results = [];
+      const root = document.querySelector("tbody")!;
+      let queue: HTMLElement[] = [root];
 
-  // Locate the full title with a unique string
-  const textSelector = await page.waitForSelector("text/Customize and automate");
-  const fullTitle = await textSelector?.evaluate((el) => el.textContent);
+      while (queue) {
+        const el = queue.shift()!;
+        if (el == null) continue;
+        const candidates: HTMLElement[] = [];
 
-  // Print the full title
-  console.log('The title of this blog post is "%s".', fullTitle);
+        // last element
+        if (!el.children.length) {
+          const content = el.textContent;
+          if (content == null) continue;
+          if (!content.trim().length) continue;
+          results.push(content.trim());
+          continue;
+        }
 
-  await browser.close();
+        for (let i = 0; i < el.children.length; i++) {
+          const item = el.children.item(i);
+          if (item == null) continue;
+          candidates.push(item as HTMLElement);
+        }
+
+        queue = [...candidates, ...queue];
+      }
+
+      return document.querySelector("tbody");
+    });
+
+    console.log(content);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await browser.close();
+  }
+  console.log("DONE");
 })();

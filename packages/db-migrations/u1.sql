@@ -1,0 +1,9 @@
+DROP TABLE admins;
+DROP TABLE keyword_groups;
+DROP TABLE keywords;
+DROP TABLE keyword_group_rels;
+DROP TABLE publishers;
+DROP TABLE keyword_publisher_rels;
+DROP TABLE articles;
+DROP TABLE keyword_article_rels;
+DROP TABLE banners;

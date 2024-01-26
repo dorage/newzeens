@@ -1,3 +1,4 @@
+import Tag from "@/src/constants/tags";
 import { useAuth } from "@/src/middlewares/auth";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 
@@ -5,7 +6,7 @@ export const zRes = z.object({});
 
 const route = createRoute({
   path: "",
-  tags: [""],
+  tags: [Tag.Admin],
   method: "get",
   summary: "",
   description: "",

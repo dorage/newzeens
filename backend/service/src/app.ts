@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 
 import { HTTPException } from "hono/http-exception";
 import { ZodError } from "zod";
+import { Ky } from "./libs/kysely";
 
 declare module "hono" {
   interface ContextVariableMap {}
@@ -52,10 +53,13 @@ app.doc("/open-api", {
   openapi: "3.0.0",
   info: {
     version: "1.1.0",
-    title: "Supershy API",
+    title: "Newzeens API",
   },
 });
 // SwaggerUI
 app.get("/doc", swaggerUI({ url: "/open-api" }));
+
+import admin from "./routes/admin";
+app.route("/admin", admin);
 
 export default app;
