@@ -1,17 +1,22 @@
-import type { Insertable, Selectable, Updateable } from "kysely";
+import type { ColumnType, Generated, Insertable, Selectable, Updateable } from "kysely";
 import moment from "moment";
 import { z } from "zod";
 
 export const KeywordSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
-  created_at: z.string().transform((arg) => moment(arg).utc(false)),
+  is_enabled: z.coerce.boolean(),
+  created_at: z
+    .string()
+    .transform((arg) => moment(arg).utc(false))
+    .or(z.string()),
 });
 
 export interface KyKeywordTable {
-  id: z.infer<typeof KeywordSchema.shape.id>;
+  id: Generated<z.infer<typeof KeywordSchema.shape.id>>;
   name: z.infer<typeof KeywordSchema.shape.name>;
-  created_at: z.infer<typeof KeywordSchema.shape.created_at>;
+  is_enabled: ColumnType<z.infer<typeof KeywordSchema.shape.is_enabled>, number, number>;
+  created_at: Generated<z.infer<typeof KeywordSchema.shape.created_at>>;
 }
 
 export type Keyword = Selectable<KyKeywordTable>;

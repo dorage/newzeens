@@ -2,12 +2,14 @@ import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
+import { KeywordGroupSchema } from "kysely-schema";
 
 export const zJson = z.object({
   name: z.string().min(1),
+  is_enabled: z.boolean(),
 });
 
-export const zRes = z.object({ last_id: z.number() });
+export const zRes = KeywordGroupSchema;
 
 const route = createRoute({
   path: "",
@@ -22,6 +24,7 @@ const route = createRoute({
           schema: zJson,
           example: zJson.parse({
             name: "경제",
+            is_enabled: false,
           }),
         },
       },
@@ -50,11 +53,11 @@ export const ep = app.openapi(route, async (c) => {
   const json = c.req.valid("json");
 
   const res = await Ky.insertInto("keyword_groups")
-    .values({ name: json.name })
-    .returning("id")
+    .values({ name: json.name, is_enabled: +json.is_enabled })
+    .returningAll()
     .executeTakeFirstOrThrow();
 
-  return c.json({ last_id: res.id });
+  return c.json(res);
 });
 
 export default app;

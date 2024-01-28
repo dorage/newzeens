@@ -1,4 +1,4 @@
-import type { Generated, Insertable, Selectable, Updateable } from "kysely";
+import type { ColumnType, Generated, Insertable, Selectable, Updateable } from "kysely";
 import moment from "moment";
 import { z } from "zod";
 
@@ -7,9 +7,12 @@ export const ArticleSchema = z.object({
   thumbnail: z.string().nullable(),
   title: z.string(),
   summary: z.string(),
-  published_in: z.string().transform((arg) => moment(arg).utc(false)),
-  created_at: z.string().transform((arg) => moment(arg).utc(false)),
+  is_enabled: z.coerce.boolean(),
   publisher_id: z.string().length(6),
+  created_at: z
+    .string()
+    .transform((arg) => moment(arg).utc(false))
+    .or(z.string()),
 });
 
 export interface KyArticleTable {
@@ -17,9 +20,9 @@ export interface KyArticleTable {
   thumbnail: z.infer<typeof ArticleSchema.shape.thumbnail>;
   title: z.infer<typeof ArticleSchema.shape.title>;
   summary: z.infer<typeof ArticleSchema.shape.summary>;
-  published_in: z.infer<typeof ArticleSchema.shape.published_in>;
-  created_at: Generated<z.infer<typeof ArticleSchema.shape.created_at>>;
+  is_enabled: ColumnType<z.infer<typeof ArticleSchema.shape.is_enabled>, number, number>;
   publisher_id: z.infer<typeof ArticleSchema.shape.publisher_id>;
+  created_at: Generated<z.infer<typeof ArticleSchema.shape.created_at>>;
 }
 
 export type Article = Selectable<KyArticleTable>;

@@ -8,4 +8,13 @@ app.route("", getBase);
 import postBase from "./base/post";
 app.route("", postBase);
 
+import getDetail from "./[id]/get";
+app.route("/:id", getDetail);
+
+import deleteDetail from "./[id]/delete";
+app.route("/:id", deleteDetail);
+
+import putDetail from "./[id]/put";
+app.route("/:id", putDetail);
+
 export default app;

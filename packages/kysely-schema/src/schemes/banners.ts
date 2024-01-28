@@ -5,14 +5,14 @@ import { z } from "zod";
 export const BannerSchema = z.object({
   id: z.number(),
   url: z.string().nullable(),
-  enabled: z.coerce.boolean(),
+  is_enabled: z.coerce.boolean(),
   created_at: z.string().transform((arg) => moment(arg).utc(false)),
 });
 
 export interface KyBannerTable {
   id: z.infer<typeof BannerSchema.shape.id>;
   url: z.infer<typeof BannerSchema.shape.url>;
-  enabled: z.infer<typeof BannerSchema.shape.enabled>;
+  is_enabled: z.infer<typeof BannerSchema.shape.is_enabled>;
   created_at: z.infer<typeof BannerSchema.shape.created_at>;
 }
 

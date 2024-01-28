@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS admins (
 -- 키워드 구분 라벨
 CREATE TABLE IF NOT EXISTS keyword_groups (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL UNIQUE,
+    is_enabled BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS keyword_groups_id ON keyword_groups(id);
@@ -17,7 +18,8 @@ CREATE INDEX IF NOT EXISTS keyword_groups_name ON keyword_groups(name);
 -- 키워드
 CREATE TABLE IF NOT EXISTS keywords (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL UNIQUE,
+    is_enabled BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS keywords_id ON keywords(id);
@@ -42,6 +44,7 @@ CREATE TABLE IF NOT EXISTS publishers (
     description TEXT NOT NULL,
     subscriber INTEGER DEFAULT 0,
     url_subscribe TEXT NOT NULL,
+    is_enabled BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS publishers_id ON publishers(id);
@@ -65,10 +68,10 @@ CREATE TABLE IF NOT EXISTS articles (
     thumbnail TEXT,
     title VARCHAR(99) NOT NULL,
     summary TEXT NOT NULL,
-    published_in DATETIME NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     publisher_id CHAR(6) NOT NULL,
-    FOREIGN KEY (publisher_id) REFERENCES articles(id) ON DELETE CASCADE
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_enabled BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (publisher_id) REFERENCES publishers(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS articles_id ON articles(id);
 
@@ -87,10 +90,10 @@ CREATE INDEX IF NOT EXISTS keyword_article_rels_id ON keyword_article_rels(artic
 CREATE TABLE IF NOT EXISTS banners (
     id INTEGER,
     url TEXT,
-    enabled BOOLEAN,
+    is_enabled BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX IF NOT EXISTS banners_enabled ON banners(enabled);
+CREATE INDEX IF NOT EXISTS banners_is_enabled ON banners(is_enabled);
 
 -- Full Text Search table
 CREATE VIRTUAL TABLE IF NOT EXISTS fts_articles USING FTS5(title, body, tags);

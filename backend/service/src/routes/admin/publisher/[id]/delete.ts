@@ -5,13 +5,13 @@ import { PublisherSchema } from "kysely-schema";
 
 export const zParams = z.object({ id: PublisherSchema.shape.id });
 
-export const zRes = PublisherSchema;
+export const zRes = z.object({ okay: z.boolean() });
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "get",
-  summary: "get a detail of a keyword_group",
+  method: "delete",
+  summary: "",
   description: "",
   request: {
     params: zParams,
@@ -26,7 +26,7 @@ const route = createRoute({
       description: "",
     },
   },
-  security: [{ Bearer: [] }],
+  // security: [{ Bearer: [] }],
 });
 
 const app = new OpenAPIHono();
@@ -37,12 +37,9 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const params = zParams.parse(c.req.param());
 
-  const keyword = await Ky.selectFrom("publishers")
-    .selectAll()
-    .where("id", "=", params.id)
-    .executeTakeFirstOrThrow();
+  await Ky.deleteFrom("publishers").where("id", "=", params.id).execute();
 
-  return c.json(keyword);
+  return c.json({ okay: true });
 });
 
 export default app;

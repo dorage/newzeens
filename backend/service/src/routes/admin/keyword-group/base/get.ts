@@ -6,15 +6,11 @@ import { KeywordGroupSchema } from "kysely-schema";
 export const zQuery = z.object({
   page: z.coerce.number().optional().default(0),
   limit: z.coerce.number().optional().default(10),
+  name: z.coerce.string().optional().default(""),
+  is_enabled: z.coerce.boolean().optional(),
 });
 
-export const zRes = z
-  .object({
-    id: KeywordGroupSchema.shape.id,
-    name: KeywordGroupSchema.shape.name,
-    created_at: KeywordGroupSchema.shape.created_at.transform((arg) => arg.toString()),
-  })
-  .array();
+export const zRes = KeywordGroupSchema.array();
 
 const route = createRoute({
   path: "",
@@ -35,6 +31,7 @@ const route = createRoute({
       description: "",
     },
   },
+  security: [{ Bearer: [] }],
 });
 
 const app = new OpenAPIHono();
@@ -47,6 +44,12 @@ export const ep = app.openapi(route, async (c) => {
 
   const keywordGroups = await Ky.selectFrom("keyword_groups")
     .selectAll()
+    .where((eb) => {
+      const conditions = [];
+      if (query.name) conditions.push(eb("name", "like", `%${query.name}%`));
+      if (query.is_enabled) conditions.push(eb("is_enabled", "=", query.is_enabled));
+      return eb.and(conditions);
+    })
     .limit(query.limit)
     .offset(query.page * query.limit)
     .orderBy("created_at", "desc")

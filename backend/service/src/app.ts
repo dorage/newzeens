@@ -5,7 +5,6 @@ import { logger } from "hono/logger";
 
 import { HTTPException } from "hono/http-exception";
 import { ZodError } from "zod";
-import { Ky } from "./libs/kysely";
 
 declare module "hono" {
   interface ContextVariableMap {}
@@ -14,6 +13,7 @@ declare module "hono" {
 const app = new OpenAPIHono();
 
 app.use("*", logger());
+
 // cors
 app.use(
   "*",
@@ -24,7 +24,7 @@ app.use(
 );
 
 app.onError((err, c) => {
-  console.error("[ERROR] ", c.req.path, err);
+  console.error("[ERROR] ", c.req.method, c.req.path, err);
   if (err instanceof HTTPException) {
     throw err;
   }
