@@ -2,6 +2,7 @@
   "name": "newzeens",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev:backend:service": "pnpm run --filter ./backend/service/ dev"
+    "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
+    "test:backend:service": "pnpm run --filter ./backend/service test"
   }
 }

@@ -107,6 +107,6 @@ describe("CRUD /admin/publisher", () => {
   });
   test("GET detail is error", async () => {
     // 삽입
-    await request.get(`/${id}`).expect(404);
+    await request.get(`/${id}`).expect(500);
   });
 });

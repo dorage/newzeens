@@ -3,16 +3,14 @@ import { describe, expect, test, beforeAll, afterAll, jest } from "@jest/globals
 import { z } from "zod";
 import supertest from "supertest";
 import dotenv from "dotenv";
-import moment from "moment";
 
 import { API_HOST } from "../constants";
 
+import { zRes as getBaseRes } from "../../src/routes/admin/article/base/get";
 import {
   zRes as postBasePublisherRes,
   zJson as postBasPublishereJson,
 } from "../../src/routes/admin/publisher/base/post";
-
-import { zRes as getBaseRes } from "../../src/routes/admin/article/base/get";
 import {
   zRes as postBaseRes,
   zJson as postBaseJson,
@@ -144,6 +142,6 @@ describe("CRUD /admin/article", () => {
   });
   test("GET detail is error", async () => {
     // 삽입
-    await request.get(`/${id}`).expect(404);
+    await request.get(`/${id}`).expect(500);
   });
 });

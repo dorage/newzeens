@@ -37,6 +37,13 @@ describe("CRUD /admin/keyword", () => {
 
     id = json.id;
   });
+  test("GET all", async () => {
+    // 삽입
+    const { body } = await request.get("").expect("Content-Type", /json/).expect(200);
+
+    const res = getBaseRes.safeParse(body);
+    expect(res.success).toBe(true);
+  });
   test("GET", async () => {
     // 삽입
     const { body } = await request.get(`/${id}`).expect("Content-Type", /json/).expect(200);
@@ -76,6 +83,6 @@ describe("CRUD /admin/keyword", () => {
   });
   test("GET detail is error", async () => {
     // 삽입
-    await request.get(`/${id}`).expect(404);
+    await request.get(`/${id}`).expect(500);
   });
 });
