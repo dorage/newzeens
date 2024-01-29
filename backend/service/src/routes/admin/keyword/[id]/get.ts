@@ -13,7 +13,7 @@ const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "get a detail of a keyword_group",
+  summary: "keyword의 정보를 가져오기",
   description: "",
   request: {
     params: zParams,

@@ -13,13 +13,13 @@ export const zJson = z.object({
   is_enabled: KeywordSchema.shape.is_enabled.optional(),
 });
 
-export const zRes = KeywordSchema;
+export const zRes = KeywordSchema.openapi("res");
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "",
+  summary: "keyword의 이름, 활성화 수정",
   description: "",
   request: {
     params: zParams,

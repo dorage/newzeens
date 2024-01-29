@@ -16,7 +16,7 @@ const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "",
+  summary: "keyword를 반환",
   description: "",
   request: {
     query: zQuery,

@@ -15,7 +15,7 @@ const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "post",
-  summary: "",
+  summary: "새로운 keyword를 등록하고 모든 키워드를 반환",
   description: "",
   request: {
     body: {

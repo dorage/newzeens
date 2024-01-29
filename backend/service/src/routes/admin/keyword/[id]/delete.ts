@@ -10,7 +10,7 @@ const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "delete",
-  summary: "",
+  summary: "keyword를 삭제",
   description: "",
   request: {
     params: zParams,
