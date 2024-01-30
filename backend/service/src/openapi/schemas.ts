@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import { KeywordGroupRelSchema, KeywordGroupSchema, KeywordSchema } from "kysely-schema";
 
-const AdminKeywordGroup = z.object({}).merge(KeywordGroupSchema).openapi("AdminKeywordGroup");
+const AdminKeyword = z.object({}).merge(KeywordSchema).openapi("AdminKeyword");
 
 const AdminRelatedKeyword = z
   .object({})
@@ -11,6 +11,8 @@ const AdminRelatedKeyword = z
   })
   .openapi("AdminRelatedKeyword");
 
-const OpenAPISchema = { AdminKeywordGroup, AdminRelatedKeyword };
+const AdminKeywordGroup = z.object({}).merge(KeywordGroupSchema).openapi("AdminKeywordGroup");
+
+const OpenAPISchema = { AdminKeyword, AdminKeywordGroup, AdminRelatedKeyword };
 
 export default OpenAPISchema;

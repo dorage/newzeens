@@ -1,19 +1,19 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordSchema } from "kysely-schema";
 
 export const zParams = z.object({
   id: z.coerce.number(),
 });
 
-export const zRes = KeywordSchema;
+export const zRes = OpenAPISchema.AdminKeyword;
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "keyword의 정보를 가져오기",
+  summary: "keyword 정보 가져오기",
   description: "",
   request: {
     params: zParams,
@@ -25,7 +25,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminKeyword 반환",
     },
   },
   security: [{ Bearer: [] }],

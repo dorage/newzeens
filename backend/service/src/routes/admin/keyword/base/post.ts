@@ -1,21 +1,21 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
-import { KeywordSchema } from "kysely-schema";
 
 export const zJson = z.object({
   name: z.string().min(1),
   is_enabled: z.boolean(),
 });
 
-export const zRes = KeywordSchema;
+export const zRes = OpenAPISchema.AdminKeyword;
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "post",
-  summary: "새로운 keyword를 등록하고 모든 키워드를 반환",
+  summary: "keyword 추가",
   description: "",
   request: {
     body: {
@@ -38,7 +38,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminKeyword 반환",
     },
   },
   security: [{ Bearer: [] }],

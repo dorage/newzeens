@@ -1,7 +1,7 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupSchema } from "kysely-schema";
 
 export const zQuery = z.object({
   page: z.coerce.number().optional().default(0),
@@ -10,13 +10,13 @@ export const zQuery = z.object({
   is_enabled: z.coerce.boolean().optional(),
 });
 
-export const zRes = KeywordGroupSchema.array();
+export const zRes = OpenAPISchema.AdminKeyword.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "keyword를 반환",
+  summary: "keyword 목록 가져오기",
   description: "",
   request: {
     query: zQuery,
@@ -28,7 +28,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminKeyword[] 반환",
     },
   },
   security: [{ Bearer: [] }],
@@ -42,7 +42,7 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const query = zQuery.parse(c.req.query());
 
-  const keywordGroups = await Ky.selectFrom("keywords")
+  const keywords = await Ky.selectFrom("keywords")
     .selectAll()
     .where((eb) => {
       const conditions = [];
@@ -55,7 +55,7 @@ export const ep = app.openapi(route, async (c) => {
     .orderBy("created_at", "desc")
     .execute();
 
-  return c.json(zRes.parse(keywordGroups));
+  return c.json(zRes.parse(keywords));
 });
 
 export default app;
