@@ -3,6 +3,6 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
-    "test:backend:service": "pnpm run --filter ./backend/service test"
+    "test:backend:service": "pnpm run --filter ./backend/service/ test:jest"
   }
 }

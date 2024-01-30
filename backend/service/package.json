@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "DOTENV_KEY='dotenv://:key_51076c5bdf809fb22e6f32233280ca6d0461bf6712c6aa3c10d94288d32144bd@dotenv.org/vault/.env.vault?environment=development' tsx watch src/index.ts",
-    "test:dev": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' tsx watch src/index.ts",
-    "test": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' jest --silent=false"
+    "test:server": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' tsx watch src/index.ts",
+    "test:jest": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' jest --silent=false"
   },
   "dependencies": {
     "@hono/node-server": "^1.4.1",
