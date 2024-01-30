@@ -1,7 +1,7 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { ArticleSchema } from "kysely-schema";
 
 export const zQuery = z.object({
   page: z.coerce.number().optional().default(0),
@@ -10,13 +10,13 @@ export const zQuery = z.object({
   is_enabled: z.coerce.boolean().optional(),
 });
 
-export const zRes = ArticleSchema.array();
+export const zRes = OpenAPISchema.AdminArticle.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "",
+  summary: "article 목록 가져오기",
   description: "",
   request: {
     query: zQuery,
@@ -28,7 +28,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminArticle[] 반환",
     },
   },
   security: [{ Bearer: [] }],

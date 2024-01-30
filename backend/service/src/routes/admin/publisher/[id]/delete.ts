@@ -11,7 +11,7 @@ const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "delete",
-  summary: "",
+  summary: "publisher 정보 삭제",
   description: "",
   request: {
     params: zParams,

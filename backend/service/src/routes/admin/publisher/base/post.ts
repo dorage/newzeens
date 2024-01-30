@@ -1,6 +1,7 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
 import { createUniqueId } from "@/src/libs/nanoid";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { PublisherSchema } from "kysely-schema";
@@ -14,13 +15,13 @@ export const zJson = z.object({
   is_enabled: z.boolean(),
 });
 
-export const zRes = PublisherSchema;
+export const zRes = OpenAPISchema.AdminPublisher;
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "post",
-  summary: "",
+  summary: "publisher 추가",
   description: "",
   request: {
     body: {
@@ -47,7 +48,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminPublisher 반환",
     },
   },
   security: [{ Bearer: [] }],

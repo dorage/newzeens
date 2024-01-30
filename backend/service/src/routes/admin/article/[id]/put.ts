@@ -1,5 +1,6 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { ArticleSchema } from "kysely-schema";
@@ -17,13 +18,13 @@ export const zJson = z.object({
   is_enabled: ArticleSchema.shape.is_enabled.optional(),
 });
 
-export const zRes = ArticleSchema;
+export const zRes = OpenAPISchema.AdminArticle;
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "",
+  summary: "article 정보 수정",
   description: "",
   request: {
     params: zParams,
@@ -51,7 +52,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminArticle 반환",
     },
   },
   security: [{ Bearer: [] }],
