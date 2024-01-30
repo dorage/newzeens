@@ -9,12 +9,12 @@ import { zJson as postPublisherJson } from "../../src/routes/admin/publisher/bas
 const fakerBoolean = () => Boolean(faker.number.int({ min: 0, max: 1 }));
 
 const createKeyword = (): z.infer<typeof postKeywordJson> => ({
-  name: faker.company.buzzNoun(),
+  name: faker.person.firstName(),
   is_enabled: fakerBoolean(),
 });
 
 const createKeywordGroup = (): z.infer<typeof postKeywordGroupJson> => ({
-  name: faker.company.buzzNoun(),
+  name: faker.person.firstName(),
   is_enabled: fakerBoolean(),
 });
 

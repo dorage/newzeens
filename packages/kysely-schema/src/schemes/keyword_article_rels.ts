@@ -4,7 +4,7 @@ import { z } from "zod";
 export const KeywordArticleRelSchema = z.object({
   keyword_id: z.number(),
   article_id: z.string().length(6),
-  preference: z.number(),
+  preference: z.number().nullable().default(null),
 });
 
 export interface KyKeywordArticleRelTable {

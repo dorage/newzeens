@@ -22,7 +22,6 @@ import {
   zJson as deleteDetailRelationJson,
   zRes as deleteDetailRelationRes,
 } from "@/src/routes/admin/keyword-group/[id]-relation/delete";
-import { parse } from "path";
 
 const keywords: z.infer<typeof postKeywordRes>[] = [];
 const keywordGroups: z.infer<typeof postKeywordGroupRes>[] = [];
