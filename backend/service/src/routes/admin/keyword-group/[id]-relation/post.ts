@@ -1,5 +1,6 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { selectKeywords } from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { KeywordGroupRelSchema, KeywordSchema } from "kysely-schema";
@@ -13,23 +14,27 @@ export const zJson = z.object({
   preference: z.number().optional(),
 });
 
-export const zRes = KeywordSchema.extend({
-  preference: KeywordGroupRelSchema.shape.preference,
-}).array();
+export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "post",
-  summary: "",
+  summary: "keyword-group 에 keyword 추가",
   description: "",
   request: {
     params: zParam,
     body: {
+      description: `
+        preference는 optional 필드
+      `,
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({ keyword_id: 1, preference: undefined }),
+          examples: {
+            "without-preference": { value: zJson.parse({ keyword_id: 1, preference: undefined }) },
+            "with-preference": { value: zJson.parse({ keyword_id: 1, preference: 99 }) },
+          },
         },
       },
       required: true,
@@ -42,7 +47,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminRelatedKeyword[] 반환",
     },
   },
   security: [{ Bearer: [] }],

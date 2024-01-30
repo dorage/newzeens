@@ -1,5 +1,6 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { KeywordGroupSchema } from "kysely-schema";
@@ -13,13 +14,13 @@ export const zJson = z.object({
   is_enabled: KeywordGroupSchema.shape.is_enabled.optional(),
 });
 
-export const zRes = KeywordGroupSchema;
+export const zRes = OpenAPISchema.AdminKeywordGroup;
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "",
+  summary: "keyword-group 의 정보를 수정",
   description: "",
   request: {
     params: zParams,
@@ -43,7 +44,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminKeywordGroup 반환",
     },
   },
   security: [{ Bearer: [] }],

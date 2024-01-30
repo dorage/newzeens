@@ -1,8 +1,9 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { selectKeywords } from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupRelSchema, KeywordSchema } from "kysely-schema";
+import { KeywordGroupRelSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: z.coerce.number(),
@@ -13,15 +14,13 @@ export const zJson = z.object({
   preference: KeywordGroupRelSchema.shape.preference.nullable(),
 });
 
-export const zRes = KeywordSchema.extend({
-  preference: KeywordGroupRelSchema.shape.preference,
-}).array();
+export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "modify a preference of a keyword",
+  summary: "keyword-group 의 keyword 의 선호도 수정",
   description: "",
   request: {
     body: {
@@ -48,7 +47,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminRelatedKeyword[] 반환",
     },
   },
   security: [{ Bearer: [] }],

@@ -1,7 +1,7 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupSchema } from "kysely-schema";
 
 export const zQuery = z.object({
   page: z.coerce.number().optional().default(0),
@@ -10,13 +10,13 @@ export const zQuery = z.object({
   is_enabled: z.coerce.boolean().optional(),
 });
 
-export const zRes = KeywordGroupSchema.array();
+export const zRes = OpenAPISchema.AdminKeywordGroup.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "",
+  summary: "keyword-group 목록 가져오기",
   description: "",
   request: {
     query: zQuery,
@@ -28,7 +28,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminKeyowrdGroup[] 반환",
     },
   },
   security: [{ Bearer: [] }],

@@ -1,8 +1,6 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
-import { selectKeywords } from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupRelSchema, KeywordSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: z.coerce.number(),
@@ -12,15 +10,13 @@ export const zJson = z.object({
   keyword_id: z.number(),
 });
 
-export const zRes = KeywordSchema.extend({
-  preference: KeywordGroupRelSchema.shape.preference,
-}).array();
+export const zRes = z.object({ okay: z.boolean() });
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "delete",
-  summary: "",
+  summary: "keyword-group 에서 keyword 삭제",
   description: "",
   request: {
     params: zParam,
@@ -61,7 +57,7 @@ export const ep = app.openapi(route, async (c) => {
     .where("keyword_group_id", "=", param.id)
     .execute();
 
-  return c.json(zRes.parse(await selectKeywords(param.id)));
+  return c.json({ okay: true });
 });
 
 export default app;

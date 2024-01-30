@@ -1,21 +1,19 @@
 import Tag from "@/src/constants/tags";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { selectKeywords } from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupRelSchema, KeywordSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: z.coerce.number(),
 });
 
-export const zRes = KeywordSchema.extend({
-  preference: KeywordGroupRelSchema.shape.preference,
-}).array();
+export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "get",
-  summary: "",
+  summary: "keyword-group 의 keyword 가져오기",
   description: "",
   request: {
     params: zParam,
@@ -27,7 +25,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminRelatedKeyword[] 반환",
     },
   },
   security: [{ Bearer: [] }],

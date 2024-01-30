@@ -1,21 +1,21 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
-import { KeywordGroupSchema } from "kysely-schema";
 
 export const zJson = z.object({
   name: z.string().min(1),
   is_enabled: z.boolean(),
 });
 
-export const zRes = KeywordGroupSchema;
+export const zRes = OpenAPISchema.AdminKeywordGroup;
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "post",
-  summary: "",
+  summary: "keyword-group 추가",
   description: "",
   request: {
     body: {
@@ -38,7 +38,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminKeyowrdGroup 반환",
     },
   },
   security: [{ Bearer: [] }],
