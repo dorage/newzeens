@@ -1,4 +1,9 @@
 {
+	"ts-node": {
+		"compilerOptions": {
+		  "module": "commonjs"
+		},
+	},
 	"compilerOptions": {
 		/* Visit https://aka.ms/tsconfig.json to read more about this file */
 
@@ -103,7 +108,7 @@
 	},
 	"include": [
 		"src/**/*",
-		"tests/**/*",
+		"tests/**/*"
 	],
 	"exclude": [
 		"node_modules",

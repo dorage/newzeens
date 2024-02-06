@@ -1,0 +1,7 @@
+{
+  "name": "local-service",
+  "main": "dist/index.cjs",
+  "scripts": {
+    "start": "node dist/index.cjs"
+  }
+}
