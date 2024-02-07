@@ -9,19 +9,19 @@ import Mock from "@/tests/mock";
 
 import { zRes as postKeywordRes } from "@/src/routes/admin/keyword/base/post";
 import { zRes as postKeywordGroupRes } from "@/src/routes/admin/keyword-group/base/post";
-import { zRes as getDetailRelationRes } from "@/src/routes/admin/keyword-group/[id]-relation/get";
+import { zRes as getDetailRelationRes } from "@/src/routes/admin/keyword-group/[id].relation/get";
 import {
   zJson as postDetailRelationJson,
   zRes as postDetailRelationRes,
-} from "@/src/routes/admin/keyword-group/[id]-relation/post";
+} from "@/src/routes/admin/keyword-group/[id].relation/post";
 import {
   zJson as putDetailRelationJson,
   zRes as putDetailRelationRes,
-} from "@/src/routes/admin/keyword-group/[id]-relation/put";
+} from "@/src/routes/admin/keyword-group/[id].relation/put";
 import {
   zJson as deleteDetailRelationJson,
   zRes as deleteDetailRelationRes,
-} from "@/src/routes/admin/keyword-group/[id]-relation/delete";
+} from "@/src/routes/admin/keyword-group/[id].relation/delete";
 
 const keywords: z.infer<typeof postKeywordRes>[] = [];
 const keywordGroups: z.infer<typeof postKeywordGroupRes>[] = [];

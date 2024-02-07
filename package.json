@@ -4,7 +4,7 @@
     "preinstall": "npx only-allow pnpm",
     "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
     "test:backend:service": "pnpm run --filter ./backend/service/ test:jest",
-    
+  
     "start:backend:local":"pnpm run --filter ./backend/local-service start",
     "build:backend:local:build":"pnpm run --filter ./backend/service/ \/local:*\/",
     "build:backend:local:move-build-output":"cp -r ./backend/service/dist/ ./backend/local-service/dist/",

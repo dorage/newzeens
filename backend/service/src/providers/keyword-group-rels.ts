@@ -1,6 +1,6 @@
 import { Ky } from "../libs/kysely";
 
-export const selectKeywords = async (keywordGroupId: number) => {
+const selectKeywords = async (keywordGroupId: number) => {
   const query = Ky.selectFrom((eb) =>
     eb
       .selectFrom("keyword_group_rels")
@@ -18,3 +18,9 @@ export const selectKeywords = async (keywordGroupId: number) => {
 
   return keywords;
 };
+
+const KeywordGroupRelsProvider = {
+  selectKeywords,
+};
+
+export default KeywordGroupRelsProvider;

@@ -1,22 +1,28 @@
 import Tag from "@/src/constants/tags";
-import OpenAPISchema from "@/src/openapi/schemas";
-import { selectKeywords } from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 
-export const zParam = z.object({
-  id: z.coerce.number(),
-});
+export const zParam = z.object({});
 
-export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
+export const zJson = z.object({});
+
+export const zRes = z.object({});
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "get",
-  summary: "keyword-group 의 keyword 가져오기",
+  method: "delete",
+  summary: "",
   description: "",
   request: {
-    params: zParam,
+    body: {
+      content: {
+        "application/json": {
+          schema: zJson,
+          example: zJson.parse({}),
+        },
+      },
+      required: true,
+    },
   },
   responses: {
     200: {
@@ -25,7 +31,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "AdminRelatedKeyword[] 반환",
+      description: "",
     },
   },
   security: [{ Bearer: [] }],
@@ -37,9 +43,7 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const param = zParam.parse(c.req.param());
-
-  return c.json(zRes.parse(await selectKeywords(param.id)));
+  return c.json({});
 });
 
 export default app;

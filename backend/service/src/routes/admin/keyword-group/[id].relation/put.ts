@@ -1,17 +1,17 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
-import { selectKeywords } from "@/src/providers/keyword-group-rels";
+import KeywordGroupRelsProvider from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupRelSchema, KeywordSchema } from "kysely-schema";
+import { KeywordGroupRelSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: z.coerce.number(),
 });
 
 export const zJson = z.object({
-  keyword_id: z.number(),
-  preference: z.number().optional(),
+  keyword_id: KeywordGroupRelSchema.shape.keyword_id,
+  preference: KeywordGroupRelSchema.shape.preference.nullable(),
 });
 
 export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
@@ -19,22 +19,22 @@ export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "post",
-  summary: "keyword-group 에 keyword 추가",
+  method: "put",
+  summary: "keyword-group 안에서 keyword 의 선호도 수정",
   description: "",
   request: {
-    params: zParam,
     body: {
       description: `
-        preference는 optional 필드
+      preference 가 null 이면, 랜덤
+      preference 숫자가 높을 수록 해당 keyword 가 배열의 앞에 옴
       `,
       content: {
         "application/json": {
           schema: zJson,
-          examples: {
-            "without-preference": { value: zJson.parse({ keyword_id: 1, preference: undefined }) },
-            "with-preference": { value: zJson.parse({ keyword_id: 1, preference: 99 }) },
-          },
+          example: zJson.parse({
+            keyword_id: 1,
+            preference: 2,
+          }),
         },
       },
       required: true,
@@ -62,15 +62,13 @@ export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
   const json = zJson.parse(await c.req.json());
 
-  await Ky.insertInto("keyword_group_rels")
-    .values({
-      keyword_id: json.keyword_id,
-      keyword_group_id: param.id,
-      preference: json.preference,
-    })
+  await Ky.updateTable("keyword_group_rels")
+    .set({ preference: json.preference })
+    .where("keyword_group_id", "=", param.id)
+    .where("keyword_id", "=", json.keyword_id)
     .execute();
 
-  return c.json(zRes.parse(await selectKeywords(param.id)));
+  return c.json(zRes.parse(await KeywordGroupRelsProvider.selectKeywords(param.id)));
 });
 
 export default app;

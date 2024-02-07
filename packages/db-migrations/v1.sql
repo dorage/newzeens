@@ -27,6 +27,7 @@ CREATE INDEX IF NOT EXISTS keywords_name ON keywords(name);
 
 -- 키워드 - 키워드라벨 관계
 CREATE TABLE IF NOT EXISTS keyword_group_rels (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     keyword_id INTEGER NOT NULL,
     keyword_group_id INTEGER NOT NULL,
     preference INTEGER UNIQUE,
@@ -52,6 +53,17 @@ CREATE INDEX IF NOT EXISTS publishers_subscriber ON publishers(subscriber);
 
 
 -- 키워드 - 뉴스레터 발행자 관계
+CREATE TABLE IF NOT EXISTS keyword_group_rel_publishers(
+    keyword_group_rel_id INTEGER NOT NULL,
+    publisher_id CHAR(6) NOT NULL,
+    preference INTEGER UNIQUE,
+    UNIQUE(keyword_group_rel_id, publisher_id),
+    FOREIGN KEY (keyword_group_rel_id) REFERENCES keyword_group_rels(id) ON DELETE CASCADE,
+    FOREIGN KEY (publisher_id) REFERENCES publishers(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS keyword_group_rel_publishers_id ON keyword_group_rel_publishers(publisher_id, keyword_group_rel_id);
+
+-- 키워드 - 뉴스레터 발행자 관계
 CREATE TABLE IF NOT EXISTS keyword_publisher_rels(
     keyword_id INTEGER NOT NULL,
     publisher_id CHAR(6) NOT NULL,
@@ -74,6 +86,18 @@ CREATE TABLE IF NOT EXISTS articles (
     FOREIGN KEY (publisher_id) REFERENCES publishers(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS articles_id ON articles(id);
+
+-- 키워드 - 뉴스레터 컨텐츠 관계
+CREATE TABLE IF NOT EXISTS keyword_group_rels_articles(
+    keyword_group_rel_id INTEGER NOT NULL,
+    article_id CHAR(6) NOT NULL,
+    preference INTEGER UNIQUE,
+    UNIQUE(keyword_group_rel_id, article_id),
+    FOREIGN KEY (keyword_group_rel_id) REFERENCES keyword_group_rels(id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS keyword_group_rels_articles_id ON keyword_group_rels_articles(article_id, keyword_group_rel_id);
+
 
 -- 키워드 - 뉴스레터 컨텐츠 관계
 CREATE TABLE IF NOT EXISTS keyword_article_rels(

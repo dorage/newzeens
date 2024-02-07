@@ -16,6 +16,10 @@ import type { KyKeywordTable } from "./schemes/keywords";
 import { KeywordSchema as _KeywordSchema } from "./schemes/keywords";
 import type { KyPublisherTable } from "./schemes/publishers";
 import { PublisherSchema as _PublisherSchema } from "./schemes/publishers";
+import type { KyKeywordGroupRelArticleTable } from "./schemes/keyword_group_rel_articles";
+import { KeywordGroupRelArticleSchema as _KeywordGroupRelArticleSchema } from "./schemes/keyword_group_rel_articles";
+import type { KyKeywordGroupRelPublisherTable } from "./schemes/keyword_group_rel_publishers";
+import { KeywordGroupRelPublisherSchema as _KeywordGroupRelPublisherSchema } from "./schemes/keyword_group_rel_publishers";
 
 export interface DB {
   app_health: KyAppHealthTable;
@@ -27,6 +31,8 @@ export interface DB {
   articles: KyArticleTable;
   keyword_article_rels: KyKeywordArticleRelTable;
   banners: KyBannerTable;
+  keyword_group_rel_articles: KyKeywordGroupRelArticleTable;
+  keyword_group_rel_publishers: KyKeywordGroupRelPublisherTable;
 }
 
 export const AppHealthSchema = _AppHealthSchema;
@@ -38,6 +44,8 @@ export const KeywordGroupSchema = _KeywordGroupSchema;
 export const KeywordPublisherRelSchema = _KeywordPublisherRelSchema;
 export const KeywordSchema = _KeywordSchema;
 export const PublisherSchema = _PublisherSchema;
+export const KeywordGroupRelArticleSchema = _KeywordGroupRelArticleSchema;
+export const KeywordGroupRelPublisherSchema = _KeywordGroupRelPublisherSchema;
 
 // use adapter what you want
 import { SQLiteAdapter as _SQLiteAdapter } from "./adapters/sqlite";

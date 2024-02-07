@@ -1,39 +1,33 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
-import OpenAPISchema from "@/src/openapi/schemas";
-import { selectKeywords } from "@/src/providers/keyword-group-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordGroupRelSchema } from "kysely-schema";
+import { ArticleSchema, KeywordGroupRelArticleSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: z.coerce.number(),
+  articleId: z.coerce.string(),
 });
 
 export const zJson = z.object({
-  keyword_id: KeywordGroupRelSchema.shape.keyword_id,
-  preference: KeywordGroupRelSchema.shape.preference.nullable(),
+  preference: KeywordGroupRelArticleSchema.shape.preference,
 });
 
-export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
+export const zRes = z.object({});
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "keyword-group 안에서 keyword 의 선호도 수정",
+  summary: "",
   description: "",
   request: {
+    params: zParam,
     body: {
-      description: `
-      preference 가 null 이면, 랜덤
-      preference 숫자가 높을 수록 해당 keyword 가 배열의 앞에 옴
-      `,
       content: {
         "application/json": {
           schema: zJson,
           example: zJson.parse({
-            keyword_id: 1,
-            preference: 2,
+            preference: 99,
           }),
         },
       },
@@ -47,7 +41,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "AdminRelatedKeyword[] 반환",
+      description: "",
     },
   },
   security: [{ Bearer: [] }],
@@ -62,13 +56,13 @@ export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
   const json = zJson.parse(await c.req.json());
 
-  await Ky.updateTable("keyword_group_rels")
+  await Ky.updateTable("keyword_group_rel_articles")
     .set({ preference: json.preference })
-    .where("keyword_group_id", "=", param.id)
-    .where("keyword_id", "=", json.keyword_id)
+    .where("keyword_group_rel_id", "=", param.id)
+    .where("article_id", "=", param.articleId)
     .execute();
 
-  return c.json(zRes.parse(await selectKeywords(param.id)));
+  return c.json({});
 });
 
 export default app;
