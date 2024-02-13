@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS campaigns(
 
 -- 캠페인 내의 슬롯
 CREATE TABLE IF NOT EXISTS slots(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_id INTEGER,
     name CHAR(50),
     description TEXT,
@@ -90,22 +91,32 @@ CREATE TABLE IF NOT EXISTS slots(
     comment TEXT, 
     preferences INTEGER,
     is_enabled BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(id, campaign_id),
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
 );
 
 -- 슬롯의 아티클
 CREATE TABLE IF NOT EXISTS slot_articles(
     slot_id INTEGER,
     article_id CHAR(6),
-    preferences INTEGER
+    preferences INTEGER,
+    UNIQUE(slot_id, article_id),
+    FOREIGN KEY (slot_id) REFERENCES slots(id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
 );
+CREATE INDEX IF NOT EXISTS slot_articles_id ON slot_articles(slot_id, article_id);
 
 -- 슬롯의 퍼블리셔
 CREATE TABLE IF NOT EXISTS slot_publishers(
     slot_id INTEGER,
-    publisher_id CHAR(6)
-    preferences INTEGER
+    publisher_id CHAR(6),
+    preferences INTEGER,
+    UNIQUE(slot_id, publisher_id),
+    FOREIGN KEY (slot_id) REFERENCES slots(id) ON DELETE CASCADE,
+    FOREIGN KEY (publisher_id) REFERENCES publishers(id) ON DELETE CASCADE
 );
+CREATE INDEX IF NOT EXISTS slot_publishers_id ON slot_publishers(slot_id, publisher_id);
 
 -- Full Text Search table
 CREATE VIRTUAL TABLE IF NOT EXISTS fts_articles USING FTS5(title, body, tags);

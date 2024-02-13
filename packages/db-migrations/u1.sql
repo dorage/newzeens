@@ -5,3 +5,7 @@ DROP TABLE articles;
 DROP TABLE banners;
 DROP TABLE keyword_article_rels;
 DROP TABLE keyword_publisher_rels;
+DROP TABLE campaigns;
+DROP TABLE slots;
+DROP TABLE slot_articles;
+DROP TABLE slot_publishers;

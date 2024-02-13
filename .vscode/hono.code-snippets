@@ -215,7 +215,6 @@
 	  "hono_router-get": {
 		"prefix": "hnrg",
 		"body": [
-		  "import { useAuth } from \"@/src/middlewares/auth\";",
 		  "import { OpenAPIHono, createRoute, z } from \"@hono/zod-openapi\";",
 		  "",
 		  "export const zRes = z.object({});",
@@ -241,7 +240,7 @@
 		  "",
 		  "const app = new OpenAPIHono();",
 		  "",
-		  "app.use(route.getRoutingPath(), useAuth());",
+		  "app.use(route.getRoutingPath());",
 		  "",
 		  "export type EndpointType = typeof ep;",
 		  "export const ep = app.openapi(route, async (c) => {",

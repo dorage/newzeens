@@ -12,6 +12,14 @@ import type { KyKeywordTable } from "./schemes/keywords";
 import { KeywordSchema as _KeywordSchema } from "./schemes/keywords";
 import type { KyPublisherTable } from "./schemes/publishers";
 import { PublisherSchema as _PublisherSchema } from "./schemes/publishers";
+import type { KyCampaignTable } from "./schemes/campaigns";
+import { CampaignSchema as _CampaignSchema } from "./schemes/campaigns";
+import type { KySlotTable } from "./schemes/slots";
+import { SlotSchema as _SlotSchema } from "./schemes/slots";
+import type { KySlotArticleTable } from "./schemes/slot_articles";
+import { SlotArticleSchema as _SlotArticleSchema } from "./schemes/slot_articles";
+import type { KySlotPublisherTable } from "./schemes/slot_publishers";
+import { SlotPublisherSchema as _SlotPublisherSchema } from "./schemes/slot_publishers";
 
 export interface DB {
   app_health: KyAppHealthTable;
@@ -21,6 +29,10 @@ export interface DB {
   articles: KyArticleTable;
   keyword_article_rels: KyKeywordArticleRelTable;
   banners: KyBannerTable;
+  campaigns: KyCampaignTable;
+  slots: KySlotTable;
+  slot_articles: KySlotArticleTable;
+  slot_publishers: KySlotPublisherTable;
 }
 
 export const AppHealthSchema = _AppHealthSchema;
@@ -30,6 +42,10 @@ export const KeywordArticleRelSchema = _KeywordArticleRelSchema;
 export const KeywordPublisherRelSchema = _KeywordPublisherRelSchema;
 export const KeywordSchema = _KeywordSchema;
 export const PublisherSchema = _PublisherSchema;
+export const CampaignSchema = _CampaignSchema;
+export const SlotSchema = _SlotSchema;
+export const SlotArticleSchema = _SlotArticleSchema;
+export const SlotPublisherSchema = _SlotPublisherSchema;
 
 // use adapter what you want
 import { SQLiteAdapter as _SQLiteAdapter } from "./adapters/sqlite";
