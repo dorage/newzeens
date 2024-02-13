@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test, beforeAll, afterAll } from "vitest";
 
 import supertest from "supertest";
 import dotenv from "dotenv";

@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeAll, afterAll } from "@jest/globals";
+import { describe, expect, test, beforeAll, afterAll } from "vitest";
 
 import { z } from "zod";
 import supertest from "supertest";
@@ -24,11 +24,6 @@ import {
   zJson as deleteDetailRelationJson,
   zRes as deleteDetailRelationRes,
 } from "@/src/routes/admin/article/[id]-relation/delete";
-import { exec } from "child_process";
-
-jest.mock("nanoid", () => ({
-  customAlphabet: () => () => Math.floor(Math.random() * 10 ** 6).toString(),
-}));
 
 const keywords: z.infer<typeof postKeywordRes>[] = [];
 let publisher: z.infer<typeof postPublisherRes>;

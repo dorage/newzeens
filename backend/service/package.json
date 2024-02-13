@@ -1,39 +1,37 @@
 {
-  "scripts": {
-    "dev": "DOTENV_KEY='dotenv://:key_51076c5bdf809fb22e6f32233280ca6d0461bf6712c6aa3c10d94288d32144bd@dotenv.org/vault/.env.vault?environment=development' tsx watch src/index.ts",
-    "test:server": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' tsx watch src/index.ts",
-    "test:jest": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' jest --silent=false",
-    "local:build": "ts-node -T ./esbuild.ts -d",
-    "local:sqlite3": "cp -r node_modules/better-sqlite3/build/Release ./build"
-  },
-  "dependencies": {
-    "@hono/node-server": "^1.4.1",
-    "@hono/swagger-ui": "^0.2.1",
-    "@hono/zod-openapi": "^0.9.5",
-    "@hono/zod-validator": "^0.1.11",
-    "better-sqlite3": "^9.3.0",
-    "dotenv": "^16.4.1",
-    "hono": "^3.12.7",
-    "hono-auth": "workspace:^",
-    "kysely": "^0.26.3",
-    "kysely-schema": "workspace:^",
-    "moment": "^2.30.1",
-    "nanoid": "^5.0.4",
-    "zod": "^3.22.4"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^8.4.0",
-    "@jest/globals": "^29.7.0",
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.9.1",
-    "@types/supertest": "^6.0.2",
-    "esbuild": "^0.19.12",
-    "jest": "^29.7.0",
-    "supertest": "^6.3.4",
-    "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "tsx": "^3.12.2",
-    "typescript": "^5.0.4"
-  }
+    "type": "module",
+    "scripts": {
+        "dev": "DOTENV_KEY='dotenv://:key_51076c5bdf809fb22e6f32233280ca6d0461bf6712c6aa3c10d94288d32144bd@dotenv.org/vault/.env.vault?environment=development' pnpm vite-node src/index.ts",
+        "test:server": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' pnpm vite-node src/index.ts",
+        "test:vitest": "pnpm vitest",
+        "local:build": "ts-node -T ./esbuild.ts -d",
+        "local:sqlite3": "cp -r node_modules/better-sqlite3/build/Release ./build",
+        "build:production": "dotenv://:key_e30f37ba6171816d7e7fa393afa0822694cbe4de93b35697b484e136777cadad@dotenv.org/vault/.env.vault?environment=production pnpm vite build"
+    },
+    "dependencies": {
+        "@hono/node-server": "^1.4.1",
+        "@hono/swagger-ui": "^0.2.1",
+        "@hono/zod-openapi": "^0.9.5",
+        "@hono/zod-validator": "^0.1.11",
+        "better-sqlite3": "^9.3.0",
+        "dotenv": "^16.4.1",
+        "hono": "^3.12.7",
+        "hono-auth": "workspace:^",
+        "kysely": "^0.26.3",
+        "kysely-schema": "workspace:^",
+        "moment": "^2.30.1",
+        "nanoid": "^5.0.4",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^8.4.0",
+        "@types/node": "^20.9.1",
+        "@types/supertest": "^6.0.2",
+        "supertest": "^6.3.4",
+        "typescript": "^5.0.4",
+        "vite": "^5.1.1",
+        "vite-node": "^1.2.2",
+        "vite-tsconfig-paths": "^4.3.1",
+        "vitest": "^1.2.2"
+    }
 }

@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeAll, jest } from "@jest/globals";
+import { describe, expect, test, beforeAll, afterAll } from "vitest";
 
 import { z } from "zod";
 import supertest from "supertest";
@@ -14,10 +14,6 @@ import {
 import { zRes as getDetailRes } from "../../src/routes/admin/publisher/[id]/get";
 import { zRes as putDetailRes } from "../../src/routes/admin/publisher/[id]/put";
 import { zRes as deleteDetailRes } from "../../src/routes/admin/publisher/[id]/delete";
-
-jest.mock("nanoid", () => ({
-  customAlphabet: () => () => Math.floor(Math.random() * 10 ** 6).toString(),
-}));
 
 const request = supertest(API_HOST + "/admin/publisher");
 
