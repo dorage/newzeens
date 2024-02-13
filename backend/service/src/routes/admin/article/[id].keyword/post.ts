@@ -3,15 +3,14 @@ import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
 import KeywordArticleRelsProvider from "@/src/providers/keyword-article.rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { ArticleSchema } from "kysely-schema";
+import { ArticleSchema, KeywordSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: ArticleSchema.shape.id,
 });
 
 export const zJson = z.object({
-  keyword_id: z.number(),
-  preference: z.number().optional(),
+  keyword_id: KeywordSchema.shape.id,
 });
 
 export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
@@ -32,8 +31,8 @@ const route = createRoute({
         "application/json": {
           schema: zJson,
           examples: {
-            "without-preference": { value: zJson.parse({ keyword_id: 1, preference: undefined }) },
-            "with-preference": { value: zJson.parse({ keyword_id: 1, preference: 99 }) },
+            "without-preference": { value: zJson.parse({ keyword_id: 1 }) },
+            "with-preference": { value: zJson.parse({ keyword_id: 1 }) },
           },
         },
       },
@@ -66,7 +65,6 @@ export const ep = app.openapi(route, async (c) => {
     .values({
       keyword_id: json.keyword_id,
       article_id: param.id,
-      preference: json.preference,
     })
     .execute();
 

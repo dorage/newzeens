@@ -7,31 +7,16 @@ export const zParam = z.object({
   id: z.coerce.number(),
 });
 
-export const zJson = z.object({
-  article_id: ArticleSchema.shape.id,
-});
-
-export const zRes = z.object({});
+export const zRes = ArticleSchema.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "post",
+  method: "get",
   summary: "",
   description: "",
   request: {
     params: zParam,
-    body: {
-      content: {
-        "application/json": {
-          schema: zJson,
-          example: zJson.parse({
-            article_id: "abcdef",
-          }),
-        },
-      },
-      required: true,
-    },
   },
   responses: {
     200: {
@@ -53,16 +38,19 @@ app.use(route.getRoutingPath());
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
-  const json = zJson.parse(await c.req.json());
 
-  await Ky.insertInto("keyword_group_rel_articles")
-    .values({
-      keyword_group_rel_id: param.id,
-      article_id: json.article_id,
-    })
+  const keywordGroupArticles = await Ky.selectFrom((eb) =>
+    eb
+      .selectFrom("keyword_group_rel_articles")
+      .selectAll()
+      .where("keyword_group_rel_id", "=", param.id)
+      .as("kgra")
+  )
+    .leftJoin("articles as a", "kgra.article_id", "a.id")
+    .selectAll()
     .execute();
 
-  return c.json({ okay: true });
+  return c.json(zRes.parse(keywordGroupArticles));
 });
 
 export default app;

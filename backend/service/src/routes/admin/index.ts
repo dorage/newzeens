@@ -8,9 +8,6 @@ app.route("/mock", mock);
 import keywordGroup from "./keyword-group/index";
 app.route("/keyword_group", keywordGroup);
 
-import keywordGroupRel from "./keyword-group-rel/index";
-app.route("/keyword_group_rel", keywordGroupRel);
-
 import keyword from "./keyword/index";
 app.route("/keyword", keyword);
 
@@ -19,5 +16,8 @@ app.route("/publisher", publisher);
 
 import article from "./article/index";
 app.route("/article", article);
+
+import banner from "./banner/index";
+app.route("/banner", banner);
 
 export default app;

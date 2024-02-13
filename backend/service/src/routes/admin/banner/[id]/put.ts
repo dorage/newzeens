@@ -1,14 +1,15 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordSchema, PublisherSchema } from "kysely-schema";
+import { BannerSchema } from "kysely-schema";
 
 export const zParam = z.object({
-  id: PublisherSchema.shape.id,
+  id: BannerSchema.shape.id,
 });
 
 export const zJson = z.object({
-  keyword_id: KeywordSchema.shape.id,
+  url: BannerSchema.shape.url.optional(),
+  is_enabled: BannerSchema.shape.is_enabled.optional(),
 });
 
 export const zRes = z.object({ okay: z.boolean() });
@@ -16,16 +17,18 @@ export const zRes = z.object({ okay: z.boolean() });
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "delete",
-  summary: "publisher 에서 keyword 삭제",
+  method: "put",
+  summary: "",
   description: "",
   request: {
-    params: zParam,
     body: {
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({ keyword_id: 1 }),
+          example: zJson.parse({
+            url: "http://good.com",
+            is_enabled: true,
+          }),
         },
       },
       required: true,
@@ -53,9 +56,14 @@ export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
   const json = zJson.parse(await c.req.json());
 
-  await Ky.deleteFrom("keyword_publisher_rels")
-    .where("keyword_id", "=", json.keyword_id)
-    .where("publisher_id", "=", param.id)
+  await Ky.updateTable("banners")
+    .set((eb) => {
+      const updates: z.infer<typeof zJson> = {};
+      if (json.is_enabled) updates.is_enabled = json.is_enabled;
+      if (json.url) updates.url = json.url;
+      return updates;
+    })
+    .where("banners.id", "=", param.id)
     .execute();
 
   return c.json({ okay: true });

@@ -11,10 +11,7 @@ const selectKeywords = async (publisherId: z.infer<typeof PublisherSchema.shape.
       .as("kgr")
   )
     .leftJoin("keywords", "id", "kgr.keyword_id")
-    .selectAll()
-    .orderBy("preference desc");
-
-  if (process.env.MODE === "test") console.debug("🚀 ~ ep ~ query.compile():", query.compile());
+    .selectAll();
 
   const keywords = await query.execute();
 

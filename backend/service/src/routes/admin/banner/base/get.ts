@@ -1,29 +1,16 @@
 import Tag from "@/src/constants/tags";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
+import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 
-export const zParam = z.object({});
-
-export const zJson = z.object({});
-
-export const zRes = z.object({});
+export const zRes = OpenAPISchema.AdminBanner.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "put",
+  method: "get",
   summary: "",
   description: "",
-  request: {
-    body: {
-      content: {
-        "application/json": {
-          schema: zJson,
-          example: zJson.parse({}),
-        },
-      },
-      required: true,
-    },
-  },
   responses: {
     200: {
       content: {
@@ -43,7 +30,9 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  return c.json({});
+  const banners = await Ky.selectFrom("banners").selectAll().execute();
+
+  return c.json(zRes.parse(banners));
 });
 
 export default app;

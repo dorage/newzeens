@@ -23,20 +23,39 @@ app.use(
   })
 );
 
-app.onError(async (err, c) => {
-  console.error("[ERROR] ", c.req.method, c.req.path);
-  console.error("Headers: ", c.req.header());
-  console.error("Params: ", c.req.param());
-  console.error("Json: ", await c.req.json());
-  console.error(err);
-  if (err instanceof HTTPException) {
-    throw err;
+app.use("*", async (c, next) => {
+  try {
+    await next();
+  } catch (err) {
+    console.error("[ERROR] ", c.req.method, c.req.path);
+    console.error("Headers: ", c.req.header());
+    console.error("Params: ", c.req.param());
+    console.error("Json: ", await c.req.json());
+    console.error(err);
+    if (err instanceof HTTPException) {
+      throw err;
+    }
+    if (err instanceof ZodError) {
+      throw err;
+    }
+    return c.text("Not found.", 404);
   }
-  if (err instanceof ZodError) {
-    throw err;
-  }
-  return c.text("Not found.", 404);
 });
+
+// app.onError(async (err, c) => {
+//   console.error("[ERROR] ", c.req.method, c.req.path);
+//   console.error("Headers: ", c.req.header());
+//   console.error("Params: ", c.req.param());
+//   console.error("Json: ", await c.req.json());
+//   console.error(err);
+//   if (err instanceof HTTPException) {
+//     throw err;
+//   }
+//   if (err instanceof ZodError) {
+//     throw err;
+//   }
+//   return c.text("Not found.", 404);
+// });
 
 app.get("/", async (c) => {
   return c.json({ okay: true });

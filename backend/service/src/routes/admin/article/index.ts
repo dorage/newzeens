@@ -17,16 +17,13 @@ app.route("/:id", deleteDetail);
 import putDetail from "./[id]/put";
 app.route("/:id", putDetail);
 
-import getDetailRelation from "./[id]-relation/get";
-app.route("/:id/relation", getDetailRelation);
+import getDetailKeyword from "./[id].keyword/get";
+app.route("/:id/keyword", getDetailKeyword);
 
-import putDetailRelation from "./[id]-relation/put";
-app.route("/:id/relation", putDetailRelation);
+import postDetailKeyword from "./[id].keyword/post";
+app.route("/:id/keyword", postDetailKeyword);
 
-import postDetailRelation from "./[id]-relation/post";
-app.route("/:id/relation", postDetailRelation);
-
-import deleteDetailRelation from "./[id]-relation/delete";
-app.route("/:id/relation", deleteDetailRelation);
+import deleteDetailKeyword from "./[id].keyword/delete";
+app.route("/:id/keyword", deleteDetailKeyword);
 
 export default app;

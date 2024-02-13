@@ -42,6 +42,11 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const query = zQuery.parse(c.req.query());
 
+  // keyword 에 따라
+  // keyword + search term에 따라
+  // is_enalbed 에 따라
+  // page size / limit 에 따라
+
   const keywordGroups = await Ky.selectFrom("articles")
     .selectAll()
     .where((eb) => {

@@ -7,7 +7,21 @@ dotenv.config();
 const port = 3000;
 console.log(`Server is running on port ${port}`);
 
-serve({
+const server = serve({
   fetch: app.fetch,
   port,
 });
+
+if (import.meta.hot) {
+  console.log("hot reload");
+  const killServer = () => server.close();
+  import.meta.hot.on("vite:beforeFullReload", () => {
+    console.log("full reload");
+    killServer();
+  });
+
+  import.meta.hot.dispose(() => {
+    console.log("dispose");
+    killServer();
+  });
+}

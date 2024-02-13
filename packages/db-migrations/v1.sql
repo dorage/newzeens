@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS publishers (
 CREATE INDEX IF NOT EXISTS publishers_id ON publishers(id);
 CREATE INDEX IF NOT EXISTS publishers_subscriber ON publishers(subscriber);
 
-
 -- 키워드 - 뉴스레터 발행자 관계
 CREATE TABLE IF NOT EXISTS keyword_group_rel_publishers(
     keyword_group_rel_id INTEGER NOT NULL,
@@ -67,7 +66,6 @@ CREATE INDEX IF NOT EXISTS keyword_group_rel_publishers_id ON keyword_group_rel_
 CREATE TABLE IF NOT EXISTS keyword_publisher_rels(
     keyword_id INTEGER NOT NULL,
     publisher_id CHAR(6) NOT NULL,
-    preference INTEGER UNIQUE,
     UNIQUE(publisher_id, keyword_id),
     FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON DELETE CASCADE,
     FOREIGN KEY (publisher_id) REFERENCES publishers(id) ON DELETE CASCADE
@@ -88,7 +86,7 @@ CREATE TABLE IF NOT EXISTS articles (
 CREATE INDEX IF NOT EXISTS articles_id ON articles(id);
 
 -- 키워드 - 뉴스레터 컨텐츠 관계
-CREATE TABLE IF NOT EXISTS keyword_group_rels_articles(
+CREATE TABLE IF NOT EXISTS keyword_group_rel_articles(
     keyword_group_rel_id INTEGER NOT NULL,
     article_id CHAR(6) NOT NULL,
     preference INTEGER UNIQUE,
@@ -96,14 +94,12 @@ CREATE TABLE IF NOT EXISTS keyword_group_rels_articles(
     FOREIGN KEY (keyword_group_rel_id) REFERENCES keyword_group_rels(id) ON DELETE CASCADE,
     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
 );
-CREATE INDEX IF NOT EXISTS keyword_group_rels_articles_id ON keyword_group_rels_articles(article_id, keyword_group_rel_id);
-
+CREATE INDEX IF NOT EXISTS keyword_group_rel_articles_id ON keyword_group_rel_articles(article_id, keyword_group_rel_id);
 
 -- 키워드 - 뉴스레터 컨텐츠 관계
 CREATE TABLE IF NOT EXISTS keyword_article_rels(
     keyword_id INTEGER NOT NULL,
     article_id CHAR(6) NOT NULL,
-    preference INTEGER UNIQUE,
     UNIQUE(article_id, keyword_id),
     FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON DELETE CASCADE,
     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
@@ -118,6 +114,42 @@ CREATE TABLE IF NOT EXISTS banners (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS banners_is_enabled ON banners(is_enabled);
+
+-- 캠페인 관련 정보
+CREATE TABLE IF NOT EXISTS campaigns(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(50),
+    description TEXT,
+    -- 어드민 단에서 볼 설명
+    comment TEXT, 
+    created_at DATETIME
+);
+
+-- 캠페인 내의 슬롯
+CREATE TABLE IF NOT EXISTS slots(
+    campaign_id INTEGER,
+    name CHAR(50),
+    description TEXT,
+    -- 어드민 단에서 볼 설명
+    comment TEXT, 
+    preferences INTEGER,
+    is_enabled BOOLEAN DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 슬롯의 아티클
+CREATE TABLE IF NOT EXISTS slot_articles(
+    slot_id INTEGER,
+    article_id CHAR(6),
+    preferences INTEGER
+);
+
+-- 슬롯의 퍼블리셔
+CREATE TABLE IF NOT EXISTS slot_publishers(
+    slot_id INTEGER,
+    publisher_id CHAR(6)
+    preferences INTEGER
+);
 
 -- Full Text Search table
 CREATE VIRTUAL TABLE IF NOT EXISTS fts_articles USING FTS5(title, body, tags);

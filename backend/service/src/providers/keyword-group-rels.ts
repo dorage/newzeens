@@ -8,11 +8,11 @@ const selectKeywords = async (keywordGroupId: number) => {
       .where("keyword_group_id", "=", keywordGroupId)
       .as("kgr")
   )
-    .leftJoin("keywords", "id", "kgr.keyword_id")
+    .leftJoin("keywords as k", "k.id", "kgr.keyword_id")
     .selectAll()
     .orderBy("preference desc");
 
-  if (process.env.MODE === "test") console.debug("🚀 ~ ep ~ query.compile():", query.compile());
+  if (process.env.MODE) console.debug("🚀 ~ ep ~ query.compile():", query.compile());
 
   const keywords = await query.execute();
 

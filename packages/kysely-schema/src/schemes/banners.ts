@@ -6,7 +6,10 @@ export const BannerSchema = z.object({
   id: z.number(),
   url: z.string().nullable(),
   is_enabled: z.coerce.boolean(),
-  created_at: z.string().transform((arg) => moment(arg).utc(false)),
+  created_at: z
+    .string()
+    .transform((arg) => moment(arg).utc(false))
+    .or(z.string()),
 });
 
 export interface KyBannerTable {
