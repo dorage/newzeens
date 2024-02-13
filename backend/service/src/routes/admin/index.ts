@@ -5,9 +5,6 @@ const app = new OpenAPIHono();
 import mock from "./mock/index";
 app.route("/mock", mock);
 
-import keywordGroup from "./keyword-group/index";
-app.route("/keyword_group", keywordGroup);
-
 import keyword from "./keyword/index";
 app.route("/keyword", keyword);
 
