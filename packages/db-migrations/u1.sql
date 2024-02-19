@@ -1,5 +1,4 @@
 DROP TABLE admins;
-DROP TABLE keywords;
 DROP TABLE publishers;
 DROP TABLE articles;
 DROP TABLE banners;
@@ -9,3 +8,5 @@ DROP TABLE campaigns;
 DROP TABLE slots;
 DROP TABLE slot_articles;
 DROP TABLE slot_publishers;
+DROP TABLE keywords;
+DROP TABLE keyword_groups;

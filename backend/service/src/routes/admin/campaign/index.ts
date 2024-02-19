@@ -8,8 +8,8 @@ app.route("/", getBase);
 import postBase from "./base/post";
 app.route("/", postBase);
 
-import postDetail from "./[id]/post";
-app.route("/:id", postDetail);
+import putDetail from "./[id]/put";
+app.route("/:id", putDetail);
 
 import deleteDetail from "./[id]/delete";
 app.route("/:id", deleteDetail);

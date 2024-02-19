@@ -23,7 +23,7 @@ export interface KySlotTable {
   description: z.infer<typeof SlotSchema.shape.description>;
   comment: z.infer<typeof SlotSchema.shape.comment>;
   preferences: z.infer<typeof SlotSchema.shape.preferences>;
-  is_enabled: z.infer<typeof SlotSchema.shape.is_enabled>;
+  is_enabled: Generated<z.infer<typeof SlotSchema.shape.is_enabled>>;
   created_at: Generated<z.infer<typeof SlotSchema.shape.created_at>>;
 }
 

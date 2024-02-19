@@ -4,6 +4,8 @@ import { z } from "zod";
 import { zJson as postArticleJson } from "../../src/routes/admin/article/base/post";
 import { zJson as postKeywordJson } from "../../src/routes/admin/keyword/base/post";
 import { zJson as postPublisherJson } from "../../src/routes/admin/publisher/base/post";
+import { zJson as postCampaignJson } from "../../src/routes/admin/campaign/base/post";
+import { zJson as postSlotJson } from "../../src/routes/admin/campaign/[id].slot/post";
 
 const fakerBoolean = () => Boolean(faker.number.int({ min: 0, max: 1 }));
 
@@ -29,10 +31,25 @@ const createArticle = (publisherId: string): z.infer<typeof postArticleJson> => 
   is_enabled: fakerBoolean(),
 });
 
+const createCampaign = (): z.infer<typeof postCampaignJson> => ({
+  name: faker.company.name(),
+  comment: fakerBoolean() ? faker.company.catchPhraseDescriptor() : undefined,
+  description: fakerBoolean() ? faker.company.catchPhrase() : undefined,
+});
+
+const createSlot = (): z.infer<typeof postSlotJson> => ({
+  name: faker.commerce.productName(),
+  description: fakerBoolean() ? faker.commerce.productDescription() : undefined,
+  comment: fakerBoolean() ? faker.commerce.productMaterial() : undefined,
+  preferences: fakerBoolean() ? faker.number.int({ min: 0, max: 9 }) : undefined,
+});
+
 const Mock = {
   createKeyword,
   createPublisher,
   createArticle,
+  createCampaign,
+  createSlot,
 };
 
 export default Mock;

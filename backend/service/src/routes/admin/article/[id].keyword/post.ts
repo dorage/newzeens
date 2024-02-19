@@ -1,7 +1,7 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
-import KeywordArticleRelsProvider from "@/src/providers/keyword-article.rels";
+import KeywordArticleRelsProvider from "@/src/providers/keyword-article-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { ArticleSchema, KeywordSchema } from "kysely-schema";
 

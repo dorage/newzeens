@@ -17,4 +17,7 @@ app.route("/article", article);
 import banner from "./banner/index";
 app.route("/banner", banner);
 
+import campaign from "./campaign/index";
+app.route("/campaign", campaign);
+
 export default app;
