@@ -420,10 +420,19 @@ importers:
       kysely-schema:
         specifier: workspace:^
         version: link:../kysely-schema
+      nanoid:
+        specifier: ^5.0.5
+        version: 5.0.5
     devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.4.0
+        version: 8.4.0
       '@types/node':
         specifier: ^20.9.1
         version: 20.11.6
+      tsx:
+        specifier: ^4.7.1
+        version: 4.7.1
       typescript:
         specifier: ^5.0.4
         version: 5.3.3
@@ -5634,6 +5643,12 @@ packages:
     hasBin: true
     dev: false
 
+  /nanoid@5.0.5:
+    resolution: {integrity: sha512-/Veqm+QKsyMY3kqi4faWplnY1u+VuKO3dD2binyPIybP31DRO29bPF+1mszgLnrR2KqSLceFLBNw0zmvDzN1QQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: false
+
   /napi-build-utils@1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
     dev: false
@@ -7161,7 +7176,6 @@ packages:
       get-tsconfig: 4.7.2
     optionalDependencies:
       fsevents: 2.3.3
-    dev: false
 
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
