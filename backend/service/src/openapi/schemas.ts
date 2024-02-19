@@ -3,12 +3,15 @@ import {
   ArticleSchema,
   BannerSchema,
   CampaignSchema,
+  KeywordGroupSchema,
   KeywordSchema,
   PublisherSchema,
   SlotSchema,
 } from "kysely-schema";
 
 const AdminKeyword = z.object({}).merge(KeywordSchema).openapi("AdminKeyword");
+
+const AdminKeywordGroup = z.object({}).merge(KeywordGroupSchema).openapi("AdminKeywordGroup");
 
 const AdminRelatedKeyword = z
   .object({})
@@ -28,6 +31,7 @@ const AdminSlot = z.object({}).merge(SlotSchema).openapi("AdminSlot");
 
 const OpenAPISchema = {
   AdminKeyword,
+  AdminKeywordGroup,
   AdminRelatedKeyword,
   AdminPublisher,
   AdminArticle,
