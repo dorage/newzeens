@@ -1,8 +1,7 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
 import KeywordGroupProvider from "@/src/providers/keyword-groups";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 
 export const zRes = OpenAPISchema.AdminKeywordGroup.array();
 
