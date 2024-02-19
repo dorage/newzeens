@@ -20,10 +20,10 @@ app.route("/:id/keyword", getDetailKeyword);
 import postDetailKeyword from "./[id].keyword/post";
 app.route("/:id/keyword", postDetailKeyword);
 
-import deleteDetailKeywordDetail from "./[id].keyword.[keywordId]/delete";
+import deleteDetailKeywordDetail from "./[id].keyword.[keyword_Id]/delete";
 app.route("/:id/keyword/:keyword_id", deleteDetailKeywordDetail);
 
-import putDetailKeywordDetail from "./[id].keyword.[keywordId]/put";
+import putDetailKeywordDetail from "./[id].keyword.[keyword_Id]/put";
 app.route("/:id/keyword/:keyword_id", putDetailKeywordDetail);
 
 export default app;

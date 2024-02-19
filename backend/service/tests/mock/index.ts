@@ -2,17 +2,11 @@ import { faker } from "@faker-js/faker";
 import { z } from "zod";
 
 import { zJson as postArticleJson } from "../../src/routes/admin/article/base/post";
-import { zJson as postKeywordJson } from "../../src/routes/admin/keyword/base/post";
 import { zJson as postPublisherJson } from "../../src/routes/admin/publisher/base/post";
 import { zJson as postCampaignJson } from "../../src/routes/admin/campaign/base/post";
 import { zJson as postSlotJson } from "../../src/routes/admin/campaign/[id].slot/post";
 
 const fakerBoolean = () => Boolean(faker.number.int({ min: 0, max: 1 }));
-
-const createKeyword = (): z.infer<typeof postKeywordJson> => ({
-  name: faker.person.firstName(),
-  is_enabled: fakerBoolean(),
-});
 
 const createPublisher = (): z.infer<typeof postPublisherJson> => ({
   name: faker.company.name(),
@@ -45,7 +39,6 @@ const createSlot = (): z.infer<typeof postSlotJson> => ({
 });
 
 const Mock = {
-  createKeyword,
   createPublisher,
   createArticle,
   createCampaign,

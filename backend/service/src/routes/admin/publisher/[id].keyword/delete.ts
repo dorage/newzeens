@@ -10,8 +10,8 @@ export const zParam = z.object({
 });
 
 export const zJson = z.object({
-  keyword_id: KeywordSchema.shape.id,
   keyword_group_id: KeywordGroupSchema.shape.id,
+  keyword_id: KeywordSchema.shape.id,
 });
 
 export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
@@ -28,7 +28,10 @@ const route = createRoute({
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({ keyword_id: 1 }),
+          example: zJson.parse({
+            keyword_group_id: 1,
+            keyword_id: 1,
+          }),
         },
       },
       required: true,

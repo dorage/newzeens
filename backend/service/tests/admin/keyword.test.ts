@@ -1,88 +1,163 @@
-import { describe, expect, test, beforeAll, afterAll } from "vitest";
+import { afterAll, beforeAll, describe, expect, test } from "vitest";
 
+import { z } from "zod";
 import supertest from "supertest";
-import dotenv from "dotenv";
+import { faker } from "@faker-js/faker";
 
 import { API_HOST } from "../constants";
 
-import { zRes as getBaseRes } from "../../src/routes/admin/keyword/base/get";
-import { zRes as postBaseRes } from "../../src/routes/admin/keyword/base/post";
-import { zRes as getDetailRes } from "../../src/routes/admin/keyword/[id]/get";
-import { zRes as putDetailRes } from "../../src/routes/admin/keyword/[id]/put";
-import { zRes as deleteDetailRes } from "../../src/routes/admin/keyword/[id]/delete";
+import { zRes as getBaseRes } from "../../src/routes/admin/keyword-group/[id].keyword/get";
+import {
+  zRes as postBaseRes,
+  zJson as postBaseJson,
+} from "../../src/routes/admin/keyword-group/[id].keyword/post";
+import { zRes as deleteDetailRes } from "../../src/routes/admin/keyword-group/[id].keyword.[keyword_Id]/delete";
+import { zRes as putDetailRes } from "../../src/routes/admin/keyword-group/[id].keyword.[keyword_Id]/put";
+import { Ky } from "@/src/libs/kysely";
 
-const request = supertest(API_HOST + "/admin/keyword");
+import { KeywordGroup } from "kysely-schema/src/schemes/keyword-groups";
+import { zE2E } from "../utils/e2e";
 
-beforeAll(() => {
-  dotenv.config();
+const keywordGroups: KeywordGroup[] = [];
+
+beforeAll(async () => {
+  // add keyword_groups
+  while (keywordGroups.length < 2) {
+    try {
+      const keywordGroup = await Ky.insertInto("keyword_groups")
+        .values({
+          name: faker.person.jobArea(),
+          is_enabled: 1,
+        })
+        .returningAll()
+        .executeTakeFirst();
+      if (keywordGroup == null) continue;
+      keywordGroups.push(keywordGroup);
+    } catch (err) {}
+  }
 });
 
+afterAll(async () => {
+  // remove keyword_groups
+  for (const kg of keywordGroups) {
+    await Ky.deleteFrom("keyword_groups").where("id", "=", kg.id).execute();
+  }
+});
+
+const request = supertest(API_HOST + "/admin/keyword-group");
+
 describe("CRUD /admin/keyword", () => {
-  const name = "테스트";
-  const name2 = "테스트2";
-  const enabled = true;
+  const keywords: { [id in number]: z.infer<typeof postBaseRes> } = {};
 
-  let id: number;
+  test("POST create new keywords of keyword_groups", async () => {
+    for (const kg of keywordGroups) {
+      keywords[kg.id] = [];
+      while (keywords[kg.id].length < 3) {
+        // 삽입
+        const { parsed } = zE2E(
+          await request
+            .post(`/${kg.id}/keyword`)
+            .send(postBaseJson.parse({ name: faker.person.jobTitle(), is_enabled: true }))
+            .set("Accept", "application/json")
+            .expect("Content-Type", /json/)
+            .expect(200)
+        )(postBaseRes);
 
-  test("POST", async () => {
-    // 삽입
-    const { body } = await request
-      .post("")
-      .send({ name: "테스트", is_enabled: enabled })
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
-      .expect(200);
-
-    const json = postBaseRes.parse(body);
-
-    id = json.id;
+        keywords[kg.id] = parsed;
+      }
+    }
   });
-  test("GET all", async () => {
-    // 삽입
-    const { body } = await request.get("").expect("Content-Type", /json/).expect(200);
 
-    const res = getBaseRes.safeParse(body);
-    expect(res.success).toBe(true);
-  });
-  test("GET", async () => {
-    // 삽입
-    const { body } = await request.get(`/${id}`).expect("Content-Type", /json/).expect(200);
+  test("GET keywords of keyword_groups", async () => {
+    for (const group of keywordGroups) {
+      const { parsed } = zE2E(
+        await request.get(`/${group.id}/keyword`).expect("Content-Type", /json/).expect(200)
+      )(getBaseRes);
 
-    const json = getDetailRes.parse(body);
-    expect(json.name).toBe(name);
-    expect(json.is_enabled).toBe(enabled);
+      expect(parsed.length).toBe(3);
+    }
   });
+
   test("PUT change name", async () => {
-    // 삽입
-    const { body } = await request
-      .put(`/${id}`)
-      .send({ name: name2 })
-      .expect("Content-Type", /json/)
-      .expect(200);
+    const target_kg = keywordGroups[0];
+    const other_kg = keywordGroups[1];
 
-    const json = putDetailRes.parse(body);
-    expect(json.name).toBe(name2);
-  });
-  test("PUT change enabled", async () => {
-    // 삽입
-    const { body } = await request
-      .put(`/${id}`)
-      .send({ is_enabled: !enabled })
-      .expect("Content-Type", /json/)
-      .expect(200);
+    const k = keywords[target_kg.id][0];
 
-    const json = putDetailRes.parse(body);
-    expect(json.is_enabled).toBe(!enabled);
-  });
-  test("DELETE", async () => {
-    // 삽입
-    const { body } = await request.delete(`/${id}`).expect("Content-Type", /json/).expect(200);
+    const newName = "수정완료";
 
-    const json = deleteDetailRes.parse(body);
-    expect(json.okay).toBe(true);
+    // change name of a keyword
+    {
+      const { parsed } = zE2E(
+        await request
+          .put(`/${target_kg.id}/keyword/${k.id}`)
+          .send({ name: newName })
+          .expect("Content-Type", /json/)
+          .expect(200)
+      )(putDetailRes);
+
+      expect(parsed.filter((e) => e.name !== newName)).toEqual(
+        keywords[target_kg.id].filter((e) => e.id !== k.id)
+      );
+      keywords[target_kg.id] = parsed;
+    }
+    // get another keyword_group's keywords
+    {
+      const { parsed } = zE2E(
+        await request.get(`/${other_kg.id}/keyword`).expect("Content-Type", /json/).expect(200)
+      )(getBaseRes);
+
+      expect(parsed).toEqual(keywords[other_kg.id]);
+      keywords[other_kg.id] = parsed;
+    }
   });
-  test("GET detail is error", async () => {
-    // 삽입
-    await request.get(`/${id}`).expect(500);
+
+  test("PUT change is_enabled", async () => {
+    const target_kg = keywordGroups[1];
+    const other_kg = keywordGroups[0];
+
+    const k = keywords[target_kg.id][2];
+
+    const newIsEnabled = false;
+
+    // change name of a keyword
+    {
+      const { parsed } = zE2E(
+        await request
+          .put(`/${target_kg.id}/keyword/${k.id}`)
+          .send({ is_enabled: newIsEnabled })
+          .expect("Content-Type", /json/)
+          .expect(200)
+      )(putDetailRes);
+
+      expect(parsed.filter((e) => e.is_enabled !== newIsEnabled)).toEqual(
+        keywords[target_kg.id].filter((e) => e.id !== k.id)
+      );
+      keywords[target_kg.id] = parsed;
+    }
+    // get another keyword_group's keywords
+    {
+      const { parsed } = zE2E(
+        await request.get(`/${other_kg.id}/keyword`).expect("Content-Type", /json/).expect(200)
+      )(getBaseRes);
+
+      expect(parsed).toEqual(keywords[other_kg.id]);
+      keywords[other_kg.id] = parsed;
+    }
+  });
+
+  test("DELETE keywords", async () => {
+    for (const kg of keywordGroups) {
+      for (const k of keywords[kg.id]) {
+        const { parsed } = zE2E(
+          await request
+            .delete(`/${kg.id}/keyword/${k.id}`)
+            .expect("Content-Type", /json/)
+            .expect(200)
+        )(deleteDetailRes);
+
+        expect(parsed.every((e) => e.id !== k.id)).toBe(true);
+      }
+    }
   });
 });
