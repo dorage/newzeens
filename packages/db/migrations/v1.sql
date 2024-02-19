@@ -17,10 +17,11 @@ CREATE INDEX IF NOT EXISTS keyword_groups_name ON keyword_groups(name);
 -- 키워드
 CREATE TABLE IF NOT EXISTS keywords (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(30) NOT NULL UNIQUE,
+    name VARCHAR(30) NOT NULL,
     is_enabled BOOLEAN DEFAULT FALSE,
     keyword_group_id INTEGER NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(keyword_group_id, name),
     FOREIGN KEY (keyword_group_id) REFERENCES keyword_groups(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS keywords_name ON keywords(name);
@@ -33,6 +34,8 @@ CREATE TABLE IF NOT EXISTS publishers (
     description TEXT NOT NULL,
     subscriber INTEGER DEFAULT 0,
     url_subscribe TEXT NOT NULL,
+    publisher_main TEXT NOT NULL,
+    publisher_spec TEXT NOT NULL,
     is_enabled BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

@@ -1,14 +1,17 @@
 {
-  "name": "db",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "kysely-schema": "workspace:^"
-    
-  },"devDependencies": {
-    "@types/node": "^20.9.1",
-    "typescript": "^5.0.4"
-  }
+    "name": "db",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "pnpm tsx src/index.ts"
+    },
+    "dependencies": {
+        "kysely-schema": "workspace:^",
+        "nanoid": "^5.0.5"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^8.4.0",
+        "@types/node": "^20.9.1",
+        "tsx": "^4.7.1",
+        "typescript": "^5.0.4"
+    }
 }
