@@ -10,6 +10,8 @@ import type { KyKeywordPublisherRelTable } from "./schemes/keyword_publisher_rel
 import { KeywordPublisherRelSchema as _KeywordPublisherRelSchema } from "./schemes/keyword_publisher_rels";
 import type { KyKeywordTable } from "./schemes/keywords";
 import { KeywordSchema as _KeywordSchema } from "./schemes/keywords";
+import type { KyKeywordGroupTable } from "./schemes/keyword-groups";
+import { KeywordGroupSchema as _KeywordGroupSchema } from "./schemes/keyword-groups";
 import type { KyPublisherTable } from "./schemes/publishers";
 import { PublisherSchema as _PublisherSchema } from "./schemes/publishers";
 import type { KyCampaignTable } from "./schemes/campaigns";
@@ -24,6 +26,7 @@ import { SlotPublisherSchema as _SlotPublisherSchema } from "./schemes/slot_publ
 export interface DB {
   app_health: KyAppHealthTable;
   keywords: KyKeywordTable;
+  keyword_groups: KyKeywordGroupTable;
   publishers: KyPublisherTable;
   keyword_publisher_rels: KyKeywordPublisherRelTable;
   articles: KyArticleTable;
@@ -41,6 +44,7 @@ export const BannerSchema = _BannerSchema;
 export const KeywordArticleRelSchema = _KeywordArticleRelSchema;
 export const KeywordPublisherRelSchema = _KeywordPublisherRelSchema;
 export const KeywordSchema = _KeywordSchema;
+export const KeywordGroupSchema = _KeywordGroupSchema;
 export const PublisherSchema = _PublisherSchema;
 export const CampaignSchema = _CampaignSchema;
 export const SlotSchema = _SlotSchema;
