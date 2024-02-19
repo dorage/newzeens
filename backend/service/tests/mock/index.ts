@@ -15,6 +15,8 @@ const createPublisher = (): z.infer<typeof postPublisherJson> => ({
   is_enabled: fakerBoolean(),
   subscriber: faker.number.int(),
   url_subscribe: faker.internet.url(),
+  publisher_main: faker.person.fullName(),
+  publisher_spec: faker.person.fullName(),
 });
 
 const createArticle = (publisherId: string): z.infer<typeof postArticleJson> => ({

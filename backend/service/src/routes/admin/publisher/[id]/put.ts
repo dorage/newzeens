@@ -16,6 +16,8 @@ export const zJson = z.object({
   subscriber: PublisherSchema.shape.subscriber.optional(),
   is_enabled: PublisherSchema.shape.is_enabled.optional(),
   url_subscribe: PublisherSchema.shape.url_subscribe.optional(),
+  publisher_main: PublisherSchema.shape.publisher_main.optional(),
+  publisher_spec: PublisherSchema.shape.publisher_spec.optional(),
 });
 
 export const zRes = OpenAPISchema.AdminPublisher;
@@ -29,6 +31,7 @@ const route = createRoute({
   request: {
     params: zParams,
     body: {
+      description: "모든 필드는 옵셔널",
       content: {
         "application/json": {
           schema: zJson,
@@ -39,6 +42,8 @@ const route = createRoute({
             subscriber: 1000,
             is_enabled: true,
             url_subscribe: "www.subscribe.com",
+            publisher_main: "글쓰는 사람 메인",
+            publisher_spec: "글쓰는 사람 서브",
           }),
         },
       },
@@ -76,6 +81,8 @@ export const ep = app.openapi(route, async (c) => {
       if (json.subscriber != null) update.subscriber = json.subscriber;
       if (json.is_enabled != null) update.is_enabled = +json.is_enabled;
       if (json.url_subscribe != null) update.url_subscribe = json.url_subscribe;
+      if (json.publisher_main != null) update.publisher_main = json.publisher_main;
+      if (json.publisher_spec != null) update.publisher_spec = json.publisher_spec;
       return update;
     })
     .where("id", "=", params.id)

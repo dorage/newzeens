@@ -26,7 +26,7 @@ const route = createRoute({
       description: "",
     },
   },
-  // security: [{ Bearer: [] }],
+  security: [{ Bearer: [] }],
 });
 
 const app = new OpenAPIHono();

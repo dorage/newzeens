@@ -29,6 +29,8 @@ describe("CRUD /admin/publisher", () => {
     is_enabled: true,
     subscriber: 0,
     url_subscribe: "www.tester.com",
+    publisher_main: "글 잘쓰는 메인",
+    publisher_spec: "글 잘쓰는 서브",
   };
   const modifiedJson: z.infer<typeof postBaseJson> = {
     name: "테스트 뉴스레터2",
@@ -37,6 +39,8 @@ describe("CRUD /admin/publisher", () => {
     is_enabled: false,
     subscriber: 10,
     url_subscribe: "www.tester.com2",
+    publisher_main: "글 잘쓰는 메인2",
+    publisher_spec: "글 잘쓰는 서브2",
   };
 
   let id: string;

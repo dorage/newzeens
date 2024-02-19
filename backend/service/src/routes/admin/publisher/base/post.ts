@@ -12,6 +12,8 @@ export const zJson = z.object({
   subscriber: PublisherSchema.shape.subscriber,
   thumbnail: PublisherSchema.shape.thumbnail,
   url_subscribe: PublisherSchema.shape.url_subscribe,
+  publisher_main: PublisherSchema.shape.publisher_main,
+  publisher_spec: PublisherSchema.shape.publisher_spec,
   is_enabled: z.boolean(),
 });
 
@@ -35,6 +37,8 @@ const route = createRoute({
             subscriber: 1000,
             is_enabled: true,
             url_subscribe: "www.subscribe.com",
+            publisher_main: "글 잘쓰는 메인",
+            publisher_spec: "글 잘쓰는 서브",
           }),
         },
       },
@@ -56,11 +60,11 @@ const route = createRoute({
 
 const app = new OpenAPIHono();
 
-app.use(route.getRoutingPath(), zValidator("json", zJson));
+app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const json = c.req.valid("json");
+  const json = zJson.parse(await c.req.json());
 
   const publisher = await Ky.insertInto("publishers")
     .values({
@@ -69,6 +73,8 @@ export const ep = app.openapi(route, async (c) => {
       description: json.description,
       url_subscribe: json.url_subscribe,
       thumbnail: json.thumbnail,
+      publisher_main: json.publisher_main,
+      publisher_spec: json.publisher_spec,
       is_enabled: +json.is_enabled,
     })
     .returningAll()
