@@ -4,7 +4,7 @@
         "dev": "DOTENV_KEY='dotenv://:key_51076c5bdf809fb22e6f32233280ca6d0461bf6712c6aa3c10d94288d32144bd@dotenv.org/vault/.env.vault?environment=development' pnpm vite-node --watch src/index.ts",
         "test:server": "DOTENV_KEY='dotenv://:key_1282dc5b49f1529449ddf9068405c698be3283cc474020c9fbc1b93aef68b51a@dotenv.org/vault/.env.vault?environment=staging' pnpm vite-node --port 3333 src/index.ts",
         "test:vitest": "pnpm vitest",
-        "local:build": "ts-node -T ./esbuild.ts -d",
+        "local:build": "DOTENV_KEY='dotenv://:key_51076c5bdf809fb22e6f32233280ca6d0461bf6712c6aa3c10d94288d32144bd@dotenv.org/vault/.env.vault?environment=development' pnpm vite build",
         "local:sqlite3": "cp -r node_modules/better-sqlite3/build/Release ./build",
         "build:production": "dotenv://:key_e30f37ba6171816d7e7fa393afa0822694cbe4de93b35697b484e136777cadad@dotenv.org/vault/.env.vault?environment=production pnpm vite build"
     },
