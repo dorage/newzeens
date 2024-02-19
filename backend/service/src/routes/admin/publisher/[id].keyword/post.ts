@@ -3,7 +3,7 @@ import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
 import KeywordPublisherRelsProvider from "@/src/providers/keyword-publisher-rels";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { KeywordSchema, PublisherSchema } from "kysely-schema";
+import { KeywordGroupSchema, KeywordSchema, PublisherSchema } from "kysely-schema";
 
 export const zParam = z.object({
   id: PublisherSchema.shape.id,
@@ -11,6 +11,7 @@ export const zParam = z.object({
 
 export const zJson = z.object({
   keyword_id: KeywordSchema.shape.id,
+  keyword_group_id: KeywordGroupSchema.shape.id,
 });
 
 export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
@@ -61,6 +62,7 @@ export const ep = app.openapi(route, async (c) => {
   await Ky.insertInto("keyword_publisher_rels")
     .values({
       keyword_id: json.keyword_id,
+      keyword_group_id: json.keyword_group_id,
       publisher_id: param.id,
     })
     .execute();
