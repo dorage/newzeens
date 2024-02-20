@@ -103,7 +103,8 @@
 	},
 	"include": [
 		"src/**/*",
-		"tests/**/*"
+		"tests/**/*",
+		"esbuild.config.ts"
 	],
 	"exclude": [
 		"node_modules",

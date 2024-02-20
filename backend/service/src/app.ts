@@ -64,7 +64,7 @@ app.doc("/open-api", {
 app.get("/doc", swaggerUI({ url: "/open-api" }));
 
 import admin from "./routes/admin";
-import { Ky } from "./libs/kysely";
+
 app.route("/admin", admin);
 
 export default app;

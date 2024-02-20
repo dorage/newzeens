@@ -1,6 +1,6 @@
 import * as esbuild from "esbuild";
 import type { BuildOptions, Plugin } from "esbuild";
-import path from "node:path";
+import path from "path";
 
 const productionResolvePlugins: Plugin = {
   name: "replaceDev",
