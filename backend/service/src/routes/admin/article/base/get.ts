@@ -7,6 +7,7 @@ export const zQuery = z.object({
   page: z.coerce.number().optional().default(0),
   limit: z.coerce.number().optional().default(10),
   name: z.coerce.string().optional().default(""),
+  publisher_id: z.coerce.string().optional(),
   is_enabled: z.coerce.boolean().optional(),
 });
 
@@ -53,6 +54,7 @@ export const ep = app.openapi(route, async (c) => {
       const conditions = [];
       if (query.name) conditions.push(eb("title", "like", `%${query.name}%`));
       if (query.is_enabled) conditions.push(eb("is_enabled", "=", query.is_enabled));
+      if (query.publisher_id) conditions.push(eb("publisher_id", "=", query.publisher_id));
       return eb.and(conditions);
     })
     .limit(query.limit)
