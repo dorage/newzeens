@@ -10,3 +10,5 @@ DROP TABLE slot_articles;
 DROP TABLE slot_publishers;
 DROP TABLE keywords;
 DROP TABLE keyword_groups;
+DROP TABLE fts_articles;
+DROP TABLE fts_publishers;
