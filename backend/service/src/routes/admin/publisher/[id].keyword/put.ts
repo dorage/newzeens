@@ -11,7 +11,7 @@ export const zParam = z.object({
 
 export const zJson = z.object({
   keyword_group_id: KeywordGroupSchema.shape.id,
-  keyword_id: KeywordSchema.shape.id,
+  keyword_id: KeywordSchema.shape.id.nullable(),
 });
 
 export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
@@ -19,8 +19,8 @@ export const zRes = OpenAPISchema.AdminRelatedKeyword.array();
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "delete",
-  summary: "publisher 에서 keyword 삭제",
+  method: "put",
+  summary: "publisher 에 keyword 가 없으면 추가/있으면 수정/null 은 삭제",
   description: "",
   request: {
     params: zParam,
@@ -59,11 +59,30 @@ export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
   const json = zJson.parse(await c.req.json());
 
-  await Ky.deleteFrom("keyword_publisher_rels")
-    .where("keyword_group_id", "=", json.keyword_group_id)
-    .where("keyword_id", "=", json.keyword_id)
-    .where("publisher_id", "=", param.id)
-    .execute();
+  if (json.keyword_id === null) {
+    await Ky.deleteFrom("keyword_publisher_rels")
+      .where("publisher_id", "=", param.id)
+      .where("keyword_group_id", "=", json.keyword_group_id)
+      .execute();
+  } else {
+    try {
+      await Ky.updateTable("keyword_publisher_rels")
+        .set({
+          keyword_id: json.keyword_id,
+        })
+        .where("publisher_id", "=", param.id)
+        .where("keyword_group_id", "=", json.keyword_group_id)
+        .execute();
+    } catch (err) {
+      await Ky.insertInto("keyword_publisher_rels")
+        .values({
+          keyword_id: json.keyword_id,
+          keyword_group_id: json.keyword_group_id,
+          publisher_id: param.id,
+        })
+        .execute();
+    }
+  }
 
   return c.json(zRes.parse(await KeywordPublisherRelsProvider.selectKeywords(param.id)));
 });
