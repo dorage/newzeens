@@ -12,8 +12,9 @@ const selectKeywords = async (publisherId: z.infer<typeof PublisherSchema.shape.
   )
     .leftJoin("keywords as k", "k.id", "kgr.keyword_id")
     .leftJoin("keyword_groups as kg", "kg.id", "kgr.keyword_group_id")
-    .selectAll();
+    .selectAll(["k"]);
 
+  console.log(query.compile().sql);
   const keywords = await query.execute();
 
   return keywords;
