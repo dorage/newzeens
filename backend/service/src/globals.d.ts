@@ -4,9 +4,7 @@ import { Env } from "hono";
 
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {
-      MODE: "development" | "production" | "test";
-    }
+    interface ProcessEnv { }
   }
 }
 
