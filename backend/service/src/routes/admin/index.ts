@@ -2,9 +2,6 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 
 const app = new OpenAPIHono();
 
-import mock from "./mock/index";
-app.route("/mock", mock);
-
 import keywordGroup from "./keyword-group/index";
 app.route("/keyword-group", keywordGroup);
 
