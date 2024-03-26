@@ -7,12 +7,8 @@
   
     "start:backend:local":"pnpm run --filter ./backend/local-service start",
     "build:backend:local:build":"pnpm run --filter ./backend/service/ \/local:*\/",
-    "build:backend:local:remove-build-output":"rm -rf ./backend/local-service/dist",
-    "build:backend:local:move-build-output":"cp -r ./backend/service/dist/ ./backend/local-service/dist/",
-    "build:backend:local:remove-build-better-sqlite3":"rm -rf ./backend/local-service/build",
-    "build:backend:local:move-build-better-sqlite3":"cp -r ./backend/service/build/ ./backend/local-service/build/",
-    "build:backend:local:remove-db":"rm -rf ./backend/local-service/db",
-    "build:backend:local:move-db":"cp ./packages/db/db.local ./backend/local-service/db",
+    "build:backend:local:move-build-output":"rsync --delete-before -r ./backend/service/dist/ ./backend/local-service/dist/",
+    "build:backend:local:move-db":"rsync --delete-before -r ./packages/db/db.local ./backend/local-service/db",
     "build:backend:local":"pnpm run --sequential \/build:backend:local:.*\/"
   }
 }
