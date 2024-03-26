@@ -12,6 +12,7 @@ const server = serve({
   port,
 });
 
+// hot repload
 if (import.meta.hot) {
   console.log("hot reload");
   const killServer = () => server.close();
