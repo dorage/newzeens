@@ -11,9 +11,6 @@ app.route("/publisher", publisher);
 import article from "./article/index";
 app.route("/article", article);
 
-import banner from "./banner/index";
-app.route("/banner", banner);
-
 import campaign from "./campaign/index";
 app.route("/campaign", campaign);
 
