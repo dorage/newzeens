@@ -1,0 +1,183 @@
+{
+  "주석": {
+    "prefix": "wntjr",
+    "body": ["/**", " * ${1:description}", " */"],
+    "description": "description"
+  },
+  "긴 주석": {
+    "prefix": "rlswntjr",
+    "body": [
+      "/** ------------------------------------------------------------------------------",
+      " * ",
+      " * ${1:description}",
+      " * ",
+      " ------------------------------------------------------------------------------ */"
+    ],
+    "description": "description"
+  },
+  "sense api template": {
+    "prefix": "ssapi",
+    "body": [
+      "/**",
+      " * ${5:description}",
+      " */",
+      "${1|get,post,patch,delete|}${2:Api}: async (${4:params}) => {",
+      "  const { data } = await api.${1|get,post,patch,delete|}(`/${3:url}`,{})",
+      "  return data",
+      "},"
+    ],
+    "description": "sense api template"
+  },
+  "google analytics function": {
+    "prefix": "gaf",
+    "body": [
+      "interface ${1:Name} {",
+      "}",
+      "",
+      "const ${1:name} = onlyClient((props: ${1:Name}) => {",
+      "  const params: AnalysisHelperParams = {",
+      "    ${2:params}",
+      "  }",
+      "  GAHelper(\"${1:name}\", params)",
+      "})"
+    ],
+    "description": "google analytics function"
+  },
+  "rafce sense template": {
+    "prefix": "rrr",
+    "body": [
+      "import React from \"react\"",
+      "",
+      "interface ${1:Name}Props {",
+      "  ${2:props}",
+      "}",
+      "",
+      "const ${1:Name} = (props: ${1:Name}Props) => {",
+      "  const {} = props",
+      "  return <div>${1:Name}</div>",
+      "}",
+      "",
+      "export default ${1:Name}",
+      ""
+    ],
+    "description": "rafce sense template"
+  },
+  "ic": {
+    "prefix": "ic",
+    "body": ["import classNames from \"classnames\""],
+    "description": "ic"
+  },
+  "sense next page template": {
+    "prefix": "sspage",
+    "body": [
+      "import getQueryClient from \"@/app/utils/queryClient\"",
+      "import { Hydrate, dehydrate } from \"@tanstack/react-query\"",
+      "import React from \"react\"",
+      "",
+      "interface ${1:page}Params {",
+      "",
+      "}",
+      "",
+      "",
+      "const ${1:page} = async (props: NextPageProps<${1:page}Params>) => {",
+      "  // get Server queryClient",
+      "  const queryClient = getQueryClient()",
+      "",
+      "  // Optional: define params",
+      "  const params = {}",
+      "",
+      "  // prefetch query",
+      "  await queryClient.prefetchQuery({",
+      "    queryKey: [],",
+      "    queryFn: () => {},",
+      "    staleTime: 1000 * 60,",
+      "    cacheTime: 1000 * 60 * 60,",
+      "  })",
+      "",
+      "  // prefetch infinite query",
+      "  await queryClient.prefetchInfiniteQuery({",
+      "    queryKey: [],",
+      "    queryFn: () => {},",
+      "    staleTime: 1000 * 60,",
+      "    cacheTime: 1000 * 60 * 60,",
+      "  })",
+      "",
+      "  const dehydratedState = dehydrate(queryClient)",
+      "",
+      "  return (",
+      "    <Hydrate state={dehydratedState}>",
+      "      <div>${1:page}</div>",
+      "    </Hydrate>",
+      "  )",
+      "}",
+      "",
+      "export default ${1:page}",
+      ""
+    ],
+    "description": "sense next page template"
+  },
+  "generate SEO": {
+    "prefix": "seo",
+    "body": [
+      "/** ------------------------------------------------------------------------------",
+      " * ",
+      " * generate SEO ${1:pageName}",
+      " * ",
+      " ------------------------------------------------------------------------------ */",
+      "export async function generateMetadata(",
+      "  { params, searchParams }: NextPageProps<${2:pageParamsType}>,",
+      "  parent: ResolvingMetadata,",
+      "): Promise<Metadata> {",
+      "  try {",
+      "    // @example",
+      "    // const images = (await parent).openGraph?.images || []",
+      "    // const eventList = await eventApi.getEventList({ page_size: PAGE_SIZE.POST_LIST, public_type: \"PUBLIC\" })",
+      "",
+      "    return {",
+      "      ...META_HELPER.${2:function},",
+      "    }",
+      "  } catch (e) {",
+      "    console.log(e)",
+      "    // TODO: add sentry",
+      "    return {}",
+      "  }",
+      "}"
+    ],
+    "description": "generate SEO"
+  },
+  "Only NoneAuth Page": {
+    "prefix": "nauth",
+    "body": [
+      "  /** ------------------------------------------------------------------------------",
+      "  * ",
+      "  * Only NoneAuth Page",
+      "  * ",
+      "  ------------------------------------------------------------------------------ */",
+      "  const { isAuth } = await userDehydration()",
+      "  if (isAuth) redirect(navigate.home())"
+    ],
+    "description": "Only NoneAuth Page"
+  },
+  "create dynamic context ": {
+    "prefix": "cdc",
+    "body": [
+      "import { createDynamicContext } from \"@/app/_context/create-dynamic-context\"",
+      "",
+      "interface ${1:Name}Props {}",
+      "",
+      "const { ContextProvider, useContext } = createDynamicContext<${1:Name}Props>()",
+      "",
+      "export const use${1:Name} = useContext",
+      "export const ${1:Name}Provider = ContextProvider",
+      ""
+    ],
+    "description": "create dynamic context "
+  },
+  "clo": {
+    "prefix": "clo",
+    "body": [
+      "console.log(`${1:data}`, ${1:data})"
+    ],
+    "description": "clo"
+  }
+}
