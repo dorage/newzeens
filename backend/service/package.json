@@ -16,7 +16,6 @@
         "better-sqlite3": "^9.3.0",
         "dotenv": "^16.4.1",
         "hono": "^3.12.7",
-        "hono-auth": "workspace:^",
         "kysely": "^0.26.3",
         "kysely-schema": "workspace:^",
         "moment": "^2.30.1",

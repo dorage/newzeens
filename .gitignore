@@ -179,3 +179,7 @@ dist
 
 build
 !backend/local-service/*
+
+# custom
+mono
+

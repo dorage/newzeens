@@ -1,6 +1,5 @@
 packages:
   # include packages in subfolders (e.g. apps/ and packages/)
   - "backend/**"
-  - "frontend/**"
-  - "mono/**"
+  - "clients/**"
   - "packages/**"
