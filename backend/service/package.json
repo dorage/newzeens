@@ -13,6 +13,8 @@
         "@hono/swagger-ui": "^0.2.1",
         "@hono/zod-openapi": "^0.9.5",
         "@hono/zod-validator": "^0.1.11",
+        "@types/bcrypt": "^5.0.2",
+        "bcrypt": "^5.1.1",
         "better-sqlite3": "^9.3.0",
         "dotenv": "^16.4.1",
         "hono": "^3.12.7",
