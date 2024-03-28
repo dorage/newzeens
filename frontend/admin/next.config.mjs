@@ -1,4 +1,4 @@
-import envConfig from "./envConfig.js"
+import envConfig from "./.envConfig.js"
 
 const currentEnv = process.env.NEXT_PUBLIC_ENV
 
