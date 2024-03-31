@@ -1,0 +1,9 @@
+{
+    "singleQuote": false,
+    "arrowParens": "always",
+    "semi": false,
+    "trailingComma": "all",
+    "tailwindAttributes": ["classNames"],
+    "printWidth": 120
+  }
+  

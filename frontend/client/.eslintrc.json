@@ -1,0 +1,63 @@
+{
+  "root": false,
+  "extends": [
+    "next",
+    "next/babel",
+    "next/core-web-vitals",
+    "plugin:tailwindcss/recommended",
+    "plugin:prettier/recommended",
+    "eslint-config-next",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
+  ],
+  "plugins": ["tailwindcss", "import", "unused-imports"],
+  "settings": {
+    "tailwindcss": {
+      "config": "./tailwind.config.js",
+      "whitelist": ["(bg|text|rounded|p|py|px|w|h)\\-.*"]
+    }
+  },
+
+  "rules": {
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/no-rest-destructuring": "warn",
+    "@tanstack/query/stable-query-client": "error",
+    "unused-imports/no-unused-imports": "error",
+    "import/order": [
+      "error",
+      {
+        // "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "react*",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "hooks/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "components/*",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "utils/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "images/*",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
+  }
+}
