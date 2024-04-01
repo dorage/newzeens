@@ -1,7 +1,6 @@
 import React from "react"
 
-interface ButtonProps {
-}
+interface ButtonProps {}
 
 const Button = (props: ButtonProps) => {
   const {} = props

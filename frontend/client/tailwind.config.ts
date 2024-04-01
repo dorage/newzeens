@@ -11,6 +11,7 @@ const config: Config = {
       laptop: { max: "1280px" },
       mobile: { max: "640px" }, // TODO: 추후 수정
     },
+
     extend: {
       spacing: () => ({
         ...Array.from({ length: 1000 }, (_, index) => index * 0.5)
