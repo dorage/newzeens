@@ -117,7 +117,7 @@ const newsLetterApi = {
    */
   getAdminArticle: async (id: string) => {
     const data = await api(`/admin/article/${id}`)
-    return data as AdminNewsLetterResponse
+    return data as AdminArticleResponse
   },
 }
 

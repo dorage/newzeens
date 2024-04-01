@@ -23,7 +23,7 @@ const DetailTemplates = (props: DetailTemplatesProps) => {
   const methods = useForm({
     defaultValues: {
       ...publisher,
-      is_enabled: publisher.is_enabled == 1 ? true : false,
+      is_enabled: publisher?.is_enabled == 1 ? true : false,
     },
   })
 
