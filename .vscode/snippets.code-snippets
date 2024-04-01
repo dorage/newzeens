@@ -1,0 +1,101 @@
+{
+  "주석": {
+    "prefix": "wntjr",
+    "body": ["/**", " * ${1:description}", " */"],
+    "description": "description"
+  },
+  "긴 주석": {
+    "prefix": "rlswntjr",
+    "body": [
+      "/** ------------------------------------------------------------------------------",
+      " * ",
+      " * ${1:description}",
+      " * ",
+      " ------------------------------------------------------------------------------ */"
+    ],
+    "description": "description"
+  },
+  "clo": {
+    "prefix": "clo",
+    "body": [
+      "console.log(`${1:data}`, ${1:data})"
+    ],
+    "description": "clo"
+  },
+  "clc": {
+    "prefix": "clc",
+    "body": [
+      "console.count(`${1:data}` + ${1:data})"
+    ],
+    "description": "clc"
+  },
+  "rafce with typescript interface": {
+    "prefix": "rrr",
+    "body": [
+      "import React from \"react\"",
+      "",
+      "interface ${1:Name}Props {",
+      "  ${2:props}",
+      "}",
+      "",
+      "const ${1:Name} = (props: ${1:Name}Props) => {",
+      "  const {} = props",
+      "  return <div>${1:Name}</div>",
+      "}",
+      "",
+      "export default ${1:Name}",
+      ""
+    ],
+    "description": "rafce with typescript interface"
+  },
+  "next page template with react-qeury v5": {
+    "prefix": "sspage",
+    "body": [
+      "import React from \"react\"",
+      "import { HydrationBoundary, dehydrate } from \"@tanstack/react-query\"",
+      "import { NextPageProps } from \"@/app/_types/next\"",
+      "import getQueryClient from \"@/app/_utils/query-client\"",
+      "",
+      "interface ${1:page}Params {",
+      "",
+      "}",
+      "",
+      "",
+      "const ${1:page} = async (props: NextPageProps<${1:page}Params>) => {",
+      "  // get Server queryClient",
+      "  const queryClient = getQueryClient()",
+      "",
+      "  // Optional: define params",
+      "  const params = {}",
+      "",
+      "  // prefetch query",
+      "  await queryClient.prefetchQuery({",
+      "    queryKey: [],",
+      "    queryFn: () => {},",
+      "    staleTime: 1000 * 60,",
+      "    gcTime: 1000 * 60 * 60,",
+      "  })",
+      "",
+      "  // prefetch infinite query",
+      "  await queryClient.prefetchInfiniteQuery({",
+      "    queryKey: [],",
+      "    queryFn: () => {},",
+      "    staleTime: 1000 * 60,",
+      "    gcTime: 1000 * 60 * 60,",
+      "  })",
+      "",
+      "  const dehydratedState = dehydrate(queryClient)",
+      "",
+      "  return (",
+      "    <HydrationBoundary state={dehydratedState}>",
+      "      <div>${1:page}</div>",
+      "    </HydrationBoundary>",
+      "  )",
+      "}",
+      "",
+      "export default ${1:page}",
+      ""
+    ],
+    "description": "next page template with react-qeury v4"
+  },
+}

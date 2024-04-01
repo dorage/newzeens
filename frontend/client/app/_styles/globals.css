@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background1-color: #f1f6ff;
+  --background2-color: #ddedff;
+  --background3-color: #f5f7f8;
+  --background4-color: #e6efff;
+
+  --gray-90-color: #181e2e;
+  --gray-80-color: #1d2845;
+  --gray-70-color: #405078;
+  --gray-65-color: #8190b7;
+  --gray-60-color: #96a4cc;
+  --gray-50-color: #b6caef;
+  --gray-40-color: #cfe1ff;
+
+  --primary1-color: #2c78ff;
+  --primary2-color: #12265b;
+  --primary3-color: #24bacf;
+  --primary4-color: #c5f8ff;
+  --primary5-color: #dfedfb;
+}
+
+/**
+ * 모든 요소에 user-select none
+ */
+html {
+  user-select: none;
+  font-size: 62.5%;
+  background-color: var(--background1-color);
+}
+
+body {
+  font-size: 16px;
+}
+
+/**
+ * 모바일 하이라이트 컬러 지우기
+ */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+textarea,
+button {
+  outline: none;
+}

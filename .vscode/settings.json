@@ -1,5 +1,11 @@
 {
     "cSpell.words": [
-        "tailwindcss"
-    ]
+        "clsx",
+        "Maillist",
+        "tailwindcss",
+        "tanstack"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+      },
 }

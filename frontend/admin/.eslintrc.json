@@ -6,47 +6,12 @@
     "node": true
   },
   
-  "extends": ["next", "next/babel", "next/core-web-vitals", "eslint-config-next", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
+  "extends": ["next", "eslint-config-next", "next/core-web-vitals", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
   "plugins": ["tailwindcss", "import", "unused-imports"],
-
   "settings": {
     "tailwindcss": {
       "config": "./tailwind.config.ts",
       "whitelist": ["(rounded)\\-.*"]
     }
-  },
-
-  "rules": {
-    "tailwindcss/no-custom-classname": ["warn"],
-    "tailwindcss/classnames-order": ["warn", { "callees": ["cn"] }],
-    "unused-imports/no-unused-imports": "warn",
-    "unused-imports/no-unused-vars": [
-      "warn",
-      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-    ],
-    "import/order": [
-      "error",
-      {
-        "groups": ["builtin", "external", "internal"],
-        "pathGroups": [
-          {
-            "pattern": "next*",
-            "group": "builtin",
-            "position": "before"
-          },
-          {
-            "pattern": "react*",
-            "group": "builtin",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"],
-        "alphabetize": {
-          "order": "asc"
-        },
-        // @see https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#warnonunassignedimports-truefalse
-        "warnOnUnassignedImports": true
-      }
-    ]
   }
 }
