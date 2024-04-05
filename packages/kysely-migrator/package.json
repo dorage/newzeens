@@ -1,11 +1,15 @@
 {
     "name": "db",
     "version": "1.0.0",
-    "scripts": {
-        "start": "pnpm tsx src/index.ts"
-    },
+		"scripts":{
+			"new": "tsx src/index.ts new",
+			"latest": "tsx src/index.ts latest",
+			"down": "tsx src/index.ts down"
+		},
     "dependencies": {
+        "kysely": "^0.26.3",
         "kysely-schema": "workspace:^",
+        "moment": "^2.29.4",
         "nanoid": "^5.0.5"
     },
     "devDependencies": {
