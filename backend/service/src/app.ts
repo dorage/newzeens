@@ -7,7 +7,7 @@ import { HTTPException } from "hono/http-exception";
 import { ZodError } from "zod";
 
 declare module "hono" {
-  interface ContextVariableMap {}
+  interface ContextVariableMap { }
 }
 
 const app = new OpenAPIHono();
@@ -39,6 +39,7 @@ app.onError(async (err, c) => {
 });
 
 app.get("/", async (c) => {
+  return c.json(process.env);
   return c.json({ okay: true });
 });
 
