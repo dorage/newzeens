@@ -1,27 +1,29 @@
 import { Kysely, sql } from "kysely";
 import { DB } from "kysely-schema";
 
-export async function up(db: Kysely<DB>): Promise<void> {
-  await db.schema
-    .createTable("admins")
-    .ifNotExists()
-    .addColumn("id", "integer", (col) => col.primaryKey().autoIncrement())
-    .addColumn("nickname", "varchar(99)", (col) => col.notNull())
-    .addColumn("password", "varchar(99)", (col) => col.notNull())
-    .execute();
+// default schemas
 
+export async function up(db: Kysely<DB>): Promise<void> {
   // keyword groups
   await db.schema
     .createTable("keyword_groups")
+    .ifNotExists()
     .addColumn("id", "integer", (col) => col.primaryKey().autoIncrement())
-    .addColumn("name", "varchar(30)", (col) => col.defaultTo(sql`FALSE`))
+    .addColumn("name", "varchar(30)", (col) => col.notNull().unique())
+    .addColumn("is_enabled", "boolean", (col) => col.defaultTo(sql`FALSE`))
     .addColumn("created_at", "datetime", (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`))
     .execute();
-  await db.schema.createIndex("keyword_groups_name").on("keyword_groups").column("name").execute();
+  await db.schema
+    .createIndex("keyword_groups_name")
+    .ifNotExists()
+    .on("keyword_groups")
+    .column("name")
+    .execute();
 
   // keywords
   await db.schema
     .createTable("keywords")
+    .ifNotExists()
     .addColumn("id", "integer", (col) => col.primaryKey().autoIncrement())
     .addColumn("name", "varchar(30)", (col) => col.notNull())
     .addColumn("is_enabled", "boolean", (col) => col.defaultTo(sql`FALSE`))
@@ -31,11 +33,17 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("created_at", "datetime", (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`))
     .addUniqueConstraint("keyword_group_id_name", ["keyword_group_id", "name"])
     .execute();
-  await db.schema.createIndex("keywords_name").on("keywords").column("name").execute();
+  await db.schema
+    .createIndex("keywords_name")
+    .ifNotExists()
+    .on("keywords")
+    .column("name")
+    .execute();
 
   // newsletter publishers
   await db.schema
-    .createTable("publisher")
+    .createTable("publishers")
+    .ifNotExists()
     .addColumn("id", "char(6)", (col) => col.primaryKey())
     .addColumn("thumbnail", "text")
     .addColumn("name", "varchar(99)", (col) => col.notNull())
@@ -49,13 +57,15 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .execute();
   await db.schema
     .createIndex("publisher_subscriber")
-    .on("publisher")
+    .ifNotExists()
+    .on("publishers")
     .column("subscriber")
     .execute();
 
   // keyword  -  publisher relationship
   await db.schema
     .createTable("keyword_publisher_rels")
+    .ifNotExists()
     .addColumn("keyword_group_id", "integer", (col) =>
       col.notNull().references("keyword_groups.id")
     )
@@ -65,6 +75,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .execute();
   await db.schema
     .createIndex("keyword_publisher_rels_id")
+    .ifNotExists()
     .on("keyword_publisher_rels")
     .columns(["publisher_id", "keyword_group_id"])
     .execute();
@@ -72,6 +83,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
   // newletter articles
   await db.schema
     .createTable("articles")
+    .ifNotExists()
     .addColumn("id", "char(6)", (col) => col.primaryKey())
     .addColumn("thumbnail", "text")
     .addColumn("title", "varchar(99)", (col) => col.notNull())
@@ -82,11 +94,12 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("created_at", "datetime", (col) => col.defaultTo("CURRENT_TIMESTAMP"))
     .addColumn("is_enabled", "boolean", (col) => col.defaultTo(sql`FALSE`))
     .execute();
-  await db.schema.createIndex("articles_id").on("articles").column("id").execute();
+  await db.schema.createIndex("articles_id").ifNotExists().on("articles").column("id").execute();
 
   // keyword - newsletter article relationship
   await db.schema
     .createTable("keyword_article_rels")
+    .ifNotExists()
     .addColumn("keyword_id", "integer", (col) =>
       col.notNull().references("keywords.id").onDelete("cascade")
     )
@@ -106,6 +119,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable("campaigns")
     .ifNotExists()
+
     .addColumn("id", "integer", (col) => col.primaryKey().autoIncrement())
     .addColumn("name", "char(50)")
     .addColumn("description", "text")
@@ -116,6 +130,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
   // slots
   await db.schema
     .createTable("slots")
+    .ifNotExists()
     .addColumn("id", "integer", (col) => col.primaryKey().autoIncrement())
     .addColumn("campaign_id", "integer", (col) =>
       col.references("campaigns.id").onDelete("cascade")
@@ -131,6 +146,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
 
   await db.schema
     .createTable("slot_articles")
+    .ifNotExists()
     .addColumn("slot_id", "integer", (col) => col.references("slots.id").onDelete("cascade"))
     .addColumn("article_id", "char(6)", (col) => col.references("articles.id").onDelete("cascade"))
     .addColumn("preferences", "integer")
@@ -138,12 +154,14 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .execute();
   await db.schema
     .createIndex("slot_articles_id")
+    .ifNotExists()
     .on("slot_articles")
     .columns(["slot_id", "article_id"])
     .execute();
 
   await db.schema
     .createTable("slot_publishers")
+    .ifNotExists()
     .addColumn("slot_id", "integer", (col) => col.references("slots.id").onDelete("cascade"))
     .addColumn("publisher_id", "char(6)", (col) =>
       col.references("publishers.id").onDelete("cascade")
@@ -153,11 +171,23 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .execute();
   await db.schema
     .createIndex("slot_publisher_id")
+    .ifNotExists()
     .on("slot_publishers")
     .columns(["slot_id", "publisher_id"])
     .execute();
 }
 
 export async function down(db: Kysely<DB>): Promise<void> {
-  await db.schema.dropTable("admins").execute();
+  await db.schema.dropTable("publishers").execute();
+  await db.schema.dropTable("articles").execute();
+  await db.schema.dropTable("keyword_article_rels").execute();
+  await db.schema.dropTable("keyword_publisher_rels").execute();
+  await db.schema.dropTable("campaigns").execute();
+  await db.schema.dropTable("slots").execute();
+  await db.schema.dropTable("slot_articles").execute();
+  await db.schema.dropTable("slot_publishers").execute();
+  await db.schema.dropTable("keywords").execute();
+  await db.schema.dropTable("keyword_groups").execute();
+  await db.schema.dropTable("fts_articles").execute();
+  await db.schema.dropTable("fts_publishers").execute();
 }

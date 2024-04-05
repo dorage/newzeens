@@ -7,6 +7,9 @@ const CONTENT = `
 import { Kysely, sql } from 'kysely'
 import { DB } from 'kysely-schema';
 
+/* 
+*/
+
 export async function up(db: Kysely<DB>): Promise<void> {
 }
 
