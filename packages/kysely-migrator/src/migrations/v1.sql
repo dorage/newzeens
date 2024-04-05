@@ -134,7 +134,3 @@ CREATE INDEX IF NOT EXISTS slot_publishers_id ON slot_publishers(slot_id, publis
 -- Full Text Search table
 CREATE VIRTUAL TABLE IF NOT EXISTS fts_articles USING FTS5(title, body, tags);
 CREATE VIRTUAL TABLE IF NOT EXISTS fts_publishers USING FTS5(title, body, tags);
-
-
--- 크롤링
--- 구독자 / 뉴스레터 내용
