@@ -25,6 +25,7 @@ declare global {
       R2_TOKEN: string;
       R2_ACCESS_KEY_ID: string;
       R2_SECRET_ACCESS_KEY: string;
+      R2_BUCKET: string;
     }
   }
 }
