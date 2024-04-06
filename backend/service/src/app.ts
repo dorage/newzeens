@@ -7,7 +7,7 @@ import { HTTPException } from "hono/http-exception";
 import { ZodError } from "zod";
 
 declare module "hono" {
-  interface ContextVariableMap {}
+	interface ContextVariableMap { }
 }
 
 const app = new OpenAPIHono();
@@ -16,11 +16,11 @@ app.use("*", logger());
 
 // cors
 app.use(
-  "*",
-  cors({
-    origin: (origin) => origin,
-    credentials: true,
-  })
+	"*",
+	cors({
+		origin: (origin) => origin,
+		credentials: true,
+	})
 );
 
 app.onError(async (err, c) => {
