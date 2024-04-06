@@ -17,4 +17,7 @@ app.route("/:id", deleteDetail);
 import putDetail from "./[id]/put";
 app.route("/:id", putDetail);
 
+import postDetailUpload from "./[id].upload/post";
+app.route("/:id/upload", postDetailUpload);
+
 export default app;
