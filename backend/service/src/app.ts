@@ -24,19 +24,18 @@ app.use(
 );
 
 app.onError(async (err, c) => {
-  console.error("[ERROR] ", c.req.method, c.req.path);
-  console.error(err);
-  // console.error("Headers: ", c.req.header());
-  // console.error("Params: ", c.req.param());
-  // console.error("Json: ", await c.req.json());
-  console.error(err);
-  if (err instanceof HTTPException) {
-    throw err;
-  }
-  if (err instanceof ZodError) {
-    throw err;
-  }
-  return c.text("Not found.", 404);
+	console.error("[ERROR] ", c.req.method, c.req.path);
+	console.error("[Message]", err);
+	// console.error("Headers: ", c.req.header());
+	// console.error("Params: ", c.req.param());
+	// console.error("Json: ", await c.req.json());
+	if (err instanceof HTTPException) {
+		return c.text(`${err.name} ${err.message}`, err.status);
+	}
+	if (err instanceof ZodError) {
+		return c.text(err.toString(), 400);
+	}
+	return c.text("", 404);
 });
 
 app.get("/", async (c) => {
@@ -45,7 +44,7 @@ app.get("/", async (c) => {
 });
 
 app.notFound(async (c) => {
-  return c.text("Not found.", 404);
+	return c.text("", 404);
 });
 
 // register a securtiy component, OpenAPI
