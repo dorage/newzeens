@@ -5,14 +5,15 @@ import {
 	S3Client,
 } from "@aws-sdk/client-s3";
 
-const s3Client = new S3Client({
-	region: process.env.R2_REGION,
-	endpoint: process.env.R2_ENDPOINT,
-	credentials: {
-		accessKeyId: process.env.R2_ACCESS_KEY_ID,
-		secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
-	},
-});
+const s3Client = () =>
+	new S3Client({
+		region: process.env.R2_REGION,
+		endpoint: process.env.R2_ENDPOINT,
+		credentials: {
+			accessKeyId: process.env.R2_ACCESS_KEY_ID,
+			secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+		},
+	});
 
 const getImageUrlFromKey = (key: string) => {
 	return `${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/${key}`;
@@ -32,7 +33,7 @@ export const uploadObject = async (input: {
 		Key: input.Key,
 	});
 
-	await s3Client.send(command);
+	await s3Client().send(command);
 
 	return getImageUrlFromKey(input.Key);
 };
@@ -45,7 +46,7 @@ export const getObject = async (url: string) => {
 		Key: key,
 	});
 
-	const result = await s3Client.send(command);
+	const result = await s3Client().send(command);
 
 	if (result.Body == null) throw new Error("No body");
 
