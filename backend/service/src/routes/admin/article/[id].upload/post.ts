@@ -68,7 +68,6 @@ export const ep = app.openapi(route, async (c) => {
 			Key: ["articles", id, `${Number(moment())}-${file.name}`].join("/"),
 			Body: buffer,
 		});
-		console.log(thumbnailUrl);
 
 		await Ky.updateTable("articles").set({ thumbnail: thumbnailUrl }).execute();
 

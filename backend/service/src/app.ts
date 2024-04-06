@@ -51,17 +51,17 @@ app.notFound(async (c) => {
 
 // register a securtiy component, OpenAPI
 app.openAPIRegistry.registerComponent("securitySchemes", "Bearer", {
-  type: "http",
-  scheme: "bearer",
-  bearerFormat: "JWT",
+	type: "http",
+	scheme: "bearer",
+	bearerFormat: "JWT",
 });
 // The OpenAPI documentation will be available at /doc
 app.doc("/open-api", {
-  openapi: "3.0.0",
-  info: {
-    version: "1.1.0",
-    title: "Newzeens API",
-  },
+	openapi: "3.0.0",
+	info: {
+		version: "1.1.0",
+		title: "Newzeens API",
+	},
 });
 // SwaggerUI
 app.get("/doc", swaggerUI({ url: "/open-api" }));

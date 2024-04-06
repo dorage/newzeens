@@ -14,7 +14,18 @@ const s3Client = new S3Client({
 	},
 });
 
-export const uploadObject = async (input: Pick<PutObjectCommandInput, "Body" | "Key">) => {
+const getImageUrlFromKey = (key: string) => {
+	return `${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/${key}`;
+};
+
+const getKeyFromImageUrl = (url: string) => {
+	return url.replace(`${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/`, "");
+};
+
+export const uploadObject = async (input: {
+	Body: Exclude<PutObjectCommandInput["Body"], undefined>;
+	Key: Exclude<PutObjectCommandInput["Key"], undefined>;
+}) => {
 	const command = new PutObjectCommand({
 		Body: input.Body,
 		Bucket: process.env.R2_BUCKET,
@@ -23,12 +34,12 @@ export const uploadObject = async (input: Pick<PutObjectCommandInput, "Body" | "
 
 	await s3Client.send(command);
 
-	const src = `${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/${input.Key}`;
-
-	return src;
+	return getImageUrlFromKey(input.Key);
 };
 
-export const getObject = async (key: string) => {
+export const getObject = async (url: string) => {
+	const key = getKeyFromImageUrl(url);
+
 	const command = new GetObjectCommand({
 		Bucket: process.env.R2_BUCKET,
 		Key: key,

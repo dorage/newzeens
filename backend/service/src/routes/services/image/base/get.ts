@@ -27,11 +27,7 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-	const key = c.req.url.replace(`${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/`, "");
-
-	console.log("key", key);
-
-	const buffer = await getObject(key);
+	const buffer = await getObject(c.req.url);
 	const ext = c.req.url.split(".").pop();
 
 	return c.body(buffer, 200, { contentType: `image/${ext}` });
