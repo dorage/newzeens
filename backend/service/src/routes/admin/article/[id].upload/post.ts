@@ -26,6 +26,7 @@ const route = createRoute({
 	requestBody: {
 		content: {
 			"multipart/form-data": {
+				description: "multipart/form-data 형태로 file 키에 이미지를 전달해주세요",
 				schema: {
 					type: "object",
 					properties: {
