@@ -46,7 +46,7 @@ const route = createRoute({
 					schema: zRes,
 				},
 			},
-			description: "url 전달",
+			description: "",
 		},
 	},
 	security: [{ Bearer: [] }],
