@@ -2,7 +2,7 @@ import { PutObjectCommand, PutObjectCommandInput, S3Client } from "@aws-sdk/clie
 
 const s3Client = new S3Client({
   region: process.env.R2_REGION,
-  endpoint: process.env.R2_API,
+  endpoint: process.env.R2_ENDPOINT,
   credentials: {
     accessKeyId: process.env.R2_ACCESS_KEY_ID,
     secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
