@@ -1,4 +1,5 @@
 import Tag from "@/src/constants/tags";
+import { Ky } from "@/src/libs/kysely";
 import { uploadObject } from "@/src/libs/s3";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
@@ -10,7 +11,7 @@ export const zParam = z.object({
 });
 
 export const zRes = z.object({
-	url: z.string(),
+	okay: z.boolean(),
 });
 
 const route = createRoute({
@@ -62,21 +63,20 @@ export const ep = app.openapi(route, async (c) => {
 	const file = formData.get("file") as Blob & { type: string; name: string };
 	const buffer = Buffer.from(await file.arrayBuffer());
 
-	const key = ["articles", id, `${Number(moment())}-${file.name}`].join("/");
-
 	try {
-		const result = await uploadObject({
-			Key: key,
+		const thumbnailUrl = await uploadObject({
+			Key: ["articles", id, `${Number(moment())}-${file.name}`].join("/"),
 			Body: buffer,
 		});
+		console.log(thumbnailUrl);
+
+		await Ky.updateTable("articles").set({ thumbnail: thumbnailUrl }).execute();
+
+		return c.json(zRes.parse({ okay: true }));
 	} catch (err) {
 		console.error(err);
-		throw new HTTPException(404);
+		throw new HTTPException(400);
 	}
-
-	return c.json(
-		zRes.parse({ url: [process.env.R2_PUBLIC_DOMAIN, process.env.R2_BUCKET, key].join("/") })
-	);
 });
 
 export default app;

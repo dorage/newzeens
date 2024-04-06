@@ -6,6 +6,9 @@ import { logger } from "hono/logger";
 import { HTTPException } from "hono/http-exception";
 import { ZodError } from "zod";
 
+import admin from "./routes/admin";
+import service from "./routes/services";
+
 declare module "hono" {
 	interface ContextVariableMap { }
 }
@@ -64,8 +67,7 @@ app.doc("/open-api", {
 // SwaggerUI
 app.get("/doc", swaggerUI({ url: "/open-api" }));
 
-import admin from "./routes/admin";
-
 app.route("/admin", admin);
+app.route("", service);
 
 export default app;
