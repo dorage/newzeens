@@ -2,6 +2,7 @@
   "name": "newzeens",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+		"init:backend:service": "cp packages/kysely-migrator/db.local backend/service/db && pnpm --filter './backend/**' env:pull",
     "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
     "test:backend:service": "pnpm run --filter ./backend/service/ \/test:*\/",
   
