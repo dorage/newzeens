@@ -6,11 +6,23 @@ Korean newsletter aggregator service
 
 ```bash
 pnpm install
+
+## initialize backend services
+pnpm init:backend:service
+
+## initialize frontent services
+## TODO; add script
 ```
 
 ## Run
 
 ```bash
+
+## run backend service
+pnpm run:backend:service
+
+## run frontend service
+## TODO; add script
 
 ```
 
