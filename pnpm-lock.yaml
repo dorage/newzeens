@@ -8,12 +8,6 @@ importers:
 
   .: {}
 
-  backend/local-service:
-    dependencies:
-      better-sqlite3:
-        specifier: ^9.3.0
-        version: 9.3.0
-
   backend/service:
     dependencies:
       '@aws-sdk/client-s3':
