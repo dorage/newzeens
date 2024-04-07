@@ -4,7 +4,9 @@
         "dev": "DOTENV_KEY='dotenv://:key_b93809585804afc66adfe6f535ae70f97ba0add281583d3e8fca5853c839cdf4@dotenv.org/vault/.env.vault?environment=development' pnpm vite-node --watch src/index.ts",
         "test:server": "DOTENV_KEY='dotenv://:key_2d02709a711d9978edd8f44b61992997e00da8354a849ced23df488629c0b255@dotenv.org/vault/.env.vault?environment=staging' pnpm vite-node --port 3333 src/index.ts",
         "test:vitest": "pnpm vitest",
-        "build:production": "pnpm vite build"
+        "build:production": "pnpm vite build",
+				"env:pull": "npx dotenv-vault@latest pull",
+				"env:push": "npx dotenv-vault@latest push"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.549.0",
