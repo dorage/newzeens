@@ -2,15 +2,10 @@
   "name": "newzeens",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+		"init:backend:service": "cp packages/kysely-migrator/db.local backend/service/db && pnpm --filter './backend/**' env:pull",
     "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
     "test:backend:service": "pnpm run --filter ./backend/service/ \/test:*\/",
   
-    "start:backend:local":"pnpm run --filter ./backend/local-service start",
-    "build:backend:local:build":"pnpm run --filter ./backend/service/ \/local:*\/",
-    "build:backend:local:move-build-output":"rsync -avhH --delete-before ./backend/service/dist/ ./backend/local-service/dist/",
-    "build:backend:local:move-db":"rsync -avhH --delete-before ./packages/db/db.local ./backend/local-service/db",
-    "build:backend:local":"pnpm run --sequential \/build:backend:local:.*\/",
-
     "여기부터 프론트엔드": "",
     "dev:frontend:admin": "pnpm --filter ./frontend/admin run dev",
     "start:frontend:admin": "pnpm run --filter ./frontend/admin/ start",

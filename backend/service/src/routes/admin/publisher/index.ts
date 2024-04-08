@@ -23,4 +23,7 @@ app.route("/:id/keyword", getDetailKeyword);
 import putDetailKeyword from "./[id].keyword/put";
 app.route("/:id/keyword", putDetailKeyword);
 
+import postDetailUpload from "./[id].upload/post";
+app.route("/:id/upload", postDetailUpload);
+
 export default app;

@@ -183,3 +183,4 @@ build
 # custom
 mono
 
+.DS_Store

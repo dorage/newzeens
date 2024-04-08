@@ -1,5 +1,6 @@
 const Tag = {
-  Admin: "Admin",
+	Admin: "Admin",
+	Image: "Image",
 };
 
 export default Tag;
