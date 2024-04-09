@@ -2,6 +2,9 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 
 const app = new OpenAPIHono();
 
+import auth from "./auth/index";
+app.route("/auth", auth);
+
 import keywordGroup from "./keyword-group/index";
 app.route("/keyword-group", keywordGroup);
 
