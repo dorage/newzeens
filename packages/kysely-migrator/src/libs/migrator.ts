@@ -10,9 +10,9 @@ const migrate = async (migrate: (migrator: Migrator) => Promise<MigrationResultS
       fs,
       path,
       // This needs to be an absolute path.
-      migrationFolder: path.join(__dirname, "migrations"),
     }),
   });
+			migrationFolder: path.resolve("src", "migrations"),
 
   const { error, results } = await migrate(migrator);
 
