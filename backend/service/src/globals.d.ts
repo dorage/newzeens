@@ -1,5 +1,3 @@
-import { z } from "@hono/zod-openapi";
-import { UserSchema } from "app-schema";
 import { Env } from "hono";
 
 declare global {

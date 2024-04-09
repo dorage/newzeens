@@ -1,12 +1,11 @@
 {
     "type": "module",
     "scripts": {
-        "dev": "DOTENV_KEY='dotenv://:key_b93809585804afc66adfe6f535ae70f97ba0add281583d3e8fca5853c839cdf4@dotenv.org/vault/.env.vault?environment=development' pnpm vite-node --watch src/index.ts",
-        "test:server": "DOTENV_KEY='dotenv://:key_2d02709a711d9978edd8f44b61992997e00da8354a849ced23df488629c0b255@dotenv.org/vault/.env.vault?environment=staging' pnpm vite-node src/index.ts",
+        "dev": "DOTENV_KEY='dotenv://:key_b93809585804afc66adfe6f535ae70f97ba0add281583d3e8fca5853c839cdf4@dotenv.org/vault/.env.vault?environment=development' pnpm tsx watch src/index.ts",
+        "test:server": "DOTENV_KEY='dotenv://:key_2d02709a711d9978edd8f44b61992997e00da8354a849ced23df488629c0b255@dotenv.org/vault/.env.vault?environment=staging' tsx src/index.ts",
         "test:vitest": "pnpm vitest",
-        "build:production": "pnpm vite build",
-				"env:pull": "npx dotenv-vault@latest pull",
-				"env:push": "npx dotenv-vault@latest push"
+        "env:pull": "npx dotenv-vault@latest pull",
+        "env:push": "npx dotenv-vault@latest push"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.549.0",
@@ -14,7 +13,6 @@
         "@hono/swagger-ui": "^0.2.1",
         "@hono/zod-openapi": "^0.9.5",
         "@hono/zod-validator": "^0.1.11",
-        "@types/bcrypt": "^5.0.2",
         "bcrypt": "^5.1.1",
         "better-sqlite3": "^9.3.0",
         "dotenv": "^16.4.1",
@@ -27,15 +25,13 @@
     },
     "devDependencies": {
         "@faker-js/faker": "^8.4.0",
+        "@sentry/node": "^7.109.0",
+        "@sentry/profiling-node": "^7.109.0",
+        "@types/bcrypt": "^5.0.2",
         "@types/node": "^20.9.1",
         "@types/supertest": "^6.0.2",
-        "esbuild": "^0.20.1",
         "supertest": "^6.3.4",
         "tsx": "^4.7.1",
-        "typescript": "^5.0.4",
-        "vite": "^5.1.1",
-        "vite-node": "^1.2.2",
-        "vite-tsconfig-paths": "^4.3.1",
-        "vitest": "^1.2.2"
+        "typescript": "^5.0.4"
     }
 }
