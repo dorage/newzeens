@@ -3,7 +3,7 @@ import moment from "moment";
 import { z } from "zod";
 
 export const JTISchema = z.object({
-  jti: z.string(),
+  jti: z.string().length(36),
   expires_in: z
     .string()
     .transform((arg) => moment(arg).utc(false))
