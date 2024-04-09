@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 3000;
+const port = process.env.PORT;
 console.log(`Server is running on port ${port}`);
 
 const server = serve({
