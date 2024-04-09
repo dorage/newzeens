@@ -10,10 +10,13 @@ const main = async () => {
 
 		bcrypt.genSalt(saltRounds, function(err, salt) {
 			bcrypt.hash(password, salt, function(err, hash) {
-				// Store hash in your password DB.
-				console.log("[password has generated] ==============================");
-				console.log("HASH : ", hash);
-				resolve(true);
+				bcrypt.compare(password, hash, function(err, compare) {
+					if (!compare) throw new Error("Compare failed");
+					console.log("[password hash has been generated] ==============================");
+					console.log("PASSWORD : ", password);
+					console.log("HASH : ", hash);
+					resolve(true);
+				});
 			});
 		});
 	});
