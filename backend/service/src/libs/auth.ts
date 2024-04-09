@@ -87,6 +87,27 @@ const signIn = async (c: Context) => {
 };
 
 const signOut = async (c: Context) => {
+	const refreshToken = await getSignedCookie(
+		c,
+		process.env.COOKIE_REFRESH_SECRET,
+		process.env.COOKIE_REFRESH_NAME
+	);
+	if (typeof refreshToken !== "string") {
+		throw new HTTPException(401, { message: "Unauthorized" });
+	}
+	const payload = zRefreshPayload.parse(await jwt.verify(refreshToken, process.env.JWT_SECRET));
+
+	try {
+		await Ky.insertInto("jtis")
+			.values({
+				jti: payload.jti,
+				expires_in: payload.exp,
+			})
+			.execute();
+	} catch (err) {
+		console.error(err);
+	}
+
 	deleteCookie(c, process.env.COOKIE_REFRESH_NAME, {
 		path: "/",
 		secure: true,
