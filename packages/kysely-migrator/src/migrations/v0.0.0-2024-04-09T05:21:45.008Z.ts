@@ -1,4 +1,4 @@
-import { Kysely, sql } from "kysely";
+import { Kysely } from "kysely";
 import { DB } from "kysely-schema";
 
 /* add jti table to validate refresh token
