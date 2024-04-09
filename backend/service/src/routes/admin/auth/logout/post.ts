@@ -1,21 +1,18 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
+import Auth from "@/src/libs/auth";
+import { useAuth } from "@/src/middlewares/auth";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { ArticleSchema } from "kysely-schema";
 
-export const zParams = z.object({ id: ArticleSchema.shape.id });
-
-export const zRes = z.object({ okay: z.boolean() });
+export const zRes = z.object({
+	okay: z.boolean().openapi({ example: true }),
+});
 
 const route = createRoute({
 	path: "",
 	tags: [Tag.Admin],
-	method: "delete",
-	summary: "article 정보 삭제",
+	method: "post",
+	summary: "어드민 로그아웃",
 	description: "",
-	request: {
-		params: zParams,
-	},
 	responses: {
 		200: {
 			content: {
@@ -23,7 +20,7 @@ const route = createRoute({
 					schema: zRes,
 				},
 			},
-			description: "",
+			description: "로그아웃 여부",
 		},
 	},
 	security: [{ Bearer: [] }],
@@ -31,14 +28,11 @@ const route = createRoute({
 
 const app = new OpenAPIHono();
 
-app.use(route.getRoutingPath());
+app.use(route.getRoutingPath(), useAuth());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-	const params = zParams.parse(c.req.param());
-
-	await Ky.deleteFrom("articles").where("id", "=", params.id).execute();
-
+	await Auth.signOut(c);
 	return c.json({ okay: true });
 });
 
