@@ -4,25 +4,25 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 3000;
+const port = process.env.PORT;
 console.log(`Server is running on port ${port}`);
 
 const server = serve({
-  fetch: app.fetch,
-  port,
+	fetch: app.fetch,
+	port,
 });
 
 // hot repload
 if (import.meta.hot) {
-  console.log("hot reload");
-  const killServer = () => server.close();
-  import.meta.hot.on("vite:beforeFullReload", () => {
-    console.log("full reload");
-    killServer();
-  });
+	console.log("hot reload");
+	const killServer = () => server.close();
+	import.meta.hot.on("vite:beforeFullReload", () => {
+		console.log("full reload");
+		killServer();
+	});
 
-  import.meta.hot.dispose(() => {
-    console.log("dispose");
-    killServer();
-  });
+	import.meta.hot.dispose(() => {
+		console.log("dispose");
+		killServer();
+	});
 }

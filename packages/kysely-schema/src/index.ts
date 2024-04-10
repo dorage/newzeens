@@ -1,3 +1,5 @@
+import type { KyJTITable } from "./schemes/jtis";
+import { JTISchema as _JTISchema } from "./schemes/jtis";
 import type { KyAppHealthTable } from "./schemes/app_health";
 import { AppHealthSchema as _AppHealthSchema } from "./schemes/app_health";
 import type { KyArticleTable } from "./schemes/articles";
@@ -24,6 +26,7 @@ import type { KySlotPublisherTable } from "./schemes/slot_publishers";
 import { SlotPublisherSchema as _SlotPublisherSchema } from "./schemes/slot_publishers";
 
 export interface DB {
+  jtis: KyJTITable;
   app_health: KyAppHealthTable;
   keywords: KyKeywordTable;
   keyword_groups: KyKeywordGroupTable;
@@ -50,6 +53,7 @@ export const CampaignSchema = _CampaignSchema;
 export const SlotSchema = _SlotSchema;
 export const SlotArticleSchema = _SlotArticleSchema;
 export const SlotPublisherSchema = _SlotPublisherSchema;
+export const JTISchema = _JTISchema;
 
 // use adapter what you want
 import { SQLiteAdapter as _SQLiteAdapter } from "./adapters/sqlite";
