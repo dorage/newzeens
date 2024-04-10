@@ -10,8 +10,8 @@ const Header = (props: HeaderProps) => {
   return (
     <>
       {/* mobile */}
-      <header className="tablet:flex hidden h-52 items-center justify-between px-20">
-        {/* <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3> */}
+      <header className="tablet:flex hidden h-52 items-center justify-between bg-white px-20">
+        <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3>
         <div />
         <InteractionIcons />
       </header>

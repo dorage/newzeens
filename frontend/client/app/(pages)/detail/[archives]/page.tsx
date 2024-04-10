@@ -3,6 +3,7 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 import DescriptionLayer from "./components/description-layer"
 import NewsLetterTitle from "./components/news-letter-title"
 import SuggestNewsLetters from "./components/suggest-newsletters"
+import TabletFixedButton from "./components/tablet-fixed-button"
 import Header from "@/app/_components/header"
 import { NextPageProps } from "@/app/_types/next"
 import getQueryClient from "@/app/_utils/query-client"
@@ -44,6 +45,8 @@ const ArchivesPage = async (props: NextPageProps<ArchivesPageParams>) => {
 
         {/* <LastArticle /> */}
         <SuggestNewsLetters />
+
+        <TabletFixedButton />
       </main>
     </HydrationBoundary>
   )
