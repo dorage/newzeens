@@ -8,8 +8,8 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      laptop: { max: "1280px" },
-      mobile: { max: "640px" }, // TODO: 추후 수정
+      tablet: { max: "1280px" },
+      mobile: { max: "640px" },
     },
 
     extend: {
@@ -49,6 +49,21 @@ const config: Config = {
         },
       },
 
+      keyframes: {
+        "translate-fade-in": {
+          "0%": { opacity: "0", transform: "translateY(-5%)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "translate-fade-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-5%)" },
+        },
+      },
+      animation: {
+        "fade-in": "translate-fade-in 200ms ease-in-out",
+        "fade-out": "translate-fade-out 200ms ease-in-out",
+      },
+
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
@@ -62,18 +77,32 @@ const config: Config = {
         h4: ["2.0rem", { fontWeight: 700, lineHeight: "100%" }],
 
         body1: ["1.8rem", { fontWeight: 600, lineHeight: "140%" }],
-        body2: ["1.8rem", { fontWeight: 700, lineHeight: "140%" }], // weight 기준으로 default 설정
-        body3: ["1.6rem", { fontWeight: 600, lineHeight: "140%" }], // weight 기준으로 default 설정
-        body4: ["1.6rem", { fontWeight: 700, lineHeight: "140%" }],
+        body2: ["1.8rem", { fontWeight: 700, lineHeight: "140%" }],
+        body3: ["1.6rem", { fontWeight: 600, lineHeight: "140%" }],
+        body4: ["1.6rem", { fontWeight: 400, lineHeight: "100%" }],
         body5: ["1.5rem", { fontWeight: 400, lineHeight: "160%" }],
-        body6: ["1.4rem", { fontWeight: 400, lineHeight: "158%" }],
-        body7: ["1.4rem", { fontWeight: 600, lineHeight: "158%" }],
+        body6: ["1.4rem", { fontWeight: 400, lineHeight: "100%" }],
+        body7: ["1.4rem", { fontWeight: 600, lineHeight: "100%" }],
         body8: ["1.4rem", { fontWeight: 700, lineHeight: "100%" }],
         body9: ["1.4rem", { fontWeight: 700, lineHeight: "140%" }],
 
         element1: ["1.3rem", { fontWeight: 600, lineHeight: "100%" }],
-        element2: ["1.2rem", { fontWeight: 600, lineHeight: "100%" }],
-        element3: ["1.0rem", { fontWeight: 700, lineHeight: "100%" }],
+        element2: ["1.2rem", { fontWeight: 500, lineHeight: "100%" }],
+        element3: ["1.0rem", { fontWeight: 600, lineHeight: "100%" }],
+        element4: ["1.1rem", { fontWeight: 500, lineHeight: "100%" }],
+
+        /** mobile */
+        mH1: ["3.2rem", { fontWeight: 700, lineHeight: "100%" }],
+        mH2: ["2.2rem", { fontWeight: 700, lineHeight: "100%" }],
+
+        mBody1: ["1.6rem", { fontWeight: 400, lineHeight: "162%" }],
+        mBody2: ["1.6rem", { fontWeight: 600, lineHeight: "140%" }],
+        mBody3: ["1.5rem", { fontWeight: 400, lineHeight: "160%" }],
+
+        mElement1: ["1.3rem", { fontWeight: 400, lineHeight: "100%" }],
+        mElement2: ["1.3rem", { fontWeight: 700, lineHeight: "100%" }],
+        mElement3: ["1.2rem", { fontWeight: 500, lineHeight: "100%" }],
+        mElement4: ["1.1rem", { fontWeight: 500, lineHeight: "100%" }],
       },
     },
   },
