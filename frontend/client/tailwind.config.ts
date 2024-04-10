@@ -49,6 +49,21 @@ const config: Config = {
         },
       },
 
+      keyframes: {
+        "translate-fade-in": {
+          "0%": { opacity: "0", transform: "translateY(-5%)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "translate-fade-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-5%)" },
+        },
+      },
+      animation: {
+        "fade-in": "translate-fade-in 200ms ease-in-out",
+        "fade-out": "translate-fade-out 200ms ease-in-out",
+      },
+
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

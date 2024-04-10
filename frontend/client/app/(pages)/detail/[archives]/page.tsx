@@ -37,6 +37,7 @@ const ArchivesPage = async (props: NextPageProps<ArchivesPageParams>) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <Header />
+
       <main className="mx-auto min-h-[100vh-60px] w-full max-w-[128rem]">
         <NewsLetterTitle />
         <DescriptionLayer />
