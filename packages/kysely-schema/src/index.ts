@@ -4,8 +4,6 @@ import type { KyAppHealthTable } from "./schemes/app_health";
 import { AppHealthSchema as _AppHealthSchema } from "./schemes/app_health";
 import type { KyArticleTable } from "./schemes/articles";
 import { ArticleSchema as _ArticleSchema } from "./schemes/articles";
-import type { KyBannerTable } from "./schemes/banners";
-import { BannerSchema as _BannerSchema } from "./schemes/banners";
 import type { KyKeywordArticleRelTable } from "./schemes/keyword_article_rels";
 import { KeywordArticleRelSchema as _KeywordArticleRelSchema } from "./schemes/keyword_article_rels";
 import type { KyKeywordPublisherRelTable } from "./schemes/keyword_publisher_rels";
@@ -26,24 +24,22 @@ import type { KySlotPublisherTable } from "./schemes/slot_publishers";
 import { SlotPublisherSchema as _SlotPublisherSchema } from "./schemes/slot_publishers";
 
 export interface DB {
-  jtis: KyJTITable;
-  app_health: KyAppHealthTable;
-  keywords: KyKeywordTable;
-  keyword_groups: KyKeywordGroupTable;
-  publishers: KyPublisherTable;
-  keyword_publisher_rels: KyKeywordPublisherRelTable;
-  articles: KyArticleTable;
-  keyword_article_rels: KyKeywordArticleRelTable;
-  banners: KyBannerTable;
-  campaigns: KyCampaignTable;
-  slots: KySlotTable;
-  slot_articles: KySlotArticleTable;
-  slot_publishers: KySlotPublisherTable;
+	jtis: KyJTITable;
+	app_health: KyAppHealthTable;
+	keywords: KyKeywordTable;
+	keyword_groups: KyKeywordGroupTable;
+	publishers: KyPublisherTable;
+	keyword_publisher_rels: KyKeywordPublisherRelTable;
+	articles: KyArticleTable;
+	keyword_article_rels: KyKeywordArticleRelTable;
+	campaigns: KyCampaignTable;
+	slots: KySlotTable;
+	slot_articles: KySlotArticleTable;
+	slot_publishers: KySlotPublisherTable;
 }
 
 export const AppHealthSchema = _AppHealthSchema;
 export const ArticleSchema = _ArticleSchema;
-export const BannerSchema = _BannerSchema;
 export const KeywordArticleRelSchema = _KeywordArticleRelSchema;
 export const KeywordPublisherRelSchema = _KeywordPublisherRelSchema;
 export const KeywordSchema = _KeywordSchema;
