@@ -1,5 +1,8 @@
 import { createNewMigration } from "./libs/new-migration";
 import { migrator } from "./libs/migrator";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const main = async () => {
   if (process.argv.includes("latest")) {

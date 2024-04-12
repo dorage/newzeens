@@ -103,6 +103,7 @@
 	"include": [
 		"./src/**/*",
 		"./migrator/**/*",
+		"./tests/**/*",
 	],
 	"exclude": [
 		"node_modules",
