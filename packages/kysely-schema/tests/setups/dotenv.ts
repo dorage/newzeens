@@ -1,1 +1,3 @@
-console.log("dotenv setup");
+import dotenv from "dotenv";
+
+dotenv.config();

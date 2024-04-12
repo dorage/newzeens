@@ -2,5 +2,5 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  setupFiles: ["<rootDir>/tests/setups/dotenv.ts", "<rootDir>/tests/setups/sqlite.ts"],
+  setupFiles: ["<rootDir>/tests/setups/dotenv.ts"],
 };
