@@ -7,7 +7,10 @@
     "scripts": {
         "migrator:new": "tsx migrator/index.ts new",
         "migrator:latest": "tsx migrator/index.ts latest",
-        "migrator:down": "tsx migrator/index.ts down"
+        "migrator:down": "tsx migrator/index.ts down",
+				"migrator:test:copy-db": "yes | cp db.local db.test",
+        "migrator:test:latest": "DOTENV_KEY='dotenv://:key_d1659e111f2c1e8e3d7ce8b1ee328d8abbc566220debf5ecc1d777bd45ec708f@dotenv.org/vault/.env.vault?environment=staging' tsx migrator/index.ts latest",
+        "migrator:test": "pnpm migrator:test:copy-db && pnpm migrator:test:latest"
     },
     "dependencies": {
         "better-sqlite3": "^9.3.0",
