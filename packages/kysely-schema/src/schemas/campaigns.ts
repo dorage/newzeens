@@ -1,16 +1,13 @@
 import type { Generated, Insertable, Selectable, Updateable } from "kysely";
-import moment from "moment";
 import { z } from "zod";
+import { zMomentDatetime } from "./columns/date";
 
 export const CampaignSchema = z.object({
   id: z.number(),
   name: z.string().max(50),
   description: z.string().nullable().optional(),
   comment: z.string().nullable().optional(),
-  created_at: z
-    .string()
-    .transform((arg) => moment(arg).utc(false))
-    .or(z.string()),
+  created_at: zMomentDatetime,
 });
 
 export interface KyCampaignTable {

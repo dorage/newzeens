@@ -1,13 +1,10 @@
 import type { Insertable, Selectable, Updateable } from "kysely";
-import moment from "moment";
 import { z } from "zod";
+import { zMomentDatetime } from "./columns/date";
 
 export const JTISchema = z.object({
   jti: z.string().length(36),
-  expires_in: z
-    .string()
-    .transform((arg) => moment(arg).utc(false))
-    .or(z.string()),
+  expires_in: zMomentDatetime,
 });
 
 export interface KyJTITable {
