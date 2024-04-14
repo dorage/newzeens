@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zMomentDatetime } from "./columns/date";
 
 export const KeywordSchema = z.object({
-  id: z.number(),
+  id: z.number().int().positive().finite(),
   name: z.string().max(30),
   is_enabled: z.coerce.boolean(),
   keyword_group_id: z.number(),

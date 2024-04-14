@@ -3,14 +3,14 @@ import { z } from "zod";
 import { zMomentDatetime } from "./columns/date";
 
 export const PublisherSchema = z.object({
-  id: z.string().length(6),
-  thumbnail: z.string().nullable().default(null),
+  id: z.string().uuid().length(6),
+  thumbnail: z.string().url().nullable().default(null),
   name: z.string().max(99),
   description: z.string(),
   subscriber: z.number(),
-  url_subscribe: z.string().max(255),
-  publisher_main: z.string().max(255),
-  publisher_spec: z.string().max(255),
+  url_subscribe: z.string().url().max(255),
+  publisher_main: z.string().url().max(255),
+  publisher_spec: z.string().url().max(255),
   is_enabled: z.coerce.boolean(),
   created_at: zMomentDatetime,
 });

@@ -1,14 +1,15 @@
 import type { ColumnType, Generated, Insertable, Selectable, Updateable } from "kysely";
 import { z } from "zod";
 import { zMomentDatetime } from "./columns/date";
+import { PublisherSchema } from "./publishers";
 
 export const ArticleSchema = z.object({
-  id: z.string().length(6),
-  thumbnail: z.string().max(255).nullable(),
+  id: z.string().uuid().length(6),
+  thumbnail: z.string().url().max(255).nullable(),
   title: z.string().max(99),
   summary: z.string(),
   is_enabled: z.coerce.boolean(),
-  publisher_id: z.string().length(6),
+  publisher_id: PublisherSchema.shape.id,
   created_at: zMomentDatetime,
 });
 
