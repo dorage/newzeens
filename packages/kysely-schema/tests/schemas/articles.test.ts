@@ -1,18 +1,11 @@
 import { ArticleSchema } from "@/src/schemas/articles";
-import { Ky } from "@/tests/libs/kysely";
+import { Ky, testingTransaction } from "@/tests/libs/kysely";
 import fc from "fast-check";
-import { sql } from "kysely";
 import { ZodFastCheck } from "zod-fast-check";
 import { generateMock } from "@anatine/zod-mock";
 import { PublisherSchema } from "@/src/index";
 
-beforeAll(async () => {
-  await sql`BEGIN TRANSACTION;`.execute(Ky);
-});
-
-afterAll(async () => {
-  await sql`ROLLBACK TRANSACTION;`.execute(Ky);
-});
+testingTransaction();
 
 describe("articles schema test", () => {
   const mockPublisher = generateMock(PublisherSchema);
