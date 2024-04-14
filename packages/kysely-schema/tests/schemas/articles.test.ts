@@ -4,6 +4,7 @@ import fc from "fast-check";
 import { ZodFastCheck } from "zod-fast-check";
 import { generateMock } from "@anatine/zod-mock";
 import { PublisherSchema } from "@/src/index";
+import { faker } from "@faker-js/faker";
 
 testingTransaction();
 
@@ -26,31 +27,36 @@ describe("articles schema test", () => {
       .execute();
   });
 
-  test("Insert", async () => {
-    const articleArbitary = ZodFastCheck().inputOf(ArticleSchema);
+  test("insert, select, ane parse", async () => {
+    const articleArbitary = ZodFastCheck()
+      .inputOf(ArticleSchema)
+      .map((article) => ({
+        ...article,
+        id: faker.string.nanoid(6),
+        is_enabled: +article.is_enabled,
+        publisher_id: mockPublisher.id,
+      }));
 
     await fc.assert(
       fc.asyncProperty(articleArbitary, async (article) => {
-        await expect(
-          Ky.insertInto("articles").values({
+        article.id = faker.string.nanoid(6);
+
+        const result = await Ky.insertInto("articles")
+          .values({
             id: article.id,
             thumbnail: article.thumbnail,
             title: article.title,
             summary: article.summary,
-            is_enabled: +article.is_enabled,
-            publisher_id: mockPublisher.id,
-          }).execute
-        ).rejects.toThrow(undefined);
+            is_enabled: article.is_enabled,
+            publisher_id: article.publisher_id,
+          })
+          .returningAll()
+          .executeTakeFirstOrThrow();
+
+        expect(ArticleSchema.safeParse(result).success).toBe(true);
+
+        await Ky.deleteFrom("articles").where("id", "=", result.id).execute();
       })
     );
-  });
-
-  test("Select", async () => {
-    const articles = await Ky.selectFrom("articles")
-      .selectAll()
-      .where("publisher_id", "=", mockPublisher.id)
-      .execute();
-
-    expect(articles.every((article) => ArticleSchema.safeParse(article).success)).toBe(true);
   });
 });

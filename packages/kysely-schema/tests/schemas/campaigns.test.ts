@@ -6,26 +6,25 @@ import { ZodFastCheck } from "zod-fast-check";
 testingTransaction();
 
 describe("campaigns schema test", () => {
-  test("Insert", async () => {
+  test("insert, select and parse", async () => {
     const campaignArbitary = ZodFastCheck().inputOf(CampaignSchema);
 
     await fc.assert(
       fc.asyncProperty(campaignArbitary, async (campaign) => {
-        await expect(
-          Ky.insertInto("campaigns").values({
+        const result = await Ky.insertInto("campaigns")
+          .values({
             id: campaign.id,
             name: campaign.name,
             description: campaign.description,
             comment: campaign.comment,
-          }).execute
-        ).rejects.toThrow(undefined);
+          })
+          .returningAll()
+          .executeTakeFirstOrThrow();
+
+        expect(CampaignSchema.safeParse(result).success).toBe(true);
+
+        await Ky.deleteFrom("campaigns").where("id", "=", result.id).execute();
       })
     );
-  });
-
-  test("Select", async () => {
-    const campaigns = await Ky.selectFrom("campaigns").selectAll().execute();
-
-    expect(campaigns.every((campaign) => CampaignSchema.safeParse(campaign).success)).toBe(true);
   });
 });

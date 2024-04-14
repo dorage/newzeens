@@ -1,3 +1,3 @@
 import fc from "fast-check";
 
-fc.configureGlobal({ interruptAfterTimeLimit: 5_000 });
+fc.configureGlobal({ markInterruptAsFailure: true, interruptAfterTimeLimit: 5_000 });

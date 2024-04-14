@@ -18,30 +18,34 @@ describe("keywords schema test", () => {
         is_enabled: +mockKeywordGroup.is_enabled,
       })
       .execute();
+
+    await Ky.deleteFrom("keywords").execute();
   });
 
-  test("Insert", async () => {
-    const keywordArbitary = ZodFastCheck().inputOf(KeywordSchema);
+  test("insert, select, and parse", async () => {
+    const keywordArbitary = ZodFastCheck()
+      .inputOf(KeywordSchema)
+      .map((keyword) => ({
+        ...keyword,
+        is_enabled: +keyword.is_enabled,
+        keyword_group_id: mockKeywordGroup.id,
+      }));
 
     await fc.assert(
       fc.asyncProperty(keywordArbitary, async (keyword) => {
-        await expect(
-          Ky.insertInto("keywords").values({
+        const result = await Ky.insertInto("keywords")
+          .values({
             name: keyword.name,
-            is_enabled: +keyword.is_enabled,
+            is_enabled: keyword.is_enabled,
             keyword_group_id: keyword.keyword_group_id,
-          }).execute
-        ).rejects.toThrow(undefined);
+          })
+          .returningAll()
+          .executeTakeFirstOrThrow();
+
+        expect(KeywordSchema.safeParse(result).success).toBe(true);
+
+        await Ky.deleteFrom("keywords").where("id", "=", result.id).execute();
       })
     );
-  });
-
-  test("Select", async () => {
-    const keywords = await Ky.selectFrom("keywords")
-      .selectAll()
-      .where("keyword_group_id", "=", mockKeywordGroup.id)
-      .execute();
-
-    expect(keywords.every((keyword) => KeywordSchema.safeParse(keyword).success)).toBe(true);
   });
 });
