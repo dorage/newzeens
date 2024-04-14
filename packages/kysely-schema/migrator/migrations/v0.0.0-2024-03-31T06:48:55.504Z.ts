@@ -48,9 +48,9 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("name", "varchar(99)", (col) => col.notNull())
     .addColumn("description", "text", (col) => col.notNull())
     .addColumn("subscriber", "integer", (col) => col.defaultTo(sql`0`))
-    .addColumn("url_subscribe", "varchar(255)", (col) => col.notNull())
-    .addColumn("publisher_main", "varchar(255)", (col) => col.notNull())
-    .addColumn("publisher_spec", "varchar(255)", (col) => col.notNull())
+    .addColumn("url_subscribe", "varchar(2048)", (col) => col.notNull())
+    .addColumn("publisher_main", "varchar(2048)", (col) => col.notNull())
+    .addColumn("publisher_spec", "varchar(2048)", (col) => col.notNull())
     .addColumn("is_enabled", "boolean", (col) => col.defaultTo(sql`FALSE`))
     .addColumn("created_at", "datetime", (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`))
     .execute();
@@ -69,7 +69,9 @@ export async function up(db: Kysely<DB>): Promise<void> {
       col.notNull().references("keyword_groups.id").onDelete("cascade")
     )
     .addColumn("keyword_id", "integer", (col) => col.notNull())
-    .addColumn("publisher_id", "char(6)", (col) => col.notNull().references("publishers.id"))
+    .addColumn("publisher_id", "char(6)", (col) =>
+      col.notNull().references("publishers.id").onDelete("cascade")
+    )
     .addUniqueConstraint("keyword_group_id_publisher_id", ["publisher_id", "keyword_group_id"])
     .execute();
   await db.schema
@@ -84,7 +86,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .createTable("articles")
     .ifNotExists()
     .addColumn("id", "char(6)", (col) => col.primaryKey())
-    .addColumn("thumbnail", "varchar(255)")
+    .addColumn("thumbnail", "varchar(2048)")
     .addColumn("title", "varchar(99)", (col) => col.notNull())
     .addColumn("summary", "text", (col) => col.notNull())
     .addColumn("publisher_id", "char(6)", (col) =>
@@ -120,7 +122,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .ifNotExists()
 
     .addColumn("id", "integer", (col) => col.primaryKey().autoIncrement())
-    .addColumn("name", "char(50)")
+    .addColumn("name", "varchar(50)")
     .addColumn("description", "text")
     .addColumn("comment", "text")
     .addColumn("created_at", "datetime", (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`))
@@ -134,7 +136,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("campaign_id", "integer", (col) =>
       col.references("campaigns.id").onDelete("cascade")
     )
-    .addColumn("name", "char(50)")
+    .addColumn("name", "varchar(50)")
     .addColumn("description", "text")
     .addColumn("comment", "text")
     .addColumn("preferences", "integer")

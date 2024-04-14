@@ -4,11 +4,12 @@ import { DB } from "@/src/index";
 import { generateArticleId, generatePublisherId } from "../libs/nanoid";
 import { MOCK_DATA } from "../mock";
 
-/* insert mock data
+/* insert mock data for development environment
  * */
 
 export async function up(db: Kysely<DB>): Promise<void> {
-  if (process.env.NODE_ENV === "production") return;
+  if (process.env.NODE_ENV !== "development") return;
+
   const KEYWORD_GROUPS = MOCK_DATA["v0.0.0"].KEYWORD_GROUPS;
   const kEYWORD_GROUP_NAMES = Object.keys(KEYWORD_GROUPS) as (keyof typeof KEYWORD_GROUPS)[];
   const PUBLISHERS = MOCK_DATA["v0.0.0"].PUBLISHERS;
@@ -89,7 +90,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
 }
 
 export async function down(db: Kysely<DB>): Promise<void> {
-  if (process.env.NODE_ENV === "production") return;
+  if (process.env.NODE_ENV !== "development") return;
 
   await db.deleteFrom("keywords").execute();
   await db.deleteFrom("keyword_groups").execute();
