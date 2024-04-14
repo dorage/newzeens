@@ -28,10 +28,6 @@ const route = createRoute({
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({
-            keyword_group_id: 1,
-            keyword_id: 1,
-          }),
         },
       },
       required: true,

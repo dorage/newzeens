@@ -28,14 +28,6 @@ const route = createRoute({
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({
-            thumbnail: "www.thumbnail.com",
-            title: "테스트 잘하는 방법",
-            summary: "그런건 없다",
-            publisher_id: "asdfgh",
-            published_in: moment().toISOString(),
-            is_enabled: true,
-          }),
         },
       },
       required: true,

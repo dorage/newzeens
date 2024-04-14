@@ -3,18 +3,17 @@ import { Ky } from "@/src/libs/kysely";
 import { createUniqueId } from "@/src/libs/nanoid";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { zValidator } from "@hono/zod-validator";
 import { PublisherSchema } from "kysely-schema";
 
 export const zJson = z.object({
-  name: PublisherSchema.shape.name,
-  description: PublisherSchema.shape.description,
-  subscriber: PublisherSchema.shape.subscriber,
-  thumbnail: PublisherSchema.shape.thumbnail,
-  url_subscribe: PublisherSchema.shape.url_subscribe,
-  publisher_main: PublisherSchema.shape.publisher_main,
-  publisher_spec: PublisherSchema.shape.publisher_spec,
-  is_enabled: z.boolean(),
+  name: PublisherSchema.shape.name.openapi({ example: "" }),
+  description: PublisherSchema.shape.description.openapi({ example: "" }),
+  subscriber: PublisherSchema.shape.subscriber.openapi({ example: 0 }),
+  thumbnail: PublisherSchema.shape.thumbnail.openapi({ example: "https://example.com" }),
+  url_subscribe: PublisherSchema.shape.url_subscribe.openapi({ example: "https://example.com" }),
+  publisher_main: PublisherSchema.shape.publisher_main.openapi({ example: "https://example.com" }),
+  publisher_spec: PublisherSchema.shape.publisher_spec.openapi({ example: "https://example.com" }),
+  is_enabled: z.boolean().openapi({ example: true }),
 });
 
 export const zRes = OpenAPISchema.AdminPublisher;
@@ -30,16 +29,6 @@ const route = createRoute({
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({
-            thumbnail: "www.thumbnail.com",
-            name: "테스터 뉴스레터",
-            description: "테스터 뉴스레터 입니당",
-            subscriber: 1000,
-            is_enabled: true,
-            url_subscribe: "www.subscribe.com",
-            publisher_main: "글 잘쓰는 메인",
-            publisher_spec: "글 잘쓰는 서브",
-          }),
         },
       },
       required: true,
