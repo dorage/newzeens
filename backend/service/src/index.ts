@@ -11,18 +11,3 @@ const server = serve({
 	fetch: app.fetch,
 	port,
 });
-
-// hot repload
-if (import.meta.hot) {
-	console.log("hot reload");
-	const killServer = () => server.close();
-	import.meta.hot.on("vite:beforeFullReload", () => {
-		console.log("full reload");
-		killServer();
-	});
-
-	import.meta.hot.dispose(() => {
-		console.log("dispose");
-		killServer();
-	});
-}
