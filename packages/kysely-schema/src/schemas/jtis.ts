@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zMomentDatetime } from "./columns/date";
 
 export const JTISchema = z.object({
-  jti: z.string().length(36),
+  jti: z.string().uuid(),
   expires_in: zMomentDatetime,
 });
 

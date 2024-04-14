@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zMomentDatetime } from "./columns/date";
 
 export const CampaignSchema = z.object({
-  id: z.number(),
+  id: z.number().int().positive().finite(),
   name: z.string().max(50),
   description: z.string().nullable().optional(),
   comment: z.string().nullable().optional(),

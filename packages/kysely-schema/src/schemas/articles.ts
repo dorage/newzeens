@@ -4,8 +4,8 @@ import { zMomentDatetime } from "./columns/date";
 import { PublisherSchema } from "./publishers";
 
 export const ArticleSchema = z.object({
-  id: z.string().uuid().length(6),
-  thumbnail: z.string().url().max(255).nullable(),
+  id: z.string().length(6),
+  thumbnail: z.string().url().max(2048).nullable(),
   title: z.string().max(99),
   summary: z.string(),
   is_enabled: z.coerce.boolean(),

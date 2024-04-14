@@ -1,9 +1,11 @@
-import type { Generated, Insertable, Selectable, Updateable } from "kysely";
+import type { Insertable, Selectable, Updateable } from "kysely";
 import { z } from "zod";
+import { ArticleSchema } from "./articles";
+import { KeywordSchema } from "./keywords";
 
 export const KeywordArticleRelSchema = z.object({
-  keyword_id: z.number(),
-  article_id: z.string().length(6),
+  keyword_id: KeywordSchema.shape.id,
+  article_id: ArticleSchema.shape.id,
 });
 
 export interface KyKeywordArticleRelTable {

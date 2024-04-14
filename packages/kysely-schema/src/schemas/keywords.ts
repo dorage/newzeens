@@ -1,12 +1,13 @@
 import type { ColumnType, Generated, Insertable, Selectable, Updateable } from "kysely";
 import { z } from "zod";
 import { zMomentDatetime } from "./columns/date";
+import { KeywordGroupSchema } from "./keyword-groups";
 
 export const KeywordSchema = z.object({
   id: z.number().int().positive().finite(),
   name: z.string().max(30),
   is_enabled: z.coerce.boolean(),
-  keyword_group_id: z.number(),
+  keyword_group_id: KeywordGroupSchema.shape.id,
   created_at: zMomentDatetime,
 });
 

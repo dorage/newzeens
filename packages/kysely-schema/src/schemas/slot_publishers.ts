@@ -6,7 +6,7 @@ import { SlotSchema } from "./slots";
 export const SlotPublisherSchema = z.object({
   slot_id: SlotSchema.shape.id,
   publisher_id: PublisherSchema.shape.id,
-  preferences: z.number().nullable().optional(),
+  preferences: z.number().int().positive().finite().nullable().optional(),
 });
 
 export interface KySlotPublisherTable {
