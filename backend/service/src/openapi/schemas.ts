@@ -1,7 +1,6 @@
 import { z } from "@hono/zod-openapi";
 import {
   ArticleSchema,
-  BannerSchema,
   CampaignSchema,
   KeywordGroupSchema,
   KeywordSchema,
@@ -23,8 +22,6 @@ const AdminPublisher = z.object({}).merge(PublisherSchema).openapi("AdminPublish
 
 const AdminArticle = z.object({}).merge(ArticleSchema).openapi("AdminArticle");
 
-const AdminBanner = z.object({}).merge(BannerSchema).openapi("AdminBanner");
-
 const AdminCampaign = z.object({}).merge(CampaignSchema).openapi("AdminCampaign");
 
 const AdminSlot = z.object({}).merge(SlotSchema).openapi("AdminSlot");
@@ -35,7 +32,6 @@ const OpenAPISchema = {
   AdminRelatedKeyword,
   AdminPublisher,
   AdminArticle,
-  AdminBanner,
   AdminCampaign,
   AdminSlot,
 };
