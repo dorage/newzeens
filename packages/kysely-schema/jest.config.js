@@ -2,7 +2,7 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  setupFiles: ["dotenv/config"],
+  setupFiles: ["dotenv/config", "<rootDir>/tests/fast-check.ts"],
   moduleNameMapper: {
     "^@/src/(.*)$": "<rootDir>/src/$1",
     "^@/tests/(.*)$": "<rootDir>/tests/$1",
