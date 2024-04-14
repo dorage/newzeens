@@ -1,14 +1,24 @@
 import Tag from "@/src/constants/tags";
 import { Ky } from "@/src/libs/kysely";
+import { queryObject } from "@/src/openapi/query-objects";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { ArticleSchema } from "kysely-schema";
 
 export const zQuery = z.object({
-  page: z.coerce.number().optional().default(0),
-  limit: z.coerce.number().optional().default(10),
-  name: z.coerce.string().optional().default(""),
-  publisher_id: z.coerce.string().optional(),
-  is_enabled: z.coerce.boolean().optional(),
+  page: queryObject.paginationPage(),
+  limit: queryObject.paginationLimit(),
+  name: ArticleSchema.shape.title.optional().default("").openapi({
+    description: "검색할 제목입니다",
+    example: "제목",
+  }),
+  publisher_id: ArticleSchema.shape.publisher_id.optional().openapi({
+    description: "publisher의 id로 관련 article을 불러옵니다",
+  }),
+  is_enabled: z.coerce
+    .boolean()
+    .optional()
+    .openapi({ description: "is_enabled 여부에 따라 article을 불러옵니다." }),
 });
 
 export const zRes = OpenAPISchema.AdminArticle.array();
