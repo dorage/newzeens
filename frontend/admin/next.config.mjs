@@ -1,12 +1,5 @@
-import envConfig from "./.envConfig.js"
-
-const currentEnv = process.env.NEXT_PUBLIC_ENV
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    ...envConfig[currentEnv],
-  },
   images: {
     remotePatterns: [
       {
