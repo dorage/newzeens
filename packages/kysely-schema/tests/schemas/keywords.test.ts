@@ -1,20 +1,18 @@
-import { KeywordGroupSchema } from "@/src/index";
 import { KeywordSchema } from "@/src/schemas/keywords";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
-import { generateMock } from "@anatine/zod-mock";
 import fc from "fast-check";
-import { ZodFastCheck } from "zod-fast-check";
+import { getMockKeywordGroup } from "./keyword-groups.mock";
+import { getKeywordArbitary } from "./keywords.mock";
 
 testingTransaction();
 
-describe("keywords schema test", () => {
-  const mockKeywordGroup = generateMock(KeywordGroupSchema);
+describe("zod schema test", () => {
+  const mockKeywordGroup = getMockKeywordGroup();
 
   beforeAll(async () => {
     await Ky.insertInto("keyword_groups")
       .values({
-        id: mockKeywordGroup.id,
-        name: mockKeywordGroup.name,
+        ...mockKeywordGroup,
         is_enabled: +mockKeywordGroup.is_enabled,
       })
       .execute();
@@ -22,27 +20,15 @@ describe("keywords schema test", () => {
     await Ky.deleteFrom("keywords").execute();
   });
 
-  test("insert, select, and parse", async () => {
-    const keywordArbitary = ZodFastCheck()
-      .inputOf(KeywordSchema)
-      .map((keyword) => ({
-        ...keyword,
-        is_enabled: +keyword.is_enabled,
-        keyword_group_id: mockKeywordGroup.id,
-      }));
-
+  test("zod schema should match the db schema strictly", async () => {
     await fc.assert(
-      fc.asyncProperty(keywordArbitary, async (keyword) => {
+      fc.asyncProperty(getKeywordArbitary(mockKeywordGroup.id), async (keyword) => {
         const result = await Ky.insertInto("keywords")
-          .values({
-            name: keyword.name,
-            is_enabled: keyword.is_enabled,
-            keyword_group_id: keyword.keyword_group_id,
-          })
+          .values(keyword)
           .returningAll()
           .executeTakeFirstOrThrow();
 
-        expect(KeywordSchema.safeParse(result).success).toBe(true);
+        expect(KeywordSchema.strict().safeParse(result).success).toEqual(true);
 
         await Ky.deleteFrom("keywords").where("id", "=", result.id).execute();
       })

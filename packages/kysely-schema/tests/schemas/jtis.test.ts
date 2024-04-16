@@ -1,32 +1,24 @@
 import { JTISchema } from "@/src/index";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
-import { faker } from "@faker-js/faker";
 import fc from "fast-check";
-import { ZodFastCheck } from "zod-fast-check";
+import { getJtiArbitary } from "./jtis.mock";
 
 testingTransaction();
 
-describe("jtis schema test", () => {
+describe("zod schema test", () => {
   beforeAll(async () => {
     await Ky.deleteFrom("jtis").execute();
   });
 
-  test("insert, select, and parse", async () => {
-    const jtiArbitary = ZodFastCheck()
-      .inputOf(JTISchema)
-      .map((jti) => ({ ...jti, expires_in: faker.date.anytime().toUTCString() }));
-
+  test("zod schema should match the db schema strictly", async () => {
     await fc.assert(
-      fc.asyncProperty(jtiArbitary, async (jti) => {
+      fc.asyncProperty(getJtiArbitary(), async (jti) => {
         const result = await Ky.insertInto("jtis")
-          .values({
-            jti: jti.jti,
-            expires_in: jti.expires_in,
-          })
+          .values(jti)
           .returningAll()
           .executeTakeFirstOrThrow();
 
-        expect(JTISchema.safeParse(result).success).toBe(true);
+        expect(JTISchema.strict().safeParse(result).success).toEqual(true);
 
         await Ky.deleteFrom("jtis").where("jti", "=", result.jti).execute();
       })
