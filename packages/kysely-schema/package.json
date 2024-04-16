@@ -1,18 +1,39 @@
 {
     "name": "kysely-schema",
     "version": "1.0.0",
+    "type": "module",
     "description": "",
     "main": "src/index.ts",
+    "scripts": {
+        "migrator:new": "tsx migrator/index.ts new",
+        "migrator:latest": "tsx migrator/index.ts latest",
+        "migrator:down": "tsx migrator/index.ts down",
+        "migrator:test:copy-db": "yes | cp db.local db.test",
+        "migrator:test:latest": "DOTENV_KEY='dotenv://:key_d1659e111f2c1e8e3d7ce8b1ee328d8abbc566220debf5ecc1d777bd45ec708f@dotenv.org/vault/.env.vault?environment=staging' pnpm migrator:latest",
+        "migrator:test": "pnpm migrator:test:copy-db && pnpm migrator:test:latest",
+        "schema:test": "DOTENV_KEY='dotenv://:key_d1659e111f2c1e8e3d7ce8b1ee328d8abbc566220debf5ecc1d777bd45ec708f@dotenv.org/vault/.env.vault?environment=staging' pnpm jest ./tests/**"
+    },
     "dependencies": {
         "better-sqlite3": "^9.3.0",
         "kysely": "^0.26.3",
         "moment": "^2.29.4",
         "mysql2": "^3.8.0",
-        "typescript": "^5.0.4",
+        "nanoid": "^5.0.7",
         "zod": "^3.22.4"
     },
     "devDependencies": {
+        "@anatine/zod-mock": "^3.13.4",
+        "@faker-js/faker": "^8.4.0",
+        "@jest/globals": "^29.7.0",
         "@types/better-sqlite3": "^7.6.8",
-        "@types/node": "^20.9.1"
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.9.1",
+        "dotenv": "^16.4.5",
+        "fast-check": "^3.17.1",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.2",
+        "tsx": "^4.7.2",
+        "typescript": "^5.4.3",
+        "zod-fast-check": "^0.10.1"
     }
 }
