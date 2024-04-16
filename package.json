@@ -9,7 +9,8 @@
     "여기부터 프론트엔드": "",
     "dev:frontend:admin": "pnpm --filter ./frontend/admin run dev",
     "dev:frontend:admin:prod": "pnpm --filter ./frontend/admin run dev:prod",
-    "start:frontend:admin": "pnpm run --filter ./frontend/admin/ start",
+    "start:frontend:admin": "pnpm --filter ./frontend/admin run start",
+    "build:frontend:admin": "pnpm --filter ./frontend/admin run build",
     
     "dev:frontend:client": "pnpm --filter ./frontend/client run dev",
     "start:frontend:client": "pnpm --filter ./frontend/client run start"

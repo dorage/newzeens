@@ -1,14 +1,8 @@
 import type { Metadata } from "next"
-import { Inter as FontSans } from "next/font/google"
 import RootContext from "./_context/root-context"
 
 import { cn } from "./_lib/utils"
 import "./globals.css"
-
-export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={cn("min-h-screen bg-[#E0E5F7]", fontSans.variable)}>
+      <body className={cn("min-h-screen bg-[#E0E5F7]")}>
         <RootContext>{children}</RootContext>
       </body>
     </html>

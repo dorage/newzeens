@@ -12,7 +12,6 @@ export const METHOD = {
 const BASE_URL = `${process.env.NEXT_PUBLIC_WEB_URL}/api`
 
 const api = async (url: string, options?: HttpOptions) => {
-
   return fetch(`${BASE_URL}${url}`, {
     ...options,
     method: options?.method ?? "GET",

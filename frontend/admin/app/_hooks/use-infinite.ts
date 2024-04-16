@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
-const useInfiniteScroll = (initialUrl, limit = 10) => {
+const useInfiniteScroll = (initialUrl: string, limit = 10) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -26,10 +26,10 @@ const useInfiniteScroll = (initialUrl, limit = 10) => {
     try {
       const response = await fetch(`${initialUrl}?page=${page}&limit=${limit}`)
       const newData = await response.json()
-      setData((prevData) => [...prevData, ...newData.items])
+      setData((prevData) => [...prevData, ...newData.items] as any)
       setHasMore(newData.items.length === limit)
-    } catch (err) {
-      setError(err.message)
+    } catch (err: any) {
+      setError(err?.message)
     } finally {
       setLoading(false)
     }

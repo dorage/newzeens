@@ -5,7 +5,7 @@ import { AdminNewsLetterResponse } from "@/app/_api/news-letter.type"
 import { createDynamicContext } from "@/app/_context/create-dynamic-context"
 
 interface InitialDataContextProps {
-  publisher?: AdminNewsLetterResponse[]
+  publisher?: AdminNewsLetterResponse
   keyword?: AdminKeywordResponse[]
   keywordGroup?: AdminKeywordGroupResponse[]
 }
