@@ -94,7 +94,8 @@ export const deleteKeyword = async (groupId: number, formData: FormData) => {
  */
 export const putPublisher = async (formData: FormData) => {
   "use server"
-  const payload: AdminPublisherPayload = {
+  // const payload: AdminPublisherPayload = {
+  const payload = {
     name: "",
     description: "",
     subscriber: 0,
@@ -103,12 +104,12 @@ export const putPublisher = async (formData: FormData) => {
     publisher_main: "",
     publisher_spec: "",
     is_enabled: false,
-  }
+  } as any
 
   formData.forEach((value, key) => {
     if (key === "publisherId") {
     } else {
-      payload[key as keyof AdminPublisherPayload] = value
+      payload[key] = value
     }
   })
 

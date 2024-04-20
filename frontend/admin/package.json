@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NEXT_PUBLIC_ENV=local next dev -p 3600",
-    "dev:prod": "NEXT_PUBLIC_ENV=prod next dev -p 3600",
-    "build": "NEXT_PUBLIC_ENV=prod next build",
-    "start": "next start",
+    "dev": "next dev -p 3600",
+    "dev:prod": "DOTENV_KEY='dotenv://:key_456c4291cfbff4523092880e09947eb458edc4446514db909465def158dae826@dotenv.org/vault/.env.vault?environment=production' next dev -p 3600",
+    "build": "DOTENV_KEY='dotenv://:key_456c4291cfbff4523092880e09947eb458edc4446514db909465def158dae826@dotenv.org/vault/.env.vault?environment=production' next build",
+    "start": "DOTENV_KEY='dotenv://:key_456c4291cfbff4523092880e09947eb458edc4446514db909465def158dae826@dotenv.org/vault/.env.vault?environment=production' next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.10",
+    "dotenv": "^16.4.5",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
