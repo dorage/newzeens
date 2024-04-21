@@ -1,9 +1,16 @@
 import Tag from "@/src/constants/tags";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { ArticleSchema, PublisherSchema } from "kysely-schema";
+import { ArticleSchema, KeywordGroupSchema, KeywordSchema, PublisherSchema } from "kysely-schema";
 import { controller } from "./get.controller";
 
 export const zParam = z.object({ publisherId: PublisherSchema.shape.id });
+
+const zKeyword = z.object({
+  keyword_id: KeywordSchema.shape.id,
+  keyword_name: KeywordSchema.shape.name.nullable(),
+  keyword_group_id: KeywordGroupSchema.shape.id,
+  keyword_group_name: KeywordGroupSchema.shape.name.nullable(),
+});
 
 export const zRes = z.object({
   publisher: PublisherSchema.omit({
@@ -20,8 +27,13 @@ export const zRes = z.object({
   })
     .array()
     .length(4),
-  related_publishers: PublisherSchema.pick({ id: true, name: true, description: true })
-    .extend({ 직무: z.string(), 고유: z.string(), 목적: z.string() })
+  related_publishers: PublisherSchema.pick({
+    id: true,
+    name: true,
+    description: true,
+    thumbnail: true,
+  })
+    .extend({ keywords: zKeyword.array() })
     .array()
     .length(4),
 });
