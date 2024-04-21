@@ -6,7 +6,7 @@
 ## Services
 
 ### 상세페이지
-- [ ] GET publisher/:id
+- [X] GET publisher/:id
 publisher 정보(column: name, subscriber, description, publisher, url_subscribe)
 지난 아티클 4개
 태그(column: 분야 발행인  발송주기  구독비)
