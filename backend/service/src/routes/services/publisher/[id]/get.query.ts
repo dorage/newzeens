@@ -3,6 +3,8 @@ import { z } from "@hono/zod-openapi";
 import { sql } from "kysely";
 import { PublisherSchema } from "kysely-schema";
 import { zRes } from "./get";
+import OpenAPISchema from "@/src/openapi/schemas";
+import { getPublisherKeywords } from "@/src/providers/publishers";
 
 export const getPublisherSpec = async (query: {
   publisherId: z.infer<typeof PublisherSchema.shape.id>;
@@ -25,7 +27,7 @@ export const getPublisherSpec = async (query: {
           .groupBy("publisher_id")
           .select(() => [
             sql<string>`publisher_id`.as("publisher_id"),
-            sql<z.infer<typeof zPublisherKeyword>>`JSON_GROUP_ARRAY(JSON_OBJECT(
+            sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_GROUP_ARRAY(JSON_OBJECT(
 						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
 						))`.as("keywords"),
           ])
@@ -76,7 +78,7 @@ export const getRelatedPublishers = async (query: {
     else if (c.keyword_group_name === "고유") a["고유"] = c;
     else if (c.keyword_group_name === "직무") a["직무"] = c;
     return a;
-  }, {} as { 목적: z.infer<typeof zPublisherKeyword>; 고유: z.infer<typeof zPublisherKeyword>; 직무: z.infer<typeof zPublisherKeyword> });
+  }, {} as { 목적: z.infer<typeof OpenAPISchema.Keyword>; 고유: z.infer<typeof OpenAPISchema.Keyword>; 직무: z.infer<typeof OpenAPISchema.Keyword> });
 
   if (publisherKeywordIds["목적"] == null) throw Error("It is not possible to join");
   if (publisherKeywordIds["직무"] == null) throw Error("It is not possible to join");
@@ -110,7 +112,7 @@ export const getRelatedPublishers = async (query: {
           .leftJoin("keywords", "_kpr1.keyword_id", "keywords.id")
           .select(() => [
             sql<string>`publisher_id`.as("publisher_id"),
-            sql<z.infer<typeof zPublisherKeyword>>`JSON_OBJECT(
+            sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_OBJECT(
 						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', ${publisherKeywordIds["목적"].keyword_group_id}, 'keyword_group_name', '목적')`.as(
               "목적"
             ),
@@ -131,7 +133,7 @@ export const getRelatedPublishers = async (query: {
           .leftJoin("keywords", "_kpr2.keyword_id", "keywords.id")
           .select(() => [
             sql<string>`publisher_id`.as("publisher_id"),
-            sql<z.infer<typeof zPublisherKeyword>>`JSON_OBJECT(
+            sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_OBJECT(
 						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', ${publisherKeywordIds["고유"].keyword_group_id}, 'keyword_group_name', '고유')`.as(
               "고유"
             ),
@@ -153,7 +155,7 @@ export const getRelatedPublishers = async (query: {
           .select(() => [
             sql<string>`publisher_id`.as("publisher_id"),
             sql<
-              z.infer<typeof zPublisherKeyword>
+              z.infer<typeof OpenAPISchema.Keyword>
             >`JSON_OBJECT('keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', ${publisherKeywordIds["직무"].keyword_group_id}, 'keyword_group_name', '직무')`.as(
               "직무"
             ),
@@ -166,41 +168,11 @@ export const getRelatedPublishers = async (query: {
       sql<z.infer<typeof PublisherSchema.shape.name>>`name`.as("name"),
       sql<z.infer<typeof PublisherSchema.shape.thumbnail>>`thumbnail`.as("thumbnail"),
       sql<z.infer<typeof PublisherSchema.shape.description>>`description`.as("description"),
-      sql<z.infer<typeof zPublisherKeyword>[]>`JSON_ARRAY(고유, 직무, 목적)`.as("keywords"),
+      sql<z.infer<typeof OpenAPISchema.Keyword>[]>`JSON_ARRAY(고유, 직무, 목적)`.as("keywords"),
     ])
     .orderBy(sql`RANDOM()`)
     .limit(4)
     .execute();
 
   return publishers;
-};
-
-const zPublisherKeyword = z.object({
-  keyword_group_id: z.number(),
-  keyword_id: z.number(),
-  keyword_group_name: z.string().nullable(),
-  keyword_name: z.string().nullable(),
-});
-// publisher의 모든 keyword_group의 keyword를 배열로 가져옵니다
-// filter를 이용해서 필요한 keyword_group의 값을 찾아 작업
-export const getPublisherKeywords = async (query: {
-  publisherId: z.infer<typeof PublisherSchema.shape.id>;
-}): Promise<z.infer<typeof zPublisherKeyword>[]> => {
-  const keywords = await Ky.selectFrom((eb) =>
-    eb
-      .selectFrom("keyword_publisher_rels")
-      .where("publisher_id", "=", query.publisherId)
-      .selectAll()
-      .as("kpr")
-  )
-    .leftJoin("keyword_groups as kg", "kpr.keyword_group_id", "kg.id")
-    .leftJoin("keywords as k", "kpr.keyword_id", "k.id")
-    .select([
-      "kpr.keyword_group_id",
-      "kg.name as keyword_group_name",
-      "kpr.keyword_id",
-      "k.name as keyword_name",
-    ])
-    .execute();
-  return keywords;
 };

@@ -28,9 +28,9 @@ const AdminSlot = z.object({}).merge(SlotSchema).openapi("AdminSlot");
 
 const Keyword = z
   .object({
-    // keyword_id: KeywordSchema.shape.id,
+    keyword_id: KeywordSchema.shape.id,
     keyword_name: KeywordSchema.shape.name.nullable(),
-    // keyword_group_id: KeywordGroupSchema.shape.id,
+    keyword_group_id: KeywordGroupSchema.shape.id,
     keyword_group_name: KeywordGroupSchema.shape.name.nullable(),
   })
   .openapi("Keyword");
