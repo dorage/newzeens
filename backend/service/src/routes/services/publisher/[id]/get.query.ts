@@ -7,33 +7,35 @@ import { zRes } from "./get";
 export const getPublisherSpec = async (query: {
   publisherId: z.infer<typeof PublisherSchema.shape.id>;
 }): Promise<z.infer<typeof zRes.shape.publisher>> => {
-  const publisher = await Ky.selectFrom("publishers")
+  const publisher = await Ky.selectFrom((eb) =>
+    eb.selectFrom("publishers").selectAll().where("id", "=", query.publisherId).as("p")
+  )
+    .leftJoin(
+      (eb) =>
+        eb
+          .selectFrom((eb) =>
+            eb
+              .selectFrom("keyword_publisher_rels")
+              .selectAll()
+              .where("publisher_id", "=", query.publisherId)
+              .as("_kpr")
+          )
+          .leftJoin("keywords", "keywords.id", "_kpr.keyword_id")
+          .leftJoin("keyword_groups", "keyword_groups.id", "_kpr.keyword_group_id")
+          .groupBy("publisher_id")
+          .select(() => [
+            sql<string>`publisher_id`.as("publisher_id"),
+            sql<z.infer<typeof zPublisherKeyword>>`JSON_GROUP_ARRAY(JSON_OBJECT(
+						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
+						))`.as("keywords"),
+          ])
+          .as("kpr"),
+      (join) => join.onRef("p.id", "=", "kpr.publisher_id")
+    )
     .selectAll()
-    .where("id", "=", query.publisherId)
     .executeTakeFirstOrThrow();
 
-  return publisher;
-};
-
-export const getKeywordsOfPublisher = async (query: {
-  publisherId: z.infer<typeof PublisherSchema.shape.id>;
-}): Promise<z.infer<typeof zRes.shape.keywords>> => {
-  // const publisherKeywords = await getPublisherKeywords(query);
-
-  const keywords = await Ky.selectFrom("keyword_publisher_rels")
-    .leftJoin("keyword_groups", "keyword_publisher_rels.keyword_group_id", "keyword_groups.id")
-    .leftJoin("keywords", "keyword_publisher_rels.keyword_id", "keywords.id")
-    .select(["keyword_groups.name as keyword_group_name", "keywords.name as keyword_name"])
-    .where("publisher_id", "=", query.publisherId)
-    .execute();
-
-  const publisherKeywords = keywords.reduce((a, c) => {
-    if (c.keyword_group_name == null) return a;
-    a[c.keyword_group_name] = c.keyword_name;
-    return a;
-  }, {} as any);
-
-  return publisherKeywords;
+  return zRes.shape.publisher.parse(publisher);
 };
 
 // 최근순 4개 필요

@@ -2,7 +2,7 @@ import { Ky } from "@/src/libs/kysely";
 import { sql } from "kysely";
 import { zRes } from "./get";
 import { controller } from "./get.controller";
-import { getRecentArticleOfPublisher, getRelatedPublishers } from "./get.query";
+import { getPublisherSpec, getRecentArticleOfPublisher, getRelatedPublishers } from "./get.query";
 import moment from "moment";
 
 // TODO; some mock data is out of the constraint, it should be fixed to pass tests
@@ -17,7 +17,15 @@ const getRandomPublihser = () => {
 };
 
 describe("get.query", () => {
-  test("the result of selected related publisher sould be parsed successfully", async () => {
+  test("the result of select publisher detail shoould be parsed successfully", async () => {
+    const publisher = await getRandomPublihser();
+
+    const res = await getPublisherSpec({ publisherId: publisher.id });
+
+    expect(zRes.shape.publisher.safeParse(res).success).toEqual(true);
+  });
+
+  test("the result of select related publisher sould be parsed successfully", async () => {
     const publisher = await getRandomPublihser();
 
     const res = await getRelatedPublishers({ publisherId: publisher.id });
@@ -25,7 +33,7 @@ describe("get.query", () => {
     expect(zRes.shape.related_publishers.safeParse(res).success).toEqual(true);
   });
 
-  test("the result of selected related publisher should be different each time", async () => {
+  test("the result of select related publisher should be different each time", async () => {
     const publisher = await getRandomPublihser();
 
     const resA = await getRelatedPublishers({ publisherId: publisher.id });
@@ -34,15 +42,17 @@ describe("get.query", () => {
     expect(resA.every((a) => resB.some((b) => a.id === b.id))).toEqual(false);
   });
 
-  test("the result of selected recent article shold be parsed successfully", async () => {
+  test("the result of select recent article shold be parsed successfully", async () => {
     const publisher = await getRandomPublihser();
 
     const res = await getRecentArticleOfPublisher({ publisherId: publisher.id });
 
+    console.log(res);
+    console.log(zRes.shape.recent_articles.parse(res));
     expect(zRes.shape.recent_articles.safeParse(res).success).toEqual(true);
   });
 
-  test("the result of selected recent articles should be sorted descending", async () => {
+  test("the result of select recent articles should be sorted descending", async () => {
     const publisher = await getRandomPublihser();
 
     const res = await getRecentArticleOfPublisher({ publisherId: publisher.id });

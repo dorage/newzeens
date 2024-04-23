@@ -5,4 +5,6 @@ import moment from "moment";
 //   .string()
 //   .transform((arg) => moment(arg, "YYYY-MM-DD HH:mm:ss").utc(false));
 
-export const zMomentDatetime = z.string().datetime();
+export const zMomentDatetime = z
+  .string()
+  .transform((arg) => moment(arg, "YYYY-MM-DD HH:mm:ss").utc(false).toISOString());
