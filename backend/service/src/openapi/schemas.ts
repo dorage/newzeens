@@ -35,6 +35,20 @@ const Keyword = z
   })
   .openapi("Keyword");
 
+const PublisherRank = z
+  .object({})
+  .merge(
+    PublisherSchema.pick({
+      id: true,
+      name: true,
+      subscriber: true,
+      thumbnail: true,
+    }).extend({
+      keywords: Keyword.array(),
+    })
+  )
+  .openapi("PublisherRank");
+
 const PublisherDetail = z
   .object({})
   .merge(
@@ -79,6 +93,7 @@ const OpenAPISchema = {
   AdminCampaign,
   AdminSlot,
   Keyword,
+  PublisherRank,
   PublisherDetail,
   PublisherPreview,
   ArticlePreview,
