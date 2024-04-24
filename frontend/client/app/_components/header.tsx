@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import InteractionIcons from "./header/interaction-icons"
 import { useMediaQuery } from "../_hooks/use-media-query"
 
@@ -11,7 +12,9 @@ const Header = (props: HeaderProps) => {
     <>
       {/* mobile */}
       <header className="tablet:flex hidden h-52 items-center justify-between bg-white px-20">
-        <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3>
+        <Link href="/">
+          <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3>
+        </Link>
         <div />
         <InteractionIcons />
       </header>

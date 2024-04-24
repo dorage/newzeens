@@ -1,8 +1,8 @@
 "use client"
 
 import { createContext, useState } from "react"
-import { createPortal } from "react-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import BottomDrawerProvider from "../_components/modal/bottom-drawer-provider"
 import RelativeModalProvider from "../_components/portal/relative-modal-provider"
 
 const RootContext = ({ children }: React.PropsWithChildren): JSX.Element => {
@@ -21,7 +21,9 @@ const RootContext = ({ children }: React.PropsWithChildren): JSX.Element => {
   return (
     <Provider value={null}>
       <QueryClientProvider client={client}>
-        <RelativeModalProvider>{children}</RelativeModalProvider>
+        <BottomDrawerProvider>
+          <RelativeModalProvider>{children}</RelativeModalProvider>
+        </BottomDrawerProvider>
       </QueryClientProvider>
     </Provider>
   )

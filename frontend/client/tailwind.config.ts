@@ -94,15 +94,20 @@ const config: Config = {
         /** mobile */
         mH1: ["3.2rem", { fontWeight: 700, lineHeight: "100%" }],
         mH2: ["2.2rem", { fontWeight: 700, lineHeight: "100%" }],
+        // mH3: ["2.2rem", { fontWeight: 700, lineHeight: "100%" }],
+        mH4: ["1.8rem", { fontWeight: 700, lineHeight: "156%" }],
 
         mBody1: ["1.6rem", { fontWeight: 400, lineHeight: "162%" }],
         mBody2: ["1.6rem", { fontWeight: 600, lineHeight: "140%" }],
         mBody3: ["1.5rem", { fontWeight: 400, lineHeight: "160%" }],
+        // mBody3: ["1.5rem", { fontWeight: 400, lineHeight: "160%" }],
+        mBody5: ["1.4rem", { fontWeight: 600, lineHeight: "100%" }],
 
         mElement1: ["1.3rem", { fontWeight: 400, lineHeight: "100%" }],
         mElement2: ["1.3rem", { fontWeight: 700, lineHeight: "100%" }],
         mElement3: ["1.2rem", { fontWeight: 500, lineHeight: "100%" }],
         mElement4: ["1.1rem", { fontWeight: 500, lineHeight: "100%" }],
+        mElement5: ["0.9rem", { fontWeight: 500, lineHeight: "100%" }],
       },
     },
   },
