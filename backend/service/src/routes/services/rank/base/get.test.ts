@@ -2,6 +2,7 @@ import { Ky } from "@/src/libs/kysely";
 import { zRes } from "./get";
 import { getKeyword, getPublisherRank } from "./get.model";
 import { sql } from "kysely";
+import { controller } from "./get.controller";
 
 const getRandomKeyowrd = async () => {
   const keyword = await Ky.selectFrom("keywords")
@@ -18,7 +19,7 @@ const getRandomKeyowrd = async () => {
   return keyword;
 };
 
-describe("get.query", () => {
+describe("GET /rank get.query", () => {
   test("the result of select publisher rank should be parsed successfully", async () => {
     const res = await getPublisherRank({ limit: 20 });
 
@@ -76,5 +77,13 @@ describe("get.query", () => {
     });
 
     expect(withWrongKeyword).toEqual(withNoKeyword);
+  });
+});
+
+describe("GET /rank get.controller", () => {
+  test("controller should return well-formatted response", async () => {
+    const result = await controller({ limit: 20 });
+
+    expect(zRes.length(20).safeParse(result).success).toEqual(true);
   });
 });
