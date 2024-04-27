@@ -24,11 +24,9 @@ pubilhser 정보(column: title, tags, subscriber, thumbanil, url_subscribe, url_
 -> 관련 article 을 지정할 태그를 지정할 방법이 필요함
 
 ### 랭킹페이지
-- [-] GET /tag/ranking
+- [X] GET /tag/ranking
     - [X] add endpoint
-    - [ ] add keyword query
-
--> 랭킹에 사용할 태그를 지정할 방법이 필요함
+    - [X] add keyword query
 
 ### 메인페이지
 - [ ] /campaign/:id/publisher

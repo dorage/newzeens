@@ -5,24 +5,68 @@ import { sql } from "kysely";
 import { PublisherSchema } from "kysely-schema";
 import { zRes } from "./get";
 
-//  '분야' 키워드로 필터링
-export const getPublisherRank = async (query: {
-  limit: number;
-  lastPublisherId?: z.infer<typeof PublisherSchema.shape.id>;
-}): Promise<z.infer<typeof zRes>> => {
+const getCursor = async (query: { lastPublisherId?: string }) => {
   const cursor = await Ky.selectFrom("publishers")
     .selectAll()
     .where("id", "=", query.lastPublisherId ?? null)
     .executeTakeFirst();
 
+  return cursor;
+};
+
+export const getKeyword = async (query: { keyword?: string }) => {
+  if (query.keyword == null) return;
+
+  const keyword = await Ky.selectFrom("keywords")
+    .where((qb) =>
+      qb.eb(
+        "keywords.keyword_group_id",
+        "=",
+        qb.selectFrom("keyword_groups").select(["id"]).where("name", "=", "분야").limit(1)
+      )
+    )
+    .selectAll()
+    .where("keywords.name", "=", query.keyword)
+    .executeTakeFirst();
+
+  return keyword;
+};
+
+//  '분야' 키워드로 필터링
+export const getPublisherRank = async (query: {
+  limit: number;
+  lastPublisherId?: z.infer<typeof PublisherSchema.shape.id>;
+  keyword?: string;
+}): Promise<z.infer<typeof zRes>> => {
+  // 실제 없는 cursor, keyword여서 null이 반환되어도 값은 필터링이 안된 값이 반환되게끔
+  const [cursor, filterKeyword] = await Promise.all([getCursor(query), getKeyword(query)]);
+
   const result = await Ky.selectFrom((eb) => {
     let q = eb
-      .selectFrom("publishers")
+      .selectFrom((eb) => {
+        let q = eb.selectFrom("publishers");
+
+        if (filterKeyword != null) {
+          q = q
+            .leftJoin(
+              (eb) =>
+                eb
+                  .selectFrom("keyword_publisher_rels")
+                  .selectAll()
+                  .where("keyword_id", "=", filterKeyword.id)
+                  .as("_kpr"),
+              (join) => join.onRef("_kpr.publisher_id", "=", "publishers.id")
+            )
+            .where("keyword_id", "is not", null) as any;
+        }
+
+        return q.selectAll().as("_p");
+      })
       .selectAll()
       .orderBy("subscriber desc")
-      .orderBy("id asc")
-      .limit(query.limit);
-    if (query.lastPublisherId)
+      .limit(query.limit)
+      .orderBy("id asc");
+    if (cursor != null)
       q = q.where(({ eb }) =>
         eb.or([
           eb("subscriber", "<", cursor!.subscriber),

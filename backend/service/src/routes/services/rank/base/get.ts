@@ -14,6 +14,7 @@ export const zQuery = z.object({
   last_publisher_id: PublisherSchema.shape.id
     .optional()
     .openapi({ description: "가장 마지막 반환된 publisher의 id" }),
+  keyword: z.string().optional().openapi({ description: "특정 keyword 전달" }),
 });
 
 export const zRes = OpenAPISchema.PublisherRank.array();
@@ -45,11 +46,12 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const { last_publisher_id, limit } = zQuery.parse(c.req.query());
+  const { last_publisher_id, limit, keyword } = zQuery.parse(c.req.query());
 
   const res = await controller({
     limit,
     lastPublisherId: last_publisher_id,
+    keyword,
   });
 
   return c.json(res);
