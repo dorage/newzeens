@@ -1,8 +1,7 @@
 import { KeywordGroupSchema } from "@/src/schemas/keyword-groups";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
-import { faker } from "@faker-js/faker";
 import fc from "fast-check";
-import { ZodFastCheck } from "zod-fast-check";
+import { getKeywordGroupArbitary } from "./keyword-groups.mock";
 
 testingTransaction();
 
@@ -11,23 +10,15 @@ describe("keyword_groups schema test", () => {
     await Ky.deleteFrom("keyword_groups").execute();
   });
 
-  test("insert, select, and parse", async () => {
-    const keywordGroupArbitary = ZodFastCheck()
-      .inputOf(KeywordGroupSchema)
-      .map((keywordGroup) => ({ ...keywordGroup, is_enabled: +keywordGroup.is_enabled }));
-
+  test("zod schema should match the db schema strictly", async () => {
     await fc.assert(
-      fc.asyncProperty(keywordGroupArbitary, async (keywordGroup) => {
+      fc.asyncProperty(getKeywordGroupArbitary(), async (keywordGroup) => {
         const result = await Ky.insertInto("keyword_groups")
-          .values({
-            id: keywordGroup.id,
-            name: keywordGroup.name,
-            is_enabled: keywordGroup.is_enabled,
-          })
+          .values(keywordGroup)
           .returningAll()
           .executeTakeFirstOrThrow();
 
-        expect(KeywordGroupSchema.safeParse(result).success).toBe(true);
+        expect(KeywordGroupSchema.strict().safeParse(result).success).toEqual(true);
 
         await Ky.deleteFrom("keyword_groups").where("id", "=", result.id).execute();
       })

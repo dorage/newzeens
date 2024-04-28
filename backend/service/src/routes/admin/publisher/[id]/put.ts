@@ -35,16 +35,6 @@ const route = createRoute({
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({
-            thumbnail: "www.thumbnail.com",
-            name: "테스터 뉴스레터",
-            description: "테스터 뉴스레터 입니당",
-            subscriber: 1000,
-            is_enabled: true,
-            url_subscribe: "www.subscribe.com",
-            publisher_main: "글쓰는 사람 메인",
-            publisher_spec: "글쓰는 사람 서브",
-          }),
         },
       },
       required: true,

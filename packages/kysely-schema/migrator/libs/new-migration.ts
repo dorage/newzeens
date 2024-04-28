@@ -2,10 +2,10 @@ import fs from "fs";
 import path from "path";
 import moment from "moment";
 
-const DIR_MIGRATION = path.resolve(process.cwd(), "src", "migrations");
+const DIR_MIGRATION = path.resolve(process.cwd(), "migrator", "migrations");
 const CONTENT = `
 import { Kysely, sql } from 'kysely'
-import { DB } from 'kysely-schema';
+import { DB } from "@/src/index";
 
 /* 
 */
