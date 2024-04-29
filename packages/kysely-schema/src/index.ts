@@ -1,5 +1,5 @@
-import type { DB as _DB } from "./migrations/v0.0.0-2024-04-09T05:21:45.008Z/index";
-import * as DBSchema from "./migrations/v0.0.0-2024-04-09T05:21:45.008Z/index";
+import type { DB as _DB } from "./migrations/v0.0.0-2024-04-29T07:31:56.202Z/index";
+import * as DBSchema from "./migrations/v0.0.0-2024-04-29T07:31:56.202Z/index";
 
 export type DB = _DB;
 
