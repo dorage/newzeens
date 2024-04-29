@@ -6,7 +6,7 @@ import { KEYWORD_GROUPS } from "./data/keyword-groups";
 import { PUBLISHERS } from "./data/publisher";
 import { SLOTS } from "./data/slot";
 
-export const generate = async (db: Kysely<DB>) => {
+export const insert = async (db: Kysely<DB>) => {
   const kEYWORD_GROUP_NAMES = Object.keys(KEYWORD_GROUPS) as (keyof typeof KEYWORD_GROUPS)[];
 
   // insert keyword groups
