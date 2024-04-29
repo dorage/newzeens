@@ -23,6 +23,7 @@ export const zRes = z.object({
       id: true,
       name: true,
       description: true,
+      url_main: true,
       url_subscribe: true,
       publisher_main: true,
     })
