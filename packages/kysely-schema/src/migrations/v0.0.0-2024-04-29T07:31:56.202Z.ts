@@ -36,8 +36,8 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .set((eb) => ({
       url: eb
         .selectFrom("publishers")
-        .select(["url_main"])
-        .where("articles.publisher_id", "=", "publishrs.id")
+        .select("url_main")
+        .where((qb) => qb.eb("publishers.id", "=", qb.ref("articles.publisher_id")))
         .limit(1),
     }))
     .execute();
