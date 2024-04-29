@@ -5,8 +5,6 @@ import { controller } from "./get.controller";
 import { getPublisherSpec, getRecentArticleOfPublisher, getRelatedPublishers } from "./get.query";
 import moment from "moment";
 
-// TODO; some mock data is out of the constraint, it should be fixed to pass tests
-
 const getRandomPublihser = () => {
   return Ky.selectFrom("publishers")
     .selectAll()
