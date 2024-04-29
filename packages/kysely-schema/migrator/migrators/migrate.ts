@@ -2,7 +2,7 @@ import { promises as _fs } from "fs";
 import fs from "fs";
 import { FileMigrationProvider, MigrationResultSet, Migrator } from "kysely";
 import * as path from "path";
-import { Ky as db } from "./kysely";
+import { Ky as db } from "../libs/kysely";
 import { DIR_MIGRATION } from "../constants/path";
 
 const updateExportVersion = (newMigrationName: string) => {
@@ -62,8 +62,6 @@ const migrate = async (migrate: (migrator: Migrator) => Promise<MigrationResultS
   await db.destroy();
 };
 
-export const migrator = {
-  toLatest: () => migrate((migrator) => migrator.migrateToLatest()),
-  up: () => migrate((migrator) => migrator.migrateUp()),
-  down: () => migrate((migrator) => migrator.migrateDown()),
-};
+export const toLatest = () => migrate((migrator) => migrator.migrateToLatest());
+export const up = () => migrate((migrator) => migrator.migrateUp());
+export const down = () => migrate((migrator) => migrator.migrateDown());
