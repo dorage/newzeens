@@ -1,4 +1,4 @@
-import { KeywordGroupSchema } from "@/src/schemas/keyword-groups";
+import { KeywordGroupSchema } from "./keyword-groups";
 import { ZodFastCheck } from "zod-fast-check";
 import { generateMock } from "@anatine/zod-mock";
 

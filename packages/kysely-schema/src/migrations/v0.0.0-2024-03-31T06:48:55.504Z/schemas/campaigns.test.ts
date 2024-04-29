@@ -1,7 +1,7 @@
-import { CampaignSchema } from "@/src/schemas/campaigns";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
 import fc from "fast-check";
 import { getCampaignArbitary } from "./campaign.mock";
+import { CampaignSchema } from "./campaigns";
 
 testingTransaction();
 

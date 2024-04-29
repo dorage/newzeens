@@ -1,11 +1,9 @@
-import type { KyAppHealthTable } from "./schemas/app_health";
-import { AppHealthSchema as _AppHealthSchema } from "./schemas/app_health";
 import type { KyArticleTable } from "./schemas/articles";
 import { ArticleSchema as _ArticleSchema } from "./schemas/articles";
-import type { KyKeywordArticleRelTable } from "./schemas/keyword_article_rels";
-import { KeywordArticleRelSchema as _KeywordArticleRelSchema } from "./schemas/keyword_article_rels";
-import type { KyKeywordPublisherRelTable } from "./schemas/keyword_publisher_rels";
-import { KeywordPublisherRelSchema as _KeywordPublisherRelSchema } from "./schemas/keyword_publisher_rels";
+import type { KyKeywordArticleRelTable } from "./schemas/keyword-article-rels";
+import { KeywordArticleRelSchema as _KeywordArticleRelSchema } from "./schemas/keyword-article-rels";
+import type { KyKeywordPublisherRelTable } from "./schemas/keyword-publisher-rels";
+import { KeywordPublisherRelSchema as _KeywordPublisherRelSchema } from "./schemas/keyword-publisher-rels";
 import type { KyKeywordTable } from "./schemas/keywords";
 import { KeywordSchema as _KeywordSchema } from "./schemas/keywords";
 import type { KyKeywordGroupTable } from "./schemas/keyword-groups";
@@ -16,13 +14,12 @@ import type { KyCampaignTable } from "./schemas/campaigns";
 import { CampaignSchema as _CampaignSchema } from "./schemas/campaigns";
 import type { KySlotTable } from "./schemas/slots";
 import { SlotSchema as _SlotSchema } from "./schemas/slots";
-import type { KySlotArticleTable } from "./schemas/slot_articles";
-import { SlotArticleSchema as _SlotArticleSchema } from "./schemas/slot_articles";
-import type { KySlotPublisherTable } from "./schemas/slot_publishers";
-import { SlotPublisherSchema as _SlotPublisherSchema } from "./schemas/slot_publishers";
+import type { KySlotArticleTable } from "./schemas/slot-articles";
+import { SlotArticleSchema as _SlotArticleSchema } from "./schemas/slot-articles";
+import type { KySlotPublisherTable } from "./schemas/slot-publishers";
+import { SlotPublisherSchema as _SlotPublisherSchema } from "./schemas/slot-publishers";
 
 export interface DB {
-  app_health: KyAppHealthTable;
   keywords: KyKeywordTable;
   keyword_groups: KyKeywordGroupTable;
   publishers: KyPublisherTable;
@@ -35,7 +32,6 @@ export interface DB {
   slot_publishers: KySlotPublisherTable;
 }
 
-export const AppHealthSchema = _AppHealthSchema;
 export const ArticleSchema = _ArticleSchema;
 export const KeywordArticleRelSchema = _KeywordArticleRelSchema;
 export const KeywordPublisherRelSchema = _KeywordPublisherRelSchema;

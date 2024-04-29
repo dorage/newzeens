@@ -1,4 +1,4 @@
-import { KeywordSchema } from "@/src/schemas/keywords";
+import { KeywordSchema } from "./keywords";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
 import fc from "fast-check";
 import { getMockKeywordGroup } from "./keyword-groups.mock";

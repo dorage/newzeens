@@ -1,4 +1,4 @@
-import { PublisherSchema } from "@/src/schemas/publishers";
+import { PublisherSchema } from "./publishers";
 import { generateMock } from "@anatine/zod-mock";
 import { ZodFastCheck } from "zod-fast-check";
 

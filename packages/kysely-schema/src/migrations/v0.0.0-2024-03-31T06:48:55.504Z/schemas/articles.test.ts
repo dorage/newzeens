@@ -1,6 +1,6 @@
-import { ArticleSchema } from "@/src/schemas/articles";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
 import fc from "fast-check";
+import { ArticleSchema } from "./articles";
 import { getArticleArbitary } from "./articles.mock";
 import { getMockPublisher } from "./publishers.mock";
 

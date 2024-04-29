@@ -1,5 +1,5 @@
-import { KeywordGroupSchema } from "@/src/schemas/keyword-groups";
-import { KeywordSchema } from "@/src/schemas/keywords";
+import { KeywordGroupSchema } from "./keyword-groups";
+import { KeywordSchema } from "./keywords";
 import { z } from "zod";
 import { ZodFastCheck } from "zod-fast-check";
 
