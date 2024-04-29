@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import { FileMigrationProvider, MigrationResultSet, Migrator } from "kysely";
 import * as path from "path";
 import { Ky as db } from "./kysely";
+import { DIR_MIGRATION } from "../constants/path";
 
 const migrate = async (migrate: (migrator: Migrator) => Promise<MigrationResultSet>) => {
   const migrator = new Migrator({
@@ -10,7 +11,7 @@ const migrate = async (migrate: (migrator: Migrator) => Promise<MigrationResultS
       fs,
       path,
       // This needs to be an absolute path.
-      migrationFolder: path.resolve("migrator", "migrations"),
+      migrationFolder: DIR_MIGRATION,
     }),
   });
 
