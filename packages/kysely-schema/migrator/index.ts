@@ -19,6 +19,12 @@ const main = async () => {
     console.log("✔️ new migration has been created");
     return;
   }
+
+  if (process.argv.includes("mock")) {
+    await Migrator.mock();
+    console.log("✔️ insert mock data successfully");
+    return;
+  }
 };
 
 main();

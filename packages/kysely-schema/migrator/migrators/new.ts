@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import moment from "moment";
 import { DIR_MIGRATION } from "../constants/path";
+import { getLatestMigrationName } from "./utils";
 
 const CONTENT_DEFAULT_SCHEMA = `
 import type { Insertable, Selectable, Updateable } from "kysely";
@@ -78,14 +79,6 @@ const copyLastestMigrationSchema = (newMigrationName: string) => {
     path.join(DIR_MIGRATION, newMigrationName),
     { recursive: true }
   );
-};
-
-const getLatestMigrationName = (): string | null => {
-  const ls = fs.readdirSync(path.resolve(DIR_MIGRATION));
-  ls.sort();
-  const lastMigration = ls[ls.length - 1];
-
-  return lastMigration.split(".ts").shift() ?? null;
 };
 
 const getNewMigrationName = (prefix: string): string => {
