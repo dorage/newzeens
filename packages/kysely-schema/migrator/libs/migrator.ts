@@ -21,7 +21,6 @@ const updateExportVersion = (newMigrationName: string) => {
     console.error(`Failed to update export version to ${newMigrationName}`);
     return;
   }
-  console.log(content.replaceAll(latestMigrationName, newMigrationName));
 
   fs.writeFileSync(DIR_SRC_INDEX, content.replaceAll(latestMigrationName, newMigrationName), {
     encoding: "utf8",
