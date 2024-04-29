@@ -8,23 +8,11 @@ import withModalProps from "@/app/_hoc/with-modal-props"
 import { dateFormat } from "@/app/_utils/date-format"
 import { CloseIcon } from "@/public/icons"
 
-interface TestDrawerProps {}
+interface ArticleInfoProps {}
 
-const TestDrawer = withModalProps<TestDrawerProps>((props) => {
-  const { close } = props
+const ArticleInfo = (props: ArticleInfoProps) => {
   return (
     <div className="">
-      <div className="bg-primary-2 text-mBody2 flex items-center justify-between text-gray-50">
-        <div className="w-40" />
-        <div className="flex items-center gap-4">
-          아티클 요약
-          <GPTMark />
-        </div>
-        <div className="p-10" onClick={close}>
-          <CloseIcon />
-        </div>
-      </div>
-
       <div className="h-[calc(100vh-7.2rem-4.0rem)] overflow-y-auto scroll-smooth">
         <div className="bg-white px-20 py-40">
           <div className="rounded-20 relative shrink-0">
@@ -92,6 +80,6 @@ const TestDrawer = withModalProps<TestDrawerProps>((props) => {
       </div>
     </div>
   )
-})
+}
 
-export default TestDrawer
+export default ArticleInfo

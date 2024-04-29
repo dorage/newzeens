@@ -16,7 +16,7 @@ export default function Home() {
         />
       </div>
       <BottomDrawer />
-      <Link href={`/detail/2ctyc9`}>책책레터 상세페이지</Link>
+      <Link href={`/news-letter/2ctyc9`}>책책레터 상세페이지</Link>
     </main>
   )
 }

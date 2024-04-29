@@ -11,11 +11,6 @@ export const dateFormat = (date: string) => {
   const day = Math.floor(diff / 1000 / 60 / 60 / 24)
   const week = Math.floor(diff / 1000 / 60 / 60 / 24 / 7)
 
-  console.log(`minute`, minute)
-  console.log(`hour`, hour)
-  console.log(`day`, day)
-  console.log(`week`, week)
-
   if (minute < 60) {
     return `${minute}분`
   }

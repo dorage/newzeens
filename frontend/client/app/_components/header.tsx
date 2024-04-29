@@ -11,7 +11,7 @@ const Header = (props: HeaderProps) => {
   return (
     <>
       {/* mobile */}
-      <header className="tablet:flex hidden h-52 items-center justify-between bg-white px-20">
+      <header className="flex h-52 items-center justify-between bg-white px-20 xl:hidden">
         <Link href="/">
           <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3>
         </Link>
@@ -20,7 +20,7 @@ const Header = (props: HeaderProps) => {
       </header>
 
       {/* pc */}
-      <header className="tablet:hidden border-gray-40 flex h-60 items-center justify-between border-b bg-white px-40">
+      <header className="border-gray-40 hidden h-60 items-center justify-between border-b bg-white px-40 xl:flex">
         <div className="flex items-center gap-20">
           <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3>
           <div className="bg-gray-55 rounded-full px-10 py-16">뉴스레터 검색</div>

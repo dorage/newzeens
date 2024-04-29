@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import LabelTag from "@/app/_components/atoms/label-tag"
 import classNames from "@/app/_utils/class-names"
 
@@ -11,6 +12,10 @@ const SuggestNewsLetters = (props: SuggestNewsLettersProps) => {
   return (
     <div className="tablet:px-20 flex flex-col gap-16 p-40">
       <h4 className="text-gray-80 text-h2">추천 뉴스레터</h4>
+
+      <Link href="/news-letter/2ctyc9/test" scroll={false}>
+        모달켜기
+      </Link>
 
       <div className="tablet:grid-cols-2 mobile:grid-cols-1 grid grid-cols-4 gap-16">
         {[...new Array(10)].map((_, index) => (

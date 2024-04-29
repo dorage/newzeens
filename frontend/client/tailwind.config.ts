@@ -7,10 +7,10 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    screens: {
-      tablet: { max: "1280px" },
-      mobile: { max: "640px" },
-    },
+    // screens: {
+    //   tablet: { max: "1280px" },
+    //   mobile: { max: "640px" },
+    // },
 
     extend: {
       spacing: () => ({

@@ -1,7 +1,8 @@
 "use client"
 
 import React from "react"
-import TestDrawer from "./test-drawer"
+import Link from "next/link"
+import TestDrawer from "./article-info"
 import useBottomDrawer from "./use-bottom-drawer"
 
 interface BottomDrawerProps {}
@@ -14,7 +15,7 @@ const BottomDrawer = (props: BottomDrawerProps) => {
   return (
     <div>
       <button
-        className=""
+        className="tablet:block hidden"
         onClick={() =>
           openDrawer({
             Component: TestDrawer,
@@ -22,8 +23,12 @@ const BottomDrawer = (props: BottomDrawerProps) => {
           })
         }
       >
-        BottomDrawer Open
+        Modal Open
       </button>
+
+      <Link href="/detail/asdf">
+        <button className="tablet:hidden block">Modal Open</button>
+      </Link>
     </div>
   )
 }
