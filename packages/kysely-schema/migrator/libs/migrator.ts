@@ -9,17 +9,14 @@ const updateExportVersion = (newMigrationName: string) => {
   const DIR_SRC_INDEX = path.resolve("src", "index.ts");
 
   const content = fs.readFileSync(DIR_SRC_INDEX, { encoding: "utf8" });
-  console.log(content);
   // import type { DB as _DB } from "./migrations/v0.0.0-2024-04-09T05:21:45.008Z/index";
   const fromStmt = content.match(/from "(.+?)"/i);
   if (fromStmt == null) {
     console.error(`Failed to update export version to ${newMigrationName}`);
     return;
   }
-  console.log(fromStmt);
+
   const latestMigrationName = fromStmt[1].split("/").at(-2);
-  console.log("latestMigrationName", latestMigrationName);
-  console.log("newMigrationName", newMigrationName);
   if (latestMigrationName == null) {
     console.error(`Failed to update export version to ${newMigrationName}`);
     return;
@@ -48,10 +45,10 @@ const migrate = async (migrate: (migrator: Migrator) => Promise<MigrationResultS
 
   results?.forEach((it) => {
     if (it.status === "Success") {
-      console.log(`migration "${it.migrationName}" was executed successfully`);
+      console.log(`✔️ migration "${it.migrationName}" was executed successfully`);
       newMigrationName = it.migrationName;
     } else if (it.status === "Error") {
-      console.error(`failed to execute migration "${it.migrationName}"`);
+      console.error(`❌ failed to execute migration "${it.migrationName}"`);
     }
   });
 
