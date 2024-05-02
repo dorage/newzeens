@@ -76,7 +76,7 @@ const ArticleInfo = (props: ArticleInfoProps) => {
             </Button>
           </div>
         </div>
-        <div className="bg-bg-4 px-20 py-40">asdfasdf</div>
+        <div className="bg-bg-4 h-full px-20 py-40">asdfasdf</div>
       </div>
     </div>
   )
