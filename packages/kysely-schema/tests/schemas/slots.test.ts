@@ -1,45 +1,29 @@
-import { CampaignSchema, SlotSchema } from "@/src/index";
+import { SlotSchema } from "@/src/index";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
-import { generateMock } from "@anatine/zod-mock";
 import fc from "fast-check";
-import { ZodFastCheck } from "zod-fast-check";
+import { getMockCampaign } from "./campaign.mock";
+import { getSlotArbitary } from "./slots.mock";
 
 testingTransaction();
 
-describe("slots schema test", () => {
-  const mockCampaign = generateMock(CampaignSchema);
+describe("zod schema test", () => {
+  const mockCampaign = getMockCampaign();
 
   beforeAll(async () => {
-    await Ky.insertInto("campaigns")
-      .values({
-        id: mockCampaign.id,
-        name: mockCampaign.name,
-        description: mockCampaign.description,
-        comment: mockCampaign.comment,
-      })
-      .execute();
+    await Ky.insertInto("campaigns").values(mockCampaign).execute();
+
+    await Ky.deleteFrom("slots").execute();
   });
 
-  test("insert, select and parse", async () => {
-    const slotArbitary = ZodFastCheck()
-      .inputOf(SlotSchema)
-      .map((slot) => ({ ...slot, campaign_id: mockCampaign.id, is_enabled: +slot.is_enabled }));
-
+  test("zod schema should match the db schema strictly", async () => {
     await fc.assert(
-      fc.asyncProperty(slotArbitary, async (slot) => {
+      fc.asyncProperty(getSlotArbitary(mockCampaign.id), async (slot) => {
         const result = await Ky.insertInto("slots")
-          .values({
-            campaign_id: slot.campaign_id,
-            name: slot.name,
-            description: slot.description,
-            comment: slot.comment,
-            preferences: slot.preferences,
-            is_enabled: slot.is_enabled,
-          })
+          .values(slot)
           .returningAll()
           .executeTakeFirstOrThrow();
 
-        expect(SlotSchema.safeParse(result).success).toBe(true);
+        expect(SlotSchema.strict().safeParse(result).success).toEqual(true);
 
         await Ky.deleteFrom("slots").where("id", "=", result.id).execute();
       })

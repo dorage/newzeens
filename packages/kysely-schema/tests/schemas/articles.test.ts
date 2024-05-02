@@ -1,59 +1,31 @@
 import { ArticleSchema } from "@/src/schemas/articles";
 import { Ky, testingTransaction } from "@/tests/libs/kysely";
 import fc from "fast-check";
-import { ZodFastCheck } from "zod-fast-check";
-import { generateMock } from "@anatine/zod-mock";
-import { PublisherSchema } from "@/src/index";
-import { faker } from "@faker-js/faker";
+import { getArticleArbitary } from "./articles.mock";
+import { getMockPublisher } from "./publishers.mock";
 
 testingTransaction();
 
-describe("articles schema test", () => {
-  const mockPublisher = generateMock(PublisherSchema);
+describe("zod schema test", () => {
+  const mockPublisher = getMockPublisher();
 
   beforeAll(async () => {
     await Ky.insertInto("publishers")
-      .values({
-        id: mockPublisher.id,
-        thumbnail: mockPublisher.thumbnail,
-        name: mockPublisher.name,
-        description: mockPublisher.description,
-        subscriber: mockPublisher.subscriber,
-        url_subscribe: mockPublisher.url_subscribe,
-        publisher_main: mockPublisher.publisher_main,
-        publisher_spec: mockPublisher.publisher_spec,
-        is_enabled: +mockPublisher.is_enabled,
-      })
+      .values({ ...mockPublisher, is_enabled: +mockPublisher.is_enabled })
       .execute();
+
+    await Ky.deleteFrom("articles").execute();
   });
 
-  test("insert, select, ane parse", async () => {
-    const articleArbitary = ZodFastCheck()
-      .inputOf(ArticleSchema)
-      .map((article) => ({
-        ...article,
-        id: faker.string.nanoid(6),
-        is_enabled: +article.is_enabled,
-        publisher_id: mockPublisher.id,
-      }));
-
+  test("zod schema should match the db schema strictly", async () => {
     await fc.assert(
-      fc.asyncProperty(articleArbitary, async (article) => {
-        article.id = faker.string.nanoid(6);
-
+      fc.asyncProperty(getArticleArbitary(mockPublisher.id), async (article) => {
         const result = await Ky.insertInto("articles")
-          .values({
-            id: article.id,
-            thumbnail: article.thumbnail,
-            title: article.title,
-            summary: article.summary,
-            is_enabled: article.is_enabled,
-            publisher_id: article.publisher_id,
-          })
+          .values(article)
           .returningAll()
           .executeTakeFirstOrThrow();
 
-        expect(ArticleSchema.safeParse(result).success).toBe(true);
+        expect(ArticleSchema.strict().safeParse(result).success).toEqual(true);
 
         await Ky.deleteFrom("articles").where("id", "=", result.id).execute();
       })

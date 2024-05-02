@@ -92,7 +92,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("publisher_id", "char(6)", (col) =>
       col.notNull().references("publishers.id").onDelete("cascade")
     )
-    .addColumn("created_at", "datetime", (col) => col.defaultTo("CURRENT_TIMESTAMP"))
+    .addColumn("created_at", "datetime", (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`))
     .addColumn("is_enabled", "boolean", (col) => col.defaultTo(sql`FALSE`))
     .execute();
   await db.schema.createIndex("articles_id").ifNotExists().on("articles").column("id").execute();
