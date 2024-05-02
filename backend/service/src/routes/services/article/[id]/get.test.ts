@@ -25,14 +25,16 @@ describe("GET /article/:id get.query", () => {
     const article = await getRandomArticle();
 
     const result = await getPublisherSpec({ articleId: article.id });
+    console.log(JSON.stringify(result, undefined, 2));
 
     expect(zRes.shape.publisher.safeParse(result).success).toEqual(true);
   });
 
+  // TODO: write this test
   test("the result of related articles", async () => {
     const article = await getRandomArticle();
 
     const result = await getRelatedArticles({ articleId: article.id });
-    console.log("related articles", result);
+    console.log(JSON.stringify(result, undefined, 2));
   });
 });
