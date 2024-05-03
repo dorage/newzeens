@@ -10,14 +10,14 @@ const SuggestNewsLetters = (props: SuggestNewsLettersProps) => {
   const {} = props
 
   return (
-    <div className="tablet:px-20 flex flex-col gap-16 p-40">
+    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40">
       <h4 className="text-gray-80 text-h2">추천 뉴스레터</h4>
 
       <Link href="/news-letter/2ctyc9/test" scroll={false}>
         모달켜기
       </Link>
 
-      <div className="tablet:grid-cols-2 mobile:grid-cols-1 grid grid-cols-4 gap-16">
+      <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
         {[...new Array(10)].map((_, index) => (
           <div key={index} className="group relative">
             <div

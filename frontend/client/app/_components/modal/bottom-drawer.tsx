@@ -15,7 +15,7 @@ const BottomDrawer = (props: BottomDrawerProps) => {
   return (
     <div>
       <button
-        className="tablet:block hidden"
+        className="hidden"
         onClick={() =>
           openDrawer({
             Component: TestDrawer,
@@ -25,10 +25,6 @@ const BottomDrawer = (props: BottomDrawerProps) => {
       >
         Modal Open
       </button>
-
-      <Link href="/detail/asdf">
-        <button className="tablet:hidden block">Modal Open</button>
-      </Link>
     </div>
   )
 }

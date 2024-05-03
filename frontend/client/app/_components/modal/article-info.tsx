@@ -13,7 +13,7 @@ interface ArticleInfoProps {}
 const ArticleInfo = (props: ArticleInfoProps) => {
   return (
     <div className="">
-      <div className="h-[calc(100vh-7.2rem-4.0rem)] overflow-y-auto scroll-smooth">
+      <div className="xl:rounded-b-14 h-[calc(100vh-7.2rem-4.0rem)] overflow-y-auto scroll-smooth xl:h-[80vh]">
         <div className="bg-white px-20 py-40">
           <div className="rounded-20 relative shrink-0">
             <Image

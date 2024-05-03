@@ -28,7 +28,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
   return createPortal(
     <div
       className={classNames(
-        "fixed bottom-0 left-0 xl:inset-0 z-20 h-screen flex size-full items-center justify-center bg-black/0 transition-colors duration-300 ease-in-out overflow-hidden",
+        "fixed bottom-0 left-0 xl:inset-0 z-20 h-screen flex rounded-t-14 size-full items-center justify-center bg-black/0 transition-colors duration-300 ease-in-out overflow-hidden",
         delayOpen && "bg-black/20",
       )}
       onClick={onClose}
@@ -43,8 +43,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* <div className="rounded-t-14 xl:rounded-b-14 absolute bottom-0 h-[calc(100vh-7.2rem)] flex-col items-center overflow-hidden bg-white xl:mx-auto xl:h-[80vh]"> */}
-        <div className="bg-primary-2 text-mBody2 flex items-center justify-between text-gray-50">
+        <div className="bg-primary-2 text-mBody2 xl:text-body3 rounded-t-14 flex h-40 items-center justify-between text-gray-50 xl:h-48">
           <div className="w-40" />
           <div className="flex items-center gap-4">
             아티클 요약
