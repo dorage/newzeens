@@ -31,61 +31,62 @@ export const getPublisherKeywords = async (query: {
 // keyword 에 keyword_group 조인 { keyword_group : keyword } as _kg
 // publisher에 keyword_publisher_rels, _kg  조인
 
-export const queryPublisherWithKeywords = async (eb?: ExpressionBuilder<DB, "publishers">) => {
-  const ky = eb ?? (Ky as any as ExpressionBuilder<DB, "publishers">);
-
+export const queryPublisherWithKeywords = async () => {
   const keywordGroups = await Ky.selectFrom("keyword_groups").select(["id", "name"]).execute();
 
-  let query = ky.selectFrom((eb) => eb.selectFrom("publishers").select(["id"]).as("publishers"));
+  return (eb?: ExpressionBuilder<DB, keyof DB>) => {
+    const ky = eb ?? (Ky as any as ExpressionBuilder<DB, keyof DB>);
+    let query = ky.selectFrom((eb) => eb.selectFrom("publishers").select(["id"]).as("publishers"));
 
-  for (let i = 0; i < keywordGroups.length; i++) {
-    const keywordGroup = keywordGroups[i];
+    for (let i = 0; i < keywordGroups.length; i++) {
+      const keywordGroup = keywordGroups[i];
 
-    query = query.leftJoin(
-      (eb) =>
-        eb
-          .selectFrom("keyword_publisher_rels")
-          .leftJoin(
-            "keyword_groups",
-            "keyword_groups.id",
-            "keyword_publisher_rels.keyword_group_id"
-          )
-          .leftJoin("keywords", "keywords.id", "keyword_publisher_rels.keyword_id")
-          .select(() => [
-            sql<number>`keyword_publisher_rels.publisher_id`.as("publisher_id"),
-            sql<string>`keywords.name`.as(keywordGroup.name),
-          ])
-          .where("keyword_publisher_rels.keyword_group_id", "=", keywordGroup.id)
-          .as(`${keywordGroup.name}`),
-      (join) => join.onRef("publishers.id", "=", `${keywordGroup.name}.publisher_id`)
-    ) as any;
-  }
-
-  // return query.selectAll().executeTakeFirst();
-  return () =>
-    query
-      // join keywords
-      .leftJoin(
+      query = query.leftJoin(
         (eb) =>
           eb
-            .selectFrom("keyword_publisher_rels as _kpr")
-            .leftJoin("keywords", "keywords.id", "_kpr.keyword_id")
-            .leftJoin("keyword_groups", "keyword_groups.id", "_kpr.keyword_group_id")
-            .groupBy("publisher_id")
+            .selectFrom("keyword_publisher_rels")
+            .leftJoin(
+              "keyword_groups",
+              "keyword_groups.id",
+              "keyword_publisher_rels.keyword_group_id"
+            )
+            .leftJoin("keywords", "keywords.id", "keyword_publisher_rels.keyword_id")
             .select(() => [
-              sql<string>`publisher_id`.as("publisher_id"),
-              sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_GROUP_ARRAY(JSON_OBJECT(
+              sql<number>`keyword_publisher_rels.publisher_id`.as("publisher_id"),
+              sql<string>`keywords.name`.as(keywordGroup.name),
+            ])
+            .where("keyword_publisher_rels.keyword_group_id", "=", keywordGroup.id)
+            .as(`${keywordGroup.name}`),
+        (join) => join.onRef("publishers.id", "=", `${keywordGroup.name}.publisher_id`)
+      ) as any;
+    }
+
+    return (
+      query
+        // join keywords
+        .leftJoin(
+          (eb) =>
+            eb
+              .selectFrom("keyword_publisher_rels as _kpr")
+              .leftJoin("keywords", "keywords.id", "_kpr.keyword_id")
+              .leftJoin("keyword_groups", "keyword_groups.id", "_kpr.keyword_group_id")
+              .groupBy("publisher_id")
+              .select(() => [
+                sql<string>`publisher_id`.as("publisher_id"),
+                sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_GROUP_ARRAY(JSON_OBJECT(
 						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
 						))`.as("keywords"),
-            ])
-            .as("kpr"),
-        (join) => join.onRef("publishers.id", "=", "kpr.publisher_id")
-      )
-      .select(() => [
-        // publisher id
-        sql<string>`id`.as("id"),
-        sql<z.infer<typeof OpenAPISchema.Keyword>>`kpr.keywords`.as("keywords"),
-        // keyword_group_name : keyword_name
-        ...keywordGroups.map((keywordGroup) => Ky.dynamic.ref<string>(`${keywordGroup.name}`)),
-      ]);
+              ])
+              .as("kpr"),
+          (join) => join.onRef("publishers.id", "=", "kpr.publisher_id")
+        )
+        .select(() => [
+          // publisher id
+          sql<string>`id`.as("id"),
+          sql<z.infer<typeof OpenAPISchema.Keyword>>`kpr.keywords`.as("keywords"),
+          // keyword_group_name : keyword_name
+          ...keywordGroups.map((keywordGroup) => Ky.dynamic.ref<string>(`${keywordGroup.name}`)),
+        ])
+    );
+  };
 };
