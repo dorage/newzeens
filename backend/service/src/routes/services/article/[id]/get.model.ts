@@ -4,7 +4,7 @@ import { sql } from "kysely";
 import { ArticleSchema, PublisherSchema } from "kysely-schema";
 import { zRes } from "./get";
 import OpenAPISchema from "@/src/openapi/schemas";
-import { getPublisherKeywords } from "@/src/providers/publishers";
+import { getPublisherKeywords, queryPublisherWithKeywords } from "@/src/providers/publishers";
 
 // publisher의 분야/목적/고유/해외 키워드 필요
 export const getArticleSpec = async (query: {
@@ -22,66 +22,21 @@ export const getArticleSpec = async (query: {
 export const getPublisherSpec = async (query: {
   articleId: z.infer<typeof ArticleSchema.shape.id>;
 }) => {
-  const publisher = await Ky.selectFrom("publishers")
-    .selectAll()
-    .where((qb) =>
-      qb.eb(
-        "id",
-        "=",
-        qb.selectFrom("articles").select(["id"]).where("id", "=", query.articleId).limit(1)
-      )
-    )
-    .executeTakeFirstOrThrow();
-
-  return zRes.shape.publisher.parse(publisher);
-};
-
-// 분야/목적/고유 keyword_group 만 사용
-// 분야 = 관계대상과 동일해야함
-// 목적/고유 = 각 선택된 publihser간 하나 이상의 keyword만 겹치지 않아야함
-// 노출시 분야/목적/고유 키워드 노출 필요
-export const getRelatedArticles = async (query: {
-  articleId: z.infer<typeof ArticleSchema.shape.id>;
-}) => {
-  // select all publisher whose is_enabled is true
-  // join keyword_publisher_rels where 목적 is same with publisherId
-  // filter keyword_id is same with publisherId
-  // join 분야 and 고유 on same publisher_id
-  // order random
-  // groupby 분야_id and 고유_id
-  // limit4
-  const article = await Ky.selectFrom("articles")
-    .selectAll()
-    .where("id", "=", query.articleId)
-    .executeTakeFirstOrThrow();
-  const publisherId = article.publisher_id;
-
-  const keywordGroups = await getPublisherKeywords({ publisherId });
-
-  const publisherKeywordIds = keywordGroups.reduce((a, c) => {
-    if (c.keyword_group_name === "목적") a["목적"] = c;
-    else if (c.keyword_group_name === "고유") a["고유"] = c;
-    else if (c.keyword_group_name === "분야") a["분야"] = c;
-    return a;
-  }, {} as { 목적: z.infer<typeof OpenAPISchema.Keyword>; 고유: z.infer<typeof OpenAPISchema.Keyword>; 분야: z.infer<typeof OpenAPISchema.Keyword> });
-
-  if (publisherKeywordIds["목적"] == null) throw Error("It is not possible to join");
-  if (publisherKeywordIds["분야"] == null) throw Error("It is not possible to join");
-  if (publisherKeywordIds["고유"] == null) throw Error("It is not possible to join");
-
-  const publishers = await Ky.selectFrom((eb) =>
+  const publisher = await Ky.selectFrom((eb) =>
     eb
-      .selectFrom((eb) =>
-        eb
-          .selectFrom("publishers")
-          .selectAll()
-          .where("is_enabled", "=", sql`TRUE`)
-          .where("id", "!=", publisherId)
-          .as("_p")
+      .selectFrom("publishers")
+      .selectAll()
+      .where((qb) =>
+        qb.eb(
+          "id",
+          "=",
+          qb
+            .selectFrom("articles")
+            .select("publisher_id")
+            .where("id", "=", query.articleId)
+            .limit(1)
+        )
       )
-      .leftJoin("keyword_publisher_rels", "_p.id", "keyword_publisher_rels.publisher_id")
-      .where("keyword_id", "=", publisherKeywordIds["목적"].keyword_id)
-      .select(["id", "name", "thumbnail", "description", "keyword_id as 목적_id"])
       .as("p")
   )
     .leftJoin(
@@ -91,73 +46,88 @@ export const getRelatedArticles = async (query: {
             eb
               .selectFrom("keyword_publisher_rels")
               .selectAll()
-              .where("keyword_id", "=", publisherKeywordIds["목적"].keyword_id)
-              .as("_kpr1")
+              .where((qb) =>
+                qb.eb(
+                  "publisher_id",
+                  "=",
+                  qb
+                    .selectFrom("articles")
+                    .select("publisher_id")
+                    .where("id", "=", query.articleId)
+                    .limit(1)
+                )
+              )
+              .as("_kpr")
           )
-          .leftJoin("keywords", "_kpr1.keyword_id", "keywords.id")
+          .leftJoin("keywords", "keywords.id", "_kpr.keyword_id")
+          .leftJoin("keyword_groups", "keyword_groups.id", "_kpr.keyword_group_id")
+          .groupBy("publisher_id")
           .select(() => [
             sql<string>`publisher_id`.as("publisher_id"),
-            sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_OBJECT(
-						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', ${publisherKeywordIds["목적"].keyword_group_id}, 'keyword_group_name', '목적')`.as(
-              "목적"
-            ),
+            sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_GROUP_ARRAY(JSON_OBJECT(
+						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
+						))`.as("keywords"),
           ])
-          .as("kpr1"),
-      (join) => join.onRef("kpr1.publisher_id", "=", "p.id")
+          .as("kpr"),
+      (join) => join.onRef("p.id", "=", "kpr.publisher_id")
     )
+    .selectAll()
+    .executeTakeFirstOrThrow();
+
+  return zRes.shape.publisher.parse(publisher);
+};
+
+// 분야/목적/고유 keyword_group 만 사용
+// 분야 = 관계대상과 동일해야함
+// 목적/고유 = 각 선택된 publihser간 하나 이상의 keyword만 겹치지 않아야함
+// 노출시 분야/목적/고유 키워드 노출 필요
+export const getRelatedArticles = async (query: { articleId: string }) => {
+  const publisherQuery = await queryPublisherWithKeywords();
+
+  const targetPublisher = await publisherQuery()
+    .where((qb) =>
+      qb.eb(
+        "id",
+        "=",
+        qb.selectFrom("articles").select("publisher_id").where("id", "=", query.articleId)
+      )
+    )
+    .executeTakeFirstOrThrow();
+
+  const relatedArticles = await Ky.selectFrom((eb) =>
+    publisherQuery(eb)
+      .where("분야" as any, "=", targetPublisher["분야"])
+      .where("id", "!=", targetPublisher.id)
+      .groupBy(["id", "목적", "고유"])
+      .orderBy(sql`RANDOM()`)
+      .limit(4)
+      .as("p")
+  )
     .leftJoin(
       (eb) =>
         eb
-          .selectFrom((eb) =>
-            eb
-              .selectFrom("keyword_publisher_rels")
-              .selectAll()
-              .where("keyword_group_id", "=", publisherKeywordIds["고유"].keyword_group_id)
-              .as("_kpr2")
-          )
-          .leftJoin("keywords", "_kpr2.keyword_id", "keywords.id")
-          .select(() => [
-            sql<string>`publisher_id`.as("publisher_id"),
-            sql<z.infer<typeof OpenAPISchema.Keyword>>`JSON_OBJECT(
-						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', ${publisherKeywordIds["고유"].keyword_group_id}, 'keyword_group_name', '고유')`.as(
-              "고유"
-            ),
-          ])
-          .as("kpr2"),
-      (join) => join.onRef("kpr2.publisher_id", "=", "p.id")
+          .selectFrom("articles")
+          .selectAll()
+          .orderBy(sql`RANDOM()`)
+          .as("a"),
+      (join) => join.onRef("p.id", "=", "a.publisher_id")
     )
     .leftJoin(
-      (eb) =>
-        eb
-          .selectFrom((eb) =>
-            eb
-              .selectFrom("keyword_publisher_rels")
-              .selectAll()
-              .where("keyword_group_id", "=", publisherKeywordIds["분야"].keyword_group_id)
-              .as("_kpr3")
-          )
-          .leftJoin("keywords", "_kpr3.keyword_id", "keywords.id")
-          .select(() => [
-            sql<string>`publisher_id`.as("publisher_id"),
-            sql<
-              z.infer<typeof OpenAPISchema.Keyword>
-            >`JSON_OBJECT('keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', ${publisherKeywordIds["분야"].keyword_group_id}, 'keyword_group_name', '분야')`.as(
-              "분야"
-            ),
-          ])
-          .as("kpr3"),
-      (join) => join.onRef("kpr3.publisher_id", "=", "p.id")
+      (eb) => eb.selectFrom("publishers").selectAll().as("ps"),
+      (join) => join.onRef("p.id", "=", "ps.id")
     )
+    .groupBy("p.id")
     .select(() => [
-      sql<z.infer<typeof PublisherSchema.shape.id>>`id`.as("id"),
-      sql<z.infer<typeof PublisherSchema.shape.name>>`name`.as("name"),
-      sql<z.infer<typeof PublisherSchema.shape.thumbnail>>`thumbnail`.as("thumbnail"),
-      sql<z.infer<typeof PublisherSchema.shape.description>>`description`.as("description"),
-      sql<z.infer<typeof OpenAPISchema.Keyword>[]>`JSON_ARRAY(고유, 분야, 목적)`.as("keywords"),
+      sql<string>`a.id`.as("id"),
+      sql<string>`a.title`.as("title"),
+      sql<string>`a.created_at`.as("created_at"),
+      sql<string>`JSON_OBJECT(
+				'id', ps.id,
+				'name', ps.name,
+				'keywords', p.keywords
+			)`.as("publisher"),
     ])
-    .orderBy(sql`RANDOM()`)
-    .limit(4)
     .execute();
 
-  return publishers;
+  return zRes.shape.related_articles.parse(relatedArticles);
 };
