@@ -3,6 +3,7 @@ import { sql } from "kysely";
 import { zRes } from "./get";
 import { getArticleSpec, getPublisherSpec, getRelatedArticles } from "./get.model";
 import { queryPublisherWithKeywords } from "@/src/providers/publishers";
+import { controller } from "./get.controller";
 
 const getRandomArticle = async () => {
   const article = await Ky.selectFrom("articles")
@@ -84,5 +85,14 @@ describe("GET /article/:id get.query", () => {
     } // for result
 
     console.log(JSON.stringify(relatedArticles, undefined, 2));
+  });
+});
+
+describe("GET /article/:id get.controller", () => {
+  test("controller should return well-formatted response", async () => {
+    const article = await getRandomArticle();
+
+    const res = await controller({ articleId: article.id });
+    expect(zRes.safeParse(res).success).toEqual(true);
   });
 });
