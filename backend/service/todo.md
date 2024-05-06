@@ -16,12 +16,12 @@ publisher와 동일한 '직무'뉴스레터 4개
 -> 추천 아티클에 띄울 tag를 지정할 방법이 필요함
 
 ### 요약모달
-- [ ] GET article/:id
+- [X] GET article/:id
 article 정보(column: title, summary, url, created_at)
 pubilhser 정보(column: title, tags, subscriber, thumbanil, url_subscribe, url_newsletter)
 관련 artcle 정보(선택기준 figma 참조)
 
-- [ ]  add url column in articles table
+- [X]  add url column in articles table
 -> 관련 article 을 지정할 태그를 지정할 방법이 필요함
 
 ### 랭킹페이지
