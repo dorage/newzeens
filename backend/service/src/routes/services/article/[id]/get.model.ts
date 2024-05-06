@@ -1,10 +1,10 @@
 import { Ky } from "@/src/libs/kysely";
+import OpenAPISchema from "@/src/openapi/schemas";
+import { queryPublisherWithKeywords } from "@/src/providers/publishers";
 import { z } from "@hono/zod-openapi";
 import { sql } from "kysely";
-import { ArticleSchema, PublisherSchema } from "kysely-schema";
+import { ArticleSchema } from "kysely-schema";
 import { zRes } from "./get";
-import OpenAPISchema from "@/src/openapi/schemas";
-import { getPublisherKeywords, queryPublisherWithKeywords } from "@/src/providers/publishers";
 
 // publisher의 분야/목적/고유/해외 키워드 필요
 export const getArticleSpec = async (query: {
