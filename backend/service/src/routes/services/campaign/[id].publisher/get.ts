@@ -9,7 +9,7 @@ const zParam = z.object({
 });
 
 export const zQuery = z.object({
-  limit: z
+  limit: z.coerce
     .number()
     .optional()
     .default(4)
