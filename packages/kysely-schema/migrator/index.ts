@@ -1,20 +1,30 @@
 import "./libs/dotenv";
-import { createNewMigration } from "./libs/new-migration";
-import { migrator } from "./libs/migrator";
+import Migrator from "./migrators";
 
 const main = async () => {
-	if (process.argv.includes("latest")) {
-		console.log("migrate to latest");
-		await migrator.toLatest();
-		console.log("migrate to latest done");
-	} else if (process.argv.includes("down")) {
-		await migrator.down();
-		console.log("migrate down done");
-	} else if (process.argv.includes("new")) {
-		createNewMigration();
-	} else {
-		console.log("not prepared yet");
-	}
+  if (process.argv.includes("latest")) {
+    await Migrator.toLatest();
+    console.log("✔️ migrate to latest has been done");
+    return;
+  }
+
+  if (process.argv.includes("down")) {
+    await Migrator.down();
+    console.log("✔️ migrate to down has been done");
+    return;
+  }
+
+  if (process.argv.includes("new")) {
+    Migrator.new();
+    console.log("✔️ new migration has been created");
+    return;
+  }
+
+  if (process.argv.includes("mock")) {
+    await Migrator.mock();
+    console.log("✔️ insert mock data successfully");
+    return;
+  }
 };
 
 main();

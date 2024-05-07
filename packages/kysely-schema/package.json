@@ -8,17 +8,17 @@
         "migrator:new": "tsx migrator/index.ts new",
         "migrator:latest": "tsx migrator/index.ts latest",
         "migrator:down": "tsx migrator/index.ts down",
+        "migrator:mock": "tsx migrator/index.ts mock",
         "migrator:test:copy-db": "yes | cp db.local db.test",
         "migrator:test:latest": "DOTENV_KEY='dotenv://:key_d1659e111f2c1e8e3d7ce8b1ee328d8abbc566220debf5ecc1d777bd45ec708f@dotenv.org/vault/.env.vault?environment=staging' pnpm migrator:latest",
-        "migrator:test": "pnpm migrator:test:copy-db && pnpm migrator:test:latest",
-        "schema:test": "DOTENV_KEY='dotenv://:key_d1659e111f2c1e8e3d7ce8b1ee328d8abbc566220debf5ecc1d777bd45ec708f@dotenv.org/vault/.env.vault?environment=staging' pnpm jest ./tests/**"
+        "migrator:latest:test": "pnpm migrator:test:copy-db && pnpm migrator:test:latest",
+        "migrator:schema:test": "DOTENV_KEY='dotenv://:key_d1659e111f2c1e8e3d7ce8b1ee328d8abbc566220debf5ecc1d777bd45ec708f@dotenv.org/vault/.env.vault?environment=staging' pnpm jest"
     },
     "dependencies": {
         "better-sqlite3": "^9.3.0",
         "kysely": "^0.26.3",
         "moment": "^2.29.4",
         "mysql2": "^3.8.0",
-        "nanoid": "^5.0.7",
         "zod": "^3.22.4"
     },
     "devDependencies": {

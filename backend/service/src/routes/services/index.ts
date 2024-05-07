@@ -8,6 +8,12 @@ app.route("/image", image);
 import rank from "./rank";
 app.route("/rank", rank);
 
+import campaign from "./campaign";
+app.route("/campaign", campaign);
+
+import article from "./article";
+app.route("/article", article);
+
 import publisher from "./publisher";
 app.route("/publisher", publisher);
 

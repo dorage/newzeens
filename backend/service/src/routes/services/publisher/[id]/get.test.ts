@@ -5,8 +5,6 @@ import { controller } from "./get.controller";
 import { getPublisherSpec, getRecentArticleOfPublisher, getRelatedPublishers } from "./get.query";
 import moment from "moment";
 
-// TODO; some mock data is out of the constraint, it should be fixed to pass tests
-
 const getRandomPublihser = () => {
   return Ky.selectFrom("publishers")
     .selectAll()
@@ -23,6 +21,18 @@ describe("get.query", () => {
     const res = await getPublisherSpec({ publisherId: publisher.id });
 
     expect(zRes.shape.publisher.safeParse(res).success).toEqual(true);
+  });
+
+  // TODO: write this test
+  test("the result of select related publisher should satisfy the condition", async () => {
+    // 직무/목적/고유 keyword_group 만 사용
+    // 직무 = 관계대상과 동일해야함
+    // 목적/고유 = 각 선택된 publihser간 하나 이상의 keyword만 겹치지 않아야함
+    const publisher = await getRandomPublihser();
+
+    const res = await getRelatedPublishers({ publisherId: publisher.id });
+
+    expect().toEqual(true);
   });
 
   test("the result of select related publisher sould be parsed successfully", async () => {

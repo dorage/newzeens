@@ -52,12 +52,15 @@ const PublisherRank = z
 const PublisherDetail = z
   .object({})
   .merge(
-    PublisherSchema.omit({
-      created_at: true,
-      is_enabled: true,
+    PublisherSchema.pick({
+      name: true,
+      thumbnail: true,
+      description: true,
+      url_subscribe: true,
+      publisher_main: true,
     }).extend({ keywords: Keyword.array() })
   )
-  .openapi("PublisherDetail");
+  .openapi("PublisherDetail", { description: "" });
 
 const PublisherPreview = z
   .object({})
