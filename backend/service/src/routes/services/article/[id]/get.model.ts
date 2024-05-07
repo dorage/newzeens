@@ -98,7 +98,6 @@ export const getRelatedArticles = async (query: { articleId: string }) => {
     publisherQuery(eb)
       .where("분야" as any, "=", targetPublisher["분야"])
       .where("id", "!=", targetPublisher.id)
-      .groupBy(["id", "목적", "고유"])
       .orderBy(sql`RANDOM()`)
       .limit(4)
       .as("p")
