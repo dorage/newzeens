@@ -30,13 +30,14 @@ pubilhser 정보(column: title, tags, subscriber, thumbanil, url_subscribe, url_
     - [X] add keyword query
 
 ### 메인페이지
-- [ ] /campaign/:id/publisher
-- [ ] /campaign/:id/article
+- [X] /campaign/:id/publisher
+- [X] /campaign/:id/article
 총 개수 필요
 
 -> 고정 및 순서를 바꿀 수 있어야 함
--> 노출될 키워드 종류를 고를 수 있어야함
 
 
 ### 검색
 - [ ] /search?search_term
+
+-> publisher  만 검색
