@@ -7,7 +7,9 @@ const app = new OpenAPIHono();
 import getDetailArticle from "./[id].article/get";
 app.route("/:id/article", getDetailArticle);
 
-// POST /campagin/:id/publisher
+// GET /campagin/:id/publisher
 // 캠페인 정보를 퍼블리셔로 불러오기
+import getDetailPublisher from "./[id].publisher/get";
+app.route("/:id/publisher", getDetailPublisher);
 
 export default app;
