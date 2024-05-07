@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import BottomDrawer from "./_components/modal/bottom-drawer"
 
 export default function Home() {
   return (
@@ -14,7 +15,8 @@ export default function Home() {
           priority
         />
       </div>
-      <Link href={`/detail/2ctyc9`}>책책레터 상세페이지</Link>
+      <BottomDrawer />
+      <Link href={`/news-letter/2ctyc9`}>책책레터 상세페이지</Link>
     </main>
   )
 }
