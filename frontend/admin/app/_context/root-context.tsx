@@ -6,6 +6,7 @@ import { createDynamicContext } from "./create-dynamic-context"
 import ProtectedScreen from "../_components/layout/protected-screen"
 import { LOCAL_STORAGE_KEY } from "../_constants/storage"
 import useIsServerSide from "../_hooks/use-is-server-side"
+import authApi from "../_api/auth"
 
 interface useProtectedContextProps {
   isAllow: boolean
@@ -24,20 +25,10 @@ const RootContext = ({ children }: React.PropsWithChildren): JSX.Element => {
 
   const { isServerSide } = useIsServerSide()
 
-  const [isAllow, setIsAllow] = useState(
-    isServerSide ? true : window?.localStorage?.getItem(LOCAL_STORAGE_KEY.ACCESS_ALLOW) === "0224" || false,
-  )
-
   return (
     <Provider value={null}>
-      <Toaster
-      //  containerStyle={{ top: 80 }}
-      />
-      <ProtectedContextProvider isAllow={isAllow} setIsAllow={setIsAllow}>
-        <div className="flex min-h-screen items-center justify-center">
-          <ProtectedScreen>{children}</ProtectedScreen>
-        </div>
-      </ProtectedContextProvider>
+      <Toaster />
+      <div className="flex min-h-screen items-center justify-center">{children}</div>
     </Provider>
   )
 }
