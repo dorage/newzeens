@@ -53,9 +53,13 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
             <CloseIcon />
           </div>
         </div>
-        {children}
+
+        <div>
+          <div className="xl:rounded-b-14 h-[calc(100vh-7.2rem-4.0rem)] overflow-y-auto scroll-smooth xl:h-[80vh]">
+            {children}
+          </div>
+        </div>
       </div>
-      {/* </div> */}
     </div>,
     ROOT_ELEM,
   )
