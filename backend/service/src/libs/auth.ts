@@ -24,7 +24,7 @@ const issueTokens = async (c: Context) => {
 	const accessToken = await jwt.sign(
 		{
 			...payload,
-			exp: now.add(3, "ms").toISOString(),
+			exp: now.add(process.env.JWT_ACCESS_EXP, "ms").toISOString(),
 		},
 		process.env.JWT_SECRET
 	);
