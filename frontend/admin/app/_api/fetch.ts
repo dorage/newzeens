@@ -16,7 +16,7 @@ export const METHOD = {
 const BASE_URL = `http://localhost:3000`
 
 const api = async (url: string, options?: HttpOptions) => {
-  const accessToken = await getCookie("accessToken")
+  const accessToken = await getCookie("access")
   const Authorization = accessToken ? `Bearer ${accessToken}` : undefined
 
   return fetch(`${BASE_URL}${url}`, {

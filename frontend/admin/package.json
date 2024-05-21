@@ -7,7 +7,11 @@
     "dev:prod": "DOTENV_KEY='dotenv://:key_456c4291cfbff4523092880e09947eb458edc4446514db909465def158dae826@dotenv.org/vault/.env.vault?environment=production' next dev -p 3600",
     "build": "DOTENV_KEY='dotenv://:key_456c4291cfbff4523092880e09947eb458edc4446514db909465def158dae826@dotenv.org/vault/.env.vault?environment=production' next build",
     "start": "DOTENV_KEY='dotenv://:key_456c4291cfbff4523092880e09947eb458edc4446514db909465def158dae826@dotenv.org/vault/.env.vault?environment=production' next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "env:pull:development": "npx dotenv-vault@latest pull development",
+    "env:pull:production": "npx dotenv-vault@latest pull production",
+    "env:push:development": "npx dotenv-vault@latest push development",
+    "env:push:production": "npx dotenv-vault@latest push production"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

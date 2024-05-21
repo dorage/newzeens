@@ -18,7 +18,7 @@ export const login = async (formData: FormData) => {
   console.log("🚀 ~ login ~ data:", data)
 
   if (data.okay) {
-    await setCookie("accessToken", data.accessToken)
+    await setCookie("access", data.accessToken)
   }
 
   revalidateTag(authKey.check())
