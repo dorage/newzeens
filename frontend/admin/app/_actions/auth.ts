@@ -4,7 +4,6 @@ import { redirect } from "next/navigation"
 import authApi from "../_api/auth"
 import { revalidateTag } from "next/cache"
 import authKey from "../_api/fetch-key/auth"
-import { cookies } from "next/headers"
 import { setCookie } from "../_utils/cookies"
 
 export const login = async (formData: FormData) => {
@@ -15,7 +14,6 @@ export const login = async (formData: FormData) => {
     password: formData.get("password") as string,
   }
   const data = await authApi.postAdminAuthLogin(payload)
-  console.log("🚀 ~ login ~ data:", data)
 
   if (data.okay) {
     await setCookie("access", data.accessToken)
@@ -23,4 +21,9 @@ export const login = async (formData: FormData) => {
 
   revalidateTag(authKey.check())
   redirect(`/`)
+}
+
+export const setAccessToken = (token: string) => {
+  setCookie("access", token)
+  revalidateTag(authKey.check())
 }

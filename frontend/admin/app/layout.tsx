@@ -5,6 +5,7 @@ import { cn } from "./_lib/utils"
 import "./globals.css"
 import authApi from "./_api/auth"
 import NeedLogin from "./_components/layout/need-login"
+import Header from "./_components/layout/header"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,19 +17,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const authCheck = await authApi.getAdminAuthCheck()
-
-  if (!authCheck.okay) {
-    return (
-      <html lang="ko">
-        <body className={cn("min-h-screen bg-[#E0E5F7]")}>
-          <div className="flex min-h-screen items-center justify-center">
-            <NeedLogin />
-          </div>
-        </body>
-      </html>
-    )
-  }
+  // const authCheck = await authApi.getAdminAuthCheck()
 
   return (
     <html lang="ko">

@@ -1,4 +1,5 @@
-import api, { METHOD } from "./fetch"
+import { METHOD } from "./constants"
+import api from "./fetch"
 import authKey from "./fetch-key/auth"
 
 const authApi = {
@@ -20,6 +21,7 @@ const authApi = {
       method: METHOD.POST,
       data: { id, password },
     })
+    console.log(`data`, data)
     return data
   },
 

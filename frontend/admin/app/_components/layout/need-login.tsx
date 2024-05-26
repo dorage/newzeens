@@ -4,20 +4,25 @@ import React, { useState } from "react"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { Label } from "../ui/label"
-import { login } from "@/app/_actions/auth"
 import authApi from "@/app/_api/auth"
 import { setCookie } from "@/app/_utils/cookies"
+import { login, setAccessToken } from "@/app/_actions/auth"
+import { useRouter } from "next/navigation"
 
 interface NeedLoginProps {}
 
 const NeedLogin = (props: NeedLoginProps) => {
   const {} = props
 
+  const router = useRouter()
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     const response = await authApi.postAdminAuthLogin({ id, password })
-    setCookie("access", response.accessToken)
+
+    setAccessToken(response.accessToken)
+
+    router.refresh()
   }
 
   const [id, setId] = useState("")

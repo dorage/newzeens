@@ -1,4 +1,5 @@
-import api, { METHOD } from "./fetch"
+import { METHOD } from "./constants"
+import api from "./fetch"
 import keywordKey from "./fetch-key/keyword"
 import {
   AdminKeywordGroupResponse,
