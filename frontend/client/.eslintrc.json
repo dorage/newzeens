@@ -17,7 +17,7 @@
   "settings": {
     "tailwindcss": {
       "config": "./tailwind.config.ts",
-      "whitelist": ["(bg|text|rounded|p|py|px|w|h|gap)\\-.*"]
+      "whitelist": ["(bg|text|rounded|p|py|px|w|h|gap|border)\\-.*"]
     }
   },
   "rules": {
