@@ -82,12 +82,13 @@ const KeywordGroupEditable = (props: KeywordGroupEditableProps) => {
           수정
         </Button>
 
-        <form action={deleteKeywordGroup}>
+        {/* 삭제 안되게! */}
+        {/* <form action={deleteKeywordGroup}>
           <input type="hidden" name="groupId" value={keywordGroup.id} />
           <Button type="submit" variant="destructive" className="">
             삭제
           </Button>
-        </form>
+        </form> */}
       </div>
     </div>
   )

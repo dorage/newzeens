@@ -36,9 +36,9 @@ const KeywordDetailPage = async ({ params, searchParams: _searchParams }: NextPa
           {/* <span className="text-[#2141E5]">{groupList?.length}</span> */}
         </h1>
 
-        <Button variant="destructive" className="" type="button">
+        {/* <Button variant="destructive" className="" type="button">
           그룹 삭제
-        </Button>
+        </Button> */}
       </div>
 
       <div className="h-12" />

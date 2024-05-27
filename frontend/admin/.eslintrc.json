@@ -10,8 +10,7 @@
   "plugins": ["tailwindcss", "import", "unused-imports"],
   "settings": {
     "tailwindcss": {
-      "config": "./tailwind.config.ts",
-      "whitelist": ["(rounded)\\-.*"]
+      "config": "./tailwind.config.ts"
     }
   }
 }

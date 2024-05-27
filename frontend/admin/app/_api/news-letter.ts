@@ -1,4 +1,4 @@
-import api, { METHOD } from "./fetch"
+import api from "./fetch"
 import newsLetterKey from "./fetch-key/news-letter"
 import { AdminKeywordResponse } from "./keyword.type"
 import {
@@ -9,6 +9,7 @@ import {
   AdminPublisherPayload,
 } from "./news-letter.type"
 import { queryString } from "../_utils/query-string"
+import { METHOD } from "./constants"
 
 const newsLetterApi = {
   /** ------------------------------------------------------------------------------

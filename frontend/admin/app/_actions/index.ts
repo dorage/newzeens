@@ -6,7 +6,6 @@ import keywordKey from "../_api/fetch-key/keyword"
 import newsLetterKey from "../_api/fetch-key/news-letter"
 import keywordApi from "../_api/keyword"
 import newsLetterApi from "../_api/news-letter"
-import { AdminPublisherPayload } from "../_api/news-letter.type"
 
 /**
  * 키워드 그룹생성

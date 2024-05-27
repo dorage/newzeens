@@ -7,10 +7,12 @@ interface ArticlePageProps {}
 const ArticlePage = (props: ArticlePageProps) => {
   const {} = props
   return (
-    <div className="mx-auto max-w-screen-xl">
+    <>
       <Header />
-      <ArticleInfo />
-    </div>
+      <div className="mx-auto max-w-screen-xl">
+        <ArticleInfo />
+      </div>
+    </>
   )
 }
 

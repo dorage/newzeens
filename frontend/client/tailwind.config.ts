@@ -58,10 +58,17 @@ const config: Config = {
           "0%": { opacity: "1", transform: "translateY(0)" },
           "100%": { opacity: "0", transform: "translateY(-5%)" },
         },
+
+        "dynamic-bounce-y": {
+          "0%, 100%": { transform: "translateY(var(--bounce-distance, 0))" },
+          "50%": { transform: "translateY(calc(var(--bounce-distance, 0) * -1.5))" },
+        },
       },
       animation: {
         "fade-in": "translate-fade-in 200ms ease-in-out",
         "fade-out": "translate-fade-out 200ms ease-in-out",
+
+        "dynamic-bounce-y": "dynamic-bounce-y 300s ease-in-out",
       },
 
       backgroundImage: {
@@ -94,13 +101,13 @@ const config: Config = {
         /** mobile */
         mH1: ["3.2rem", { fontWeight: 700, lineHeight: "100%" }],
         mH2: ["2.2rem", { fontWeight: 700, lineHeight: "100%" }],
-        // mH3: ["2.2rem", { fontWeight: 700, lineHeight: "100%" }],
+        mH3: ["2.2rem", { fontWeight: 700, lineHeight: "100%" }],
         mH4: ["1.8rem", { fontWeight: 700, lineHeight: "156%" }],
 
         mBody1: ["1.6rem", { fontWeight: 400, lineHeight: "162%" }],
         mBody2: ["1.6rem", { fontWeight: 600, lineHeight: "140%" }],
         mBody3: ["1.5rem", { fontWeight: 400, lineHeight: "160%" }],
-        // mBody3: ["1.5rem", { fontWeight: 400, lineHeight: "160%" }],
+        mBody4: ["1.4rem", { fontWeight: 500, lineHeight: "140%" }],
         mBody5: ["1.4rem", { fontWeight: 600, lineHeight: "100%" }],
 
         mElement1: ["1.3rem", { fontWeight: 400, lineHeight: "100%" }],
