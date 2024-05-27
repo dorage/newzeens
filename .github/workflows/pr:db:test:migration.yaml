@@ -35,7 +35,7 @@ jobs:
         run: pnpm install -r --frozen-lockfile
       # deploy packages/kysely-schema
       - name: Deploy packages/kysely-schema
-        run: pnpm deploy --filter packages/kysely-schema ./prod/packages/kysely-schema
+        run: pnpm deploy --filter ./packages/kysely-schema ./prod/packages/kysely-schema
       # # rsync production db to test migration
       # - name: Install SSH Key
       #   uses: shimataro/ssh-key-action@v2
