@@ -52,7 +52,7 @@ jobs:
         name: Get commit SHA
         shell: bash
         run: |
-          echo "SHORT_SHA=$("${{ github.sha }}".SubString(0, 8))" >> $GITHUB_ENV
+          echo "SHORT_SHA=$("${{ github.sha }}":8)" >> $GITHUB_ENV
       # create docker image
       -
         name: Set up QEMU
