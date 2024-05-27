@@ -1,14 +1,10 @@
 # See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
-# TODO: on - pr, path
 name: pr:db:production:migration
 on:
-  # pull_request_review:
-  #   types: [submitted]
-  push:
-    branches:
-      - add/release-*
-    # paths:
-    #   - 'packages/kysely-schema/**'
+  pull_request_review:
+    types: [submitted]
+    paths:
+      - 'packages/kysely-schema/**'
 
 jobs:
   migrate:
