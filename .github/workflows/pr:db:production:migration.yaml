@@ -47,12 +47,10 @@ jobs:
       -
         name: Deploy packages/kysely-schema
         run: pnpm deploy --filter ./packages/kysely-schema ./prod/packages/kysely-schema
-      # get commit sha
-      -
-        name: Get commit SHA
-        shell: bash
-        run: |
-          echo "SHORT_SHA=$("${{ github.sha }}":8)" >> $GITHUB_ENV
+      # short SHA commit for docker image tag
+      - name: Get commit SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       # create docker image
       -
         name: Set up QEMU
