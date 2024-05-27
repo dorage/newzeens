@@ -43,10 +43,10 @@ jobs:
       -
         name: Install dependencies
         run: pnpm install -r --frozen-lockfile
-      # deploy packages/kysely-schema
-      -
-        name: Deploy packages/kysely-schema
-        run: pnpm deploy --filter ./packages/kysely-schema ./prod/packages/kysely-schema
+      # # deploy packages/kysely-schema
+      # -
+      #   name: Deploy packages/kysely-schema
+      #   run: pnpm deploy --filter ./packages/kysely-schema ./prod/packages/kysely-schema
       # short SHA commit for docker image tag
       - name: Get commit SHA
         id: vars
