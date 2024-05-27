@@ -8,13 +8,13 @@
   
     "여기부터 프론트엔드": "",
 
-    "init:frontend:env": "pnpm --filter ./frontend/** env:",
+    "init:frontend:admin": "pnpm --filter ./frontend/admin env:pull:development && pnpm --filter ./frontend/admin env:pull:production",
 
     "dev:frontend:admin": "pnpm --filter ./frontend/admin run dev",
     "dev:frontend:admin:prod": "pnpm --filter ./frontend/admin run dev:prod",
     "start:frontend:admin": "pnpm --filter ./frontend/admin run start",
     "build:frontend:admin": "pnpm --filter ./frontend/admin run build",
-    
+
     "dev:frontend:client": "pnpm --filter ./frontend/client run dev",
     "start:frontend:client": "pnpm --filter ./frontend/client run start"
   }

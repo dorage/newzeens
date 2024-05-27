@@ -1,20 +1,19 @@
 import Link from "next/link"
 import { Card } from "./_components/ui/card"
 import authApi from "./_api/auth"
-import NeedLogin from "./_components/layout/need-login"
 import Header from "./_components/layout/header"
+import NeedLogin from "./_components/layout/need-login"
 
 export default async function Home() {
   const authCheck = await authApi.getAdminAuthCheck()
 
-  console.log(`authCheck`, authCheck)
-  // if (!authCheck.okay) {
-  //   return (
-  //     <div className="flex min-h-screen items-center justify-center">
-  //       <NeedLogin />
-  //     </div>
-  //   )
-  // }
+  if (!authCheck.okay) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <NeedLogin />
+      </div>
+    )
+  }
 
   return (
     <>
