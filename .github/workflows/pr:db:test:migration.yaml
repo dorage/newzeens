@@ -50,5 +50,5 @@ jobs:
         run: rsync ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_DB_PATH }} ./prod/packages/kysely-schema/
       # migrate
       - name: Migrate to latest
-        run: cd ./prod/packages/kysely-schema |
+        run: cd ./prod/packages/kysely-schema &&
           DOTENV_KEY=${{ secrets.DOTENV_KEY_MIGRATOR_CI }} pnpm migrator:latest
