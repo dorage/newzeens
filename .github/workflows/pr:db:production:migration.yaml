@@ -72,13 +72,13 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_MIGRATOR_TAG }}:latest, ${{ secrets.DOCKERHUB_MIGRATOR_TAG }}:${{ env.SHORT_SHA }}
           target: packages_kysely-schema
           platforms: linux/amd64
-      # # run docker image
-      # - 
-      #   name: executing remote ssh commands using password
-      #   uses: appleboy/ssh-action@v1.0.3
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     password: ${{ secrets.SSH_PASSWORD }}
-      #     port: ${{ secrets.SSH_PORT }}
-      #     script: ${{ secrets.SSH_CMD_MIGRATE }}
+      # run docker image on remote env
+      -
+        name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: ${{ secrets.SSH_CMD_MIGRATE }}
