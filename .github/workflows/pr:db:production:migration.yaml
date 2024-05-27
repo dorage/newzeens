@@ -17,39 +17,8 @@ jobs:
     steps:
       - 
         uses: actions/checkout@v4
-      -
-        name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-      -
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-          run_install: false
-      -
-        name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      -
-        uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      -
-        name: Install dependencies
-        run: pnpm install -r --frozen-lockfile
-      # # deploy packages/kysely-schema
-      # -
-      #   name: Deploy packages/kysely-schema
-      #   run: pnpm deploy --filter ./packages/kysely-schema ./prod/packages/kysely-schema
       # short SHA commit for docker image tag
       - name: Get commit SHA
-        id: vars
         run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       # create docker image
       -
@@ -69,6 +38,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
+          pull: true
           tags: ${{ secrets.DOCKERHUB_MIGRATOR_TAG }}:latest, ${{ secrets.DOCKERHUB_MIGRATOR_TAG }}:${{ env.SHORT_SHA }}
           target: packages_kysely-schema
           platforms: linux/amd64
