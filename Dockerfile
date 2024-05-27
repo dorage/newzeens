@@ -15,13 +15,13 @@ RUN --mount=type=cache,target=/root/.npm \
 
 # backend/service
 FROM base AS backend_service
-COPY ./prod/backend/service /prod/backend/service
+COPY ./prod/backend/service .
 WORKDIR /prod/backend/service
 # Run the application.
 CMD pnpm start
 
 # packages/kysely-schema
 FROM base AS packages_kysely-schema
-COPY ./prod/packages/kysely-schema /prod/packages/kysely-schema
+COPY ./prod/packages/kysely-schema .
 WORKDIR /prod/packages/kysely-schema
 CMD pnpm migrator:latest
