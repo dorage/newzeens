@@ -1,13 +1,12 @@
 # See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
-# TODO: on - pr, path
-# TODO: 
 name: pr:db:test:migration
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
     branches:
-      - add/release-*
-    # paths:
-    #   - 'packages/kysely-schema/**'
+      - main
+    paths:
+      - 'packages/kysely-schema/**'
 
 jobs:
   migrate:
