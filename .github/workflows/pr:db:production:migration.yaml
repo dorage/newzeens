@@ -69,6 +69,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
+          pull: true
           tags: ${{ secrets.DOCKERHUB_MIGRATOR_TAG }}:latest, ${{ secrets.DOCKERHUB_MIGRATOR_TAG }}:${{ env.SHORT_SHA }}
           target: packages_kysely-schema
           platforms: linux/amd64
