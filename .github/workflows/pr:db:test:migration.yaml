@@ -61,7 +61,5 @@ jobs:
       - 
         name: Migrate to latest
         working-directory: ./prod/packages/kysely-schema
-        run: ls . &&
-          cat package.json &&
-          pnpm -v &&
+        run: |
           DOTENV_KEY=${{ secrets.DOTENV_KEY_MIGRATOR_CI }} pnpm migrator:latest
