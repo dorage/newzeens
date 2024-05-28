@@ -1,8 +1,8 @@
 # See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
 name: pr:backend:service:deploy
 on:
-  pull_request_review:
-    types: [submitted]
+  push:
+    branches: [main]
     paths:
       - 'backend/service/**'
 
