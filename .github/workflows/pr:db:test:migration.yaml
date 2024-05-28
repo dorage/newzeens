@@ -61,5 +61,6 @@ jobs:
       - 
         name: Migrate to latest
         shell: bash
-        run: cd ./prod/packages/kysely-schema &&
+        run: ls ./prod/packages/kysely-schema &&
+          ./prod/packages/kysely-schema &&
           DOTENV_KEY=${{ secrets.DOTENV_KEY_MIGRATOR_CI }} pnpm migrator:latest
