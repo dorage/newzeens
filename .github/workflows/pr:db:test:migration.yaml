@@ -12,42 +12,54 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
+      -
+        uses: actions/checkout@v4
+      -
+        name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-      - uses: pnpm/action-setup@v4
+      -
+        uses: pnpm/action-setup@v4
         with:
           version: 8
           run_install: false
-      - name: Get pnpm store directory
+      -
+        name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - uses: actions/cache@v4
+      -
+        uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
+      -
+        name: Install dependencies
         run: pnpm install -r --frozen-lockfile
       # deploy packages/kysely-schema
-      - name: Deploy packages/kysely-schema
+      - 
+        name: Deploy packages/kysely-schema
         run: pnpm deploy --filter ./packages/kysely-schema ./prod/packages/kysely-schema
       # rsync production db to test migration
-      - name: Install SSH Key
+      - 
+        name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: 'pr:db:test:migration'
-      - name: Adding Known Hosts
+      - 
+        name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      - name: Rsync production db
+      - 
+        name: Rsync production db
         run: rsync ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_DB_PATH }} ./prod/packages/kysely-schema/
       # migrate
-      - name: Migrate to latest
+      - 
+        name: Migrate to latest
+        shell: bash
         run: cd ./prod/packages/kysely-schema &&
           DOTENV_KEY=${{ secrets.DOTENV_KEY_MIGRATOR_CI }} pnpm migrator:latest
