@@ -9,7 +9,7 @@ on:
       - 'packages/kysely-schema/**'
 
 jobs:
-  migrate:
+  migrate-test-db:
     runs-on: ubuntu-latest
     steps:
       -

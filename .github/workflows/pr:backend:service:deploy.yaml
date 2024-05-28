@@ -7,7 +7,7 @@ on:
       - 'backend/service/**'
 
 jobs:
-  migrate:
+  deploy-backend-service:
     # if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
