@@ -1,0 +1,50 @@
+# See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
+name: pr:backend:service:deploy
+on:
+  pull_request_review:
+    types: [submitted]
+    paths:
+      - 'backend/service/**'
+
+jobs:
+  deploy-backend-service:
+    # if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        uses: actions/checkout@v4
+      # short SHA commit for docker image tag
+      - name: Get commit SHA
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      # create docker image
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          pull: true
+          tags: ${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }}:latest, ${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }}:${{ env.SHORT_SHA }}
+          target: packages_kysely-schema
+          platforms: linux/amd64
+      # run docker image on remote env
+      -
+        name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: sudo ENV_DOTENV_KEY=${{ secrets.DOTENV_KEY_BACKEND_SERVICE_PRODUCTION }} ENV_DB_PATH=${{ secrets.SSH_DB_PATH }} ENV_DOCKERHUB_TAG=${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }} perl ~/maillist/zero-downtime.pl /etc/nginx/sites-available/api.maillist.site

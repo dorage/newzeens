@@ -1,0 +1,26 @@
+upstream zerodowntime {
+		server 127.0.0.1:4000;
+		server 127.0.0.1:4001 down;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name api.maillist.site;
+    return 302 https://$server_name$request_uri;
+}
+
+server {
+    # SSL configuration
+
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+        ssl_certificate    /etc/ssl/api.maillist.site.pem;
+        ssl_certificate_key    /etc/ssl/api.maillist.site.key;
+
+    server_name api.maillist.site;
+
+    location / {
+        proxy_pass http://zerodowntime;
+    }
+}
