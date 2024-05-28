@@ -47,4 +47,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          script: ${{ secrets.SSH_CMD_BACKEND_SERVER }}
+          script: sudo ENV_DOTENV_KEY=${{ secrets.DOTENV_KEY }} ENV_DB_PATH=${{ secrets.SSH_DB_PATH }} ENV_DOCKERHUB_TAG=${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }} perl ~/maillist/zero-downtime.pl /etc/nginx/sites-available/api.maillist.site
