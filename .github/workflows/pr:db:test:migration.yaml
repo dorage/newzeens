@@ -60,6 +60,9 @@ jobs:
       # migrate
       - 
         name: Migrate to latest
+        shell: bash
         working-directory: ./prod/packages/kysely-schema
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY_MIGRATOR_CI }} 
         run: |
           pnpm migrator:latest
