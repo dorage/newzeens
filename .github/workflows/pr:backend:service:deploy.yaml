@@ -38,7 +38,7 @@ jobs:
           push: true
           pull: true
           tags: ${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }}:latest, ${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }}:${{ env.SHORT_SHA }}
-          target: packages_kysely-schema
+          target: backend_service
           platforms: linux/amd64
       # run docker image on remote env
       -
