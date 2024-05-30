@@ -12,8 +12,10 @@ chomp $ENV_DB_PATH;
 my $ENV_DOCKERHUB_TAG = `echo \$DOCKERHUB_TAG`;
 chomp $ENV_DOCKERHUB_TAG;
 
+
 # retrieve arguments
 my $nginxConfPath = shift(@ARGV);
+
 
 # regex
 my$ regexUsingPort = "(server [0-9.]*:)(\\d{4})([ ]*;)";
@@ -26,8 +28,12 @@ my $runningPort = $2;
 $nginxConf =~ m/$regexAvailablePort/;
 my $downPort = $2;
 
+
 # run docker in downPort
 `docker run -p $downPort:4000 --name $downPort --rm --pull always --env DOTENV_KEY=$ENV_DOTENV_KEY -v $ENV_DB_PATH:/prod/backend/service/db $ENV_DOCKERHUB_TAG:latest`;
+
+# waiting server ready
+sleep(5);
 
 # check instance is running
 my $curl = `curl http://localhost:$downPort`;
