@@ -1,24 +1,33 @@
 "use client"
 
+import campaignApi from "@/app/_api/campaign"
 import newsLetterApi from "@/app/_api/news-letter"
 import { AdminNewsLetterResponse } from "@/app/_api/news-letter.type"
 import WidthWrapper from "@/app/_components/layout/width-wrapper"
 import { Button } from "@/app/_components/ui/button"
+import { Input } from "@/app/_components/ui/input"
+import { useDebounce } from "@/app/_hooks/use-debounce"
 import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useTransition } from "react"
 import { useInView } from "react-intersection-observer"
+import { useIdContext } from "./id-context"
 
-interface ArticleAddProps {
-  initialValues: AdminNewsLetterResponse[]
+interface PublisherAddProps {
+  initialValues?: AdminNewsLetterResponse[]
 }
 
-const ArticleAdd = (props: ArticleAddProps) => {
+const PublisherAdd = (props: PublisherAddProps) => {
   const { initialValues } = props
 
-  const [page, setPage] = useState(1)
-  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>(initialValues)
+  const { campaignId, slotId } = useIdContext()
+
+  const [page, setPage] = useState(0)
+  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>(initialValues || [])
+  const [select, setSelect] = useState<AdminNewsLetterResponse[]>([])
   const { ref, inView } = useInView()
+  const [search, setSearch] = useState("")
+  const searchDebounce = useDebounce(search)
 
   const fetchNext = async () => {
     const addPublisher = await newsLetterApi.getAdminPublisherList({ page })
@@ -26,13 +35,29 @@ const ArticleAdd = (props: ArticleAddProps) => {
     setPage((prev) => prev + 1)
   }
 
+  const searchFetch = async () => {
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
+    setPublishers(addPublisher) // 검색 결과로 출판사 목록을 업데이트
+    setPage((prev) => prev + 1)
+  }
+
   useEffect(() => {
+    if (searchDebounce) return
     if (inView) {
       fetchNext()
     }
   }, [inView])
 
-  const [select, setSelect] = useState<AdminNewsLetterResponse[]>([])
+  useEffect(() => {
+    setPage(0)
+    if (searchDebounce) {
+      searchFetch()
+    } else {
+      setPublishers(initialValues || [])
+    }
+  }, [searchDebounce])
+
+  const [pending, startTransition] = useTransition()
 
   return (
     <WidthWrapper>
@@ -40,7 +65,19 @@ const ArticleAdd = (props: ArticleAddProps) => {
         <h1 className="text-[30px] font-bold">뉴스레터 관리</h1>
       </div>
       <div className="h-12" />
-      현재 선택: {select.length}개
+      <div className="flex items-center justify-between">
+        현재 선택: {select.length}개
+        {/* <form action={() => {}}>
+          <Button className="">저장</Button>
+        </form> */}
+      </div>
+
+      <Input
+        className="w-full"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="뉴스레터 이름으로 검색"
+      />
       <div className="flex flex-col gap-3">
         {publishers?.map((publisher, i) => {
           const isSelected = select.some((item) => item.id === publisher.id)
@@ -76,8 +113,10 @@ const ArticleAdd = (props: ArticleAddProps) => {
               <Button
                 className="!h-full bg-[#637BF4]"
                 disabled={isSelected}
-                onClick={() => {
-                  setSelect((prev) => [...prev, publisher])
+                onClick={async () => {
+                  startTransition(async () => {
+                    await campaignApi.postAdminCampaignSlotPublisher(campaignId, slotId, { publisher_id: publisher.id })
+                  })
                 }}
               >
                 선택
@@ -100,4 +139,4 @@ const ArticleAdd = (props: ArticleAddProps) => {
   )
 }
 
-export default ArticleAdd
+export default PublisherAdd

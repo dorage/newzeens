@@ -4,7 +4,7 @@ import WidthWrapper from "@/app/_components/layout/width-wrapper"
 import { NextPageProps } from "@/app/_types/next"
 import React from "react"
 import { IdContextProvider } from "./_components/id-context"
-import ArticleAdd from "./_components/article-add"
+import PublisherAdd from "./_components/publisher-add"
 import newsLetterApi from "@/app/_api/news-letter"
 
 interface CampaignSlotPageProps {
@@ -32,7 +32,7 @@ const CampaignSlotPage = async (props: NextPageProps<CampaignSlotPageProps>) => 
         <div className="h-12" />
       </WidthWrapper>
 
-      <ArticleAdd initialValues={publisherList} />
+      <PublisherAdd initialValues={publisherList} />
     </IdContextProvider>
   )
 }

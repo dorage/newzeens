@@ -69,3 +69,7 @@ export const deleteSlot = async (formData: FormData) => {
   await campaignApi.deleteAdminCampaignSlot(campaignId, slotId)
   revalidatePath("/campaign")
 }
+
+export const addPublisher = async () => {
+  "use server"
+}

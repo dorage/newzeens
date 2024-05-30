@@ -133,7 +133,7 @@ const campaignApi = {
   /**
    * slot에 publisher 추가
    */
-  postAdminCampaignSlotPublisher: async (id: number, slotId: number, payload: { publisher_id: number }) => {
+  postAdminCampaignSlotPublisher: async (id: number, slotId: number, payload: { publisher_id: string }) => {
     const { data } = await api(`/admin/campaign/${id}/slot/${slotId}/publisher`, {
       method: METHOD.POST,
       data: payload,
@@ -144,7 +144,7 @@ const campaignApi = {
   /**
    * slot의 publisher 삭제
    */
-  deleteAdminCampaignSlotPublisher: async (id: number, slotId: number, payload: { publisher_id: number }) => {
+  deleteAdminCampaignSlotPublisher: async (id: number, slotId: number, payload: { publisher_id: string }) => {
     const { data } = await api(`/admin/campaign/${id}/slot/${slotId}/publisher`, {
       method: METHOD.DELETE,
       data: payload,
