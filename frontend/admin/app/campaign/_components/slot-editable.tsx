@@ -1,38 +1,41 @@
 "use client"
 
-import { deleteCampaign, update } from "@/app/_actions/campaign"
-import { CampaignResponse } from "@/app/_api/campaign.type"
+import { deleteSlot, updateSlot } from "@/app/_actions/campaign"
+import { CampaignSlotResponse } from "@/app/_api/campaign.type"
 import { Button } from "@/app/_components/ui/button"
-import { Switch } from "@/app/_components/ui/switch"
 import { cn } from "@/app/_lib/utils"
 import dayjs from "dayjs"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import React, { useState } from "react"
 
-interface CampaignEditableProps {
-  campaign: CampaignResponse
+interface SlotEditableProps {
+  slot: CampaignSlotResponse
 }
 
-const CampaignEditable = (props: CampaignEditableProps) => {
-  const { campaign } = props
+const SlotEditable = (props: SlotEditableProps) => {
+  const { slot } = props
 
+  const { campaignId: _campaignId } = useParams()
+  const campaignId = Number(_campaignId)
   const [isEdit, setIsEdit] = useState(false)
   const handleToggle = () => setIsEdit((prev) => !prev)
 
   const [editValues, setEditValues] = useState({
-    name: campaign.name,
-    description: campaign.description,
-    comment: campaign.comment,
+    name: slot.name,
+    description: slot.description,
+    comment: slot.comment,
+    preferences: slot.preferences,
   })
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setEditValues((prev) => ({ ...prev, [name]: value }))
   }
-
   if (isEdit) {
     return (
-      <form action={update} className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-10">
-        <input type="hidden" value={campaign.id} name="campaignId" />
+      <form action={updateSlot} className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-10">
+        <input type="hidden" value={campaignId} name="campaignId" />
+        <input type="hidden" value={slot.id} name="slotId" />
 
         <label>
           <p className="font-semibold">제목</p>
@@ -59,8 +62,19 @@ const CampaignEditable = (props: CampaignEditableProps) => {
           <p className="font-semibold">메모(관리자용)</p>
           <textarea
             name="comment"
-            className="h-[160px] w-[600px] rounded-md border border-gray-300 px-4"
+            className="h-[160px] w-[600px] rounded-md border border-gray-300 p-4"
             value={editValues.comment}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          <p className="font-semibold">preferences</p>
+          <input
+            type="number"
+            name="preferences"
+            className="h-[40px] w-[300px] rounded-md border border-gray-300 px-4"
+            value={slot.preferences}
             onChange={handleChange}
           />
         </label>
@@ -78,32 +92,32 @@ const CampaignEditable = (props: CampaignEditableProps) => {
   }
 
   return (
-    <div className="grid grid-cols-[1fr_1fr_1fr_auto_auto] items-center gap-2 border-b border-gray-200 py-2">
-      <Link href={`/campaign/${campaign.id}`}>
-        <p className="text-lg hover:underline">{campaign.name}</p>
+    <div className="grid grid-cols-6 items-center gap-2 border-b border-gray-200 py-2">
+      <Link href={`/campaign/${campaignId}/${slot.id}`}>
+        <p className="text-lg hover:underline">{slot.name}</p>
       </Link>
+
+      <div className="">preferences: {slot.preferences}</div>
+
+      <div>{slot.description}</div>
+      <div className="text-sm text-gray-500">{slot.comment}</div>
 
       <div
         className={cn("w-fit px-1.5 py-[2px] text-sm", {
-          //   "bg-green-200": campaign.is_enabled,
-          //   "bg-red-200": !campaign.is_enabled,
+          "bg-green-200": slot.is_enabled,
+          "bg-red-200": !slot.is_enabled,
         })}
       >
-        {/* {campaign.is_enabled ? "활성화" : "비활성화"} */}
-        {campaign.description}
+        {slot.is_enabled ? "활성화" : "비활성화"}
       </div>
-
-      <div className="text-sm text-gray-500">{campaign.comment}</div>
-
-      <div className="">등록일: {dayjs(campaign.created_at).format("YYYY.MM.DD")}</div>
-
       <div className="flex gap-2">
         <Button variant="outline" className="" onClick={handleToggle}>
           수정
         </Button>
 
-        <form action={deleteCampaign}>
-          <input type="hidden" name="id" value={campaign.id} />
+        <form action={deleteSlot}>
+          <input type="hidden" name="campaignId" value={campaignId} />
+          <input type="hidden" name="slotId" value={slot.id} />
           <Button type="submit" variant="destructive" className="">
             삭제
           </Button>
@@ -113,4 +127,4 @@ const CampaignEditable = (props: CampaignEditableProps) => {
   )
 }
 
-export default CampaignEditable
+export default SlotEditable

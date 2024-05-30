@@ -17,8 +17,9 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
-      <div className="flex min-h-screen w-full items-center justify-center bg-[#E0E5F7]">
+      <div className="flex min-h-screen w-full flex-col items-center bg-[#E0E5F7]">
+        <div className="h-32" />
+
         <div className="flex w-full max-w-screen-lg flex-col gap-4">
           <Link href="/keywords">
             <Card className="w-full cursor-pointer p-10 hover:bg-gray-100">키워드 관리</Card>

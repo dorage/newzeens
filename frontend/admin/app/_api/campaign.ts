@@ -1,4 +1,4 @@
-import { CampaignResponse, PostCampaignPayload, PostCampaignSlotPayload } from "./campaign.type"
+import { CampaignResponse, CampaignSlotResponse, PostCampaignPayload, PostCampaignSlotPayload } from "./campaign.type"
 import { METHOD } from "./constants"
 import api from "./fetch"
 import campaignKey from "./fetch-key/campaign"
@@ -53,7 +53,7 @@ const campaignApi = {
     const data = await api(`/admin/campaign/${id}/slot`, {
       next: { tags: [campaignKey.slotList(id)] },
     })
-    return data
+    return data as CampaignSlotResponse[]
   },
 
   /**

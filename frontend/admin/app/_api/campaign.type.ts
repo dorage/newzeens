@@ -18,3 +18,13 @@ export interface PostCampaignSlotPayload {
   comment: string
   preferences: number
 }
+
+export interface CampaignSlotResponse {
+  id: number
+  name: string
+  description: string
+  comment: string
+  preferences: number
+  created_at: string
+  is_enabled: boolean
+}
