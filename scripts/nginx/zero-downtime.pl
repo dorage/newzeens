@@ -30,7 +30,7 @@ my $downPort = $2;
 
 
 # run docker in downPort
-`docker run -p $downPort:4000 --name $downPort --rm --pull always --env DOTENV_KEY=$ENV_DOTENV_KEY -v $ENV_DB_PATH:/prod/backend/service/db $ENV_DOCKERHUB_TAG:latest`;
+`docker run -p $downPort:4000 --name $downPort --rm -d --pull always --env DOTENV_KEY=$ENV_DOTENV_KEY -v $ENV_DB_PATH:/prod/backend/service/db $ENV_DOCKERHUB_TAG:latest`;
 
 # waiting server ready
 sleep(5);
@@ -40,7 +40,6 @@ my $curl = `curl http://localhost:$downPort`;
 # if server is not running,
 #   remove new instance and die
 if($curl !~ /okay/ && $curl !~ /true/) {
-	`docker container stop $downPort`;
 	die "new instance is not running";
 }
 
