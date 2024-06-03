@@ -5,10 +5,11 @@ interface KeywordTabProps {
   children: string
   isSelected?: boolean
   onClick: () => void
+  className?: string
 }
 
 const KeywordTab = (props: KeywordTabProps) => {
-  const { children, isSelected = false, onClick } = props
+  const { children, isSelected = false, onClick, className } = props
 
   return (
     <div
@@ -19,6 +20,8 @@ const KeywordTab = (props: KeywordTabProps) => {
           "border-gray-40 text-gray-60": !isSelected,
           "bg-gray-80 text-white": isSelected,
         },
+
+        className,
       )}
     >
       {children}

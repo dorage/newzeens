@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useCallback, useState } from "react"
+import NewsLetterItem from "./news-letter-item"
+import KeywordTab from "../../atoms/keyword-tab"
 import classNames from "@/app/_utils/class-names"
 import { AllIcon, CareerIcon, EconomyIcon, HumanitiesIcon, ITIcon, LifestyleIcon, MarketingIcon } from "@/public/icons"
 
@@ -71,6 +73,32 @@ const NewsLetterList = (props: NewsLetterListProps) => {
             className="bg-gray-90 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
             style={{ top: currentIndex * 56 }}
           />
+        </div>
+      </div>
+
+      {/* right content */}
+      <div className="flex w-full flex-col gap-12 px-20">
+        <h5 className="text-mH3 text-gray-80 xl:text-h2">뉴스레터 리스트</h5>
+        <div className="flex gap-4 overflow-x-auto xl:hidden">
+          {MOCK.map((tab) => (
+            <KeywordTab
+              key={tab}
+              isSelected={tab === current}
+              onClick={() => setCurrent(tab)}
+              className={classNames({
+                "bg-white": tab !== current,
+              })}
+            >
+              {tab}
+            </KeywordTab>
+          ))}
+        </div>
+        <div /> {/* gap */}
+        {/* content */}
+        <div className="grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
+          {[...new Array(10)].map((_, index) => (
+            <NewsLetterItem key={index} />
+          ))}
         </div>
       </div>
     </div>

@@ -17,11 +17,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // const authCheck = await authApi.getAdminAuthCheck()
+  const authCheck = await authApi.getAdminAuthCheck()
 
   return (
     <html lang="ko">
       <body className={cn("min-h-screen bg-[#E0E5F7]")}>
+        <Header />
+
         <RootContext>{children}</RootContext>
       </body>
     </html>
