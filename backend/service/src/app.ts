@@ -42,7 +42,7 @@ app.onError(async (err, c) => {
 });
 
 app.get("/", async (c) => {
-  return c.json({ okay: true });
+  return c.json({ okay: false });
 });
 
 app.notFound(async (c) => {
