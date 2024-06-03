@@ -28,19 +28,27 @@ my $runningPort = $2;
 $nginxConf =~ m/$regexAvailablePort/;
 my $downPort = $2;
 
-
 # run docker in downPort
 `docker run -p $downPort:4000 --name $downPort --rm -d --pull always --env DOTENV_KEY=$ENV_DOTENV_KEY -v $ENV_DB_PATH:/prod/backend/service/db $ENV_DOCKERHUB_TAG:latest`;
 
-# waiting server ready
-sleep(5);
 
 # check instance is running
-my $curl = `curl http://localhost:$downPort`;
-# if server is not running,
-#   remove new instance and die
-if($curl !~ /okay/ && $curl !~ /true/) {
-	die "new instance is not running";
+sub check_new_docker_container_running() {
+	my $i = 0;
+	while($i < 30) {
+    my $curl = `curl http://localhost:$runningPort`;
+    if($curl !~ /okay/ && $curl !~ /true/) {
+      sleep(10);
+      $i++;
+      next;
+    }
+		return 1;
+  }
+	return 0;
+}
+if(!check_new_docker_container_running()){
+	`docker stop $downPort`;
+	die "instance not running";
 }
 
 # downPort <-> runningPort in nginxConf
@@ -56,5 +64,8 @@ close FH;
 `sudo systemctl restart nginx`;
 
 # stop old container
+print"stop old container running on $runningPort\n";
 `docker container stop $runningPort`;
-`docker images prune -a -f`;
+print"remove old image\n";
+`docker image prune -a -f`;
+
