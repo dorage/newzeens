@@ -28,21 +28,26 @@ my $runningPort = $2;
 $nginxConf =~ m/$regexAvailablePort/;
 my $downPort = $2;
 
-# run docker in downPort
-`docker run -p $downPort:4000 --name $downPort --rm -d --pull always --env DOTENV_KEY=$ENV_DOTENV_KEY -v $ENV_DB_PATH:/prod/backend/service/db $ENV_DOCKERHUB_TAG:latest`;
+die "error $runningPort / $downPort" if($runningPort !~ /\d{4}/ || $downPort !~ /\d{4}/);
 
+# run docker in downPort
+my $dockerRun=`docker run -p $downPort:4000 --name $downPort --rm -d --pull always --env DOTENV_KEY=$ENV_DOTENV_KEY -v $ENV_DB_PATH:/prod/backend/service/db $ENV_DOCKERHUB_TAG:latest`;
 
 # check instance is running
 sub check_new_docker_container_running() {
 	my $i = 0;
-	while($i < 30) {
-    my $curl = `curl http://localhost:$runningPort`;
-    if($curl !~ /okay/ && $curl !~ /true/) {
-      sleep(10);
-      $i++;
-      next;
-    }
-		return 1;
+	while($i < 10) {
+		my $status = `docker inspect --format='{{.State.Status}}' $downPort`;
+		chomp $status;
+		print"status: $status\n";
+		if($status =~ /running/) {
+			return 1;
+		}
+		if($status =~ /Error/){
+			return 0;
+		}
+		sleep(10);
+		$i++;
   }
 	return 0;
 }
@@ -50,6 +55,26 @@ if(!check_new_docker_container_running()){
 	`docker stop $downPort`;
 	die "instance not running";
 }
+
+sub check_server_is_running() {
+  my $i = 0;
+  while($i < 10) {
+    my $status = `curl -s -I http://localhost:$downPort | grep "HTTP/1.1 200 OK"`;
+		chomp $status;
+		print"GET /: $status\n";
+		if($status =~ /HTTP\/1.1 200 OK/){
+			return 1;
+		}
+		sleep(10);
+	}
+	return 0;
+}
+if(!check_server_is_running()){
+	`docker stop $downPort`;
+	die "instance not running";
+}
+
+
 
 # downPort <-> runningPort in nginxConf
 my $newNginxConf = $nginxConf;
