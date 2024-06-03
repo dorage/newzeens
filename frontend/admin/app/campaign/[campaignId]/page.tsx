@@ -17,6 +17,8 @@ const CampaignDetailPage = async (props: NextPageProps<CampaignDetailPageProps>)
   const { campaignId: _campaignId } = params
   const campaignId = Number(_campaignId)
 
+  const groupList = await campaignApi.getAdminCampaign()
+  const currentCampaign = groupList.find((campaign) => campaign.id === campaignId)
   const slots = await campaignApi.getAdminCampaignSlot(campaignId)
 
   return (
@@ -29,6 +31,11 @@ const CampaignDetailPage = async (props: NextPageProps<CampaignDetailPageProps>)
         <Button variant="default" className="" type="button">
           <Link href={`/campaign/${campaignId}/create`}>슬롯 추가</Link>
         </Button>
+      </div>
+
+      <div className="px-5 pt-6">
+        <strong>{currentCampaign?.name}</strong> - {currentCampaign?.description} -{" "}
+        <span className="text-gray-600">{currentCampaign?.comment}</span>
       </div>
 
       <div>

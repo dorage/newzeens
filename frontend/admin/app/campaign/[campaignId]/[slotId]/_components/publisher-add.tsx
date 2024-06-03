@@ -58,6 +58,7 @@ const PublisherAdd = (props: PublisherAddProps) => {
   }, [searchDebounce])
 
   const [pending, startTransition] = useTransition()
+  console.log("🚀 ~ PublisherAdd ~ pending:", pending)
 
   return (
     <WidthWrapper>
@@ -65,12 +66,9 @@ const PublisherAdd = (props: PublisherAddProps) => {
         <h1 className="text-[30px] font-bold">뉴스레터 관리</h1>
       </div>
       <div className="h-12" />
-      <div className="flex items-center justify-between">
-        현재 선택: {select.length}개
-        {/* <form action={() => {}}>
-          <Button className="">저장</Button>
-        </form> */}
-      </div>
+      <div className="flex items-center justify-between">현재 선택: {select.length}개</div>
+
+      <div className="grid grid-cols-3"></div>
 
       <Input
         className="w-full"
@@ -133,7 +131,7 @@ const PublisherAdd = (props: PublisherAddProps) => {
             </div>
           )
         })}
-        <div ref={ref}>Loading...</div>
+        <div ref={ref}>{"ㅤ"}</div>
       </div>
     </WidthWrapper>
   )
