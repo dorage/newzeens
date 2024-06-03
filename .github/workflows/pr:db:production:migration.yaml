@@ -1,6 +1,8 @@
 # See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
 name: pr:db:production:migration
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   push:
     branches: [main]
     paths:
