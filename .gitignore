@@ -184,3 +184,5 @@ build
 mono
 
 .DS_Store
+
+prod/
