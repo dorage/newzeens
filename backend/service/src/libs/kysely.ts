@@ -1,5 +1,7 @@
 import { KyselyAdapter } from "kysely-schema";
 import path from "path";
 
-console.log(path.resolve(process.cwd(), "db"));
-export const Ky = KyselyAdapter(path.resolve(process.cwd(), "db"), { fileMustExist: true });
+const dbPath =
+  process.env.NODE_ENV === "production" ? process.env.DB_PATH : path.resolve(process.cwd(), "db");
+
+export const Ky = KyselyAdapter(dbPath, { fileMustExist: true });

@@ -5,46 +5,37 @@ on:
     branches: [main]
     paths:
       - 'backend/service/**'
+      - 'packages/kysely-schema/**'
 
 jobs:
   deploy-backend-service:
-    # if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
-      - 
+      -
         uses: actions/checkout@v4
-      # short SHA commit for docker image tag
-      - name: Get commit SHA
-        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-      # create docker image
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - 
+        name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'pr:db:test:migration'
+      - 
+        name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - 
+        name: Rsync project
+        run: rsync -q -avh --delete . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PROJECT_PATH }}
       -
-        name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          pull: true
-          tags: ${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }}:latest, ${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }}:${{ env.SHORT_SHA }}
-          target: packages_kysely-schema
-          platforms: linux/amd64
-      # run docker image on remote env
-      -
-        name: executing remote ssh commands using password
+        name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          script: sudo ENV_DOTENV_KEY=${{ secrets.DOTENV_KEY_BACKEND_SERVICE_PRODUCTION }} ENV_DB_PATH=${{ secrets.SSH_DB_PATH }} ENV_DOCKERHUB_TAG=${{ secrets.DOCKERHUB_BACKEND_SERVER_TAG }} perl ~/maillist/zero-downtime.pl /etc/nginx/sites-available/api.maillist.site
+          script: |
+            cd ${{ secrets.SSH_PROJECT_PATH }}
+            pnpm install -r --frozen-lockfile
+            pnpm deploy --filter=./backend/service ./prod/backend/service
+            rsync -q -avh --delete --delete-before ./prod/backend/service/ ${{ secrets.SSH_BACKEND_SERVICE_PATH }}
+            pm2 restart backend/service

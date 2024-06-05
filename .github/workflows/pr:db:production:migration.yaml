@@ -7,8 +7,7 @@ on:
       - 'packages/kysely-schema/**'
 
 jobs:
-  migrate-production-db:
-    # if: github.event.review.state == 'approved'
+  migrate:
     runs-on: ubuntu-latest
     steps:
       - 
