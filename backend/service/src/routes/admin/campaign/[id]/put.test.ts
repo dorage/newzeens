@@ -1,24 +1,13 @@
 import { Ky } from "@/src/libs/kysely";
 import { testingTransaction } from "@/tests/libs/transaction";
-import { generateMock } from "@anatine/zod-mock";
+import { TestingMock } from "@/tests/mock";
 import { CampaignSchema } from "kysely-schema";
 import { z } from "zod";
+import { zRes } from "./put";
 import { controller } from "./put.controller";
 import { putCampaign } from "./put.model";
-import { zRes } from "./put";
 
 testingTransaction();
-
-const generateMockCampaign = async (): Promise<z.infer<typeof CampaignSchema>> => {
-  const mock = generateMock(CampaignSchema.pick({ name: true, description: true, comment: true }));
-
-  return Ky.insertInto("campaigns")
-    .values({
-      ...mock,
-    })
-    .returningAll()
-    .executeTakeFirstOrThrow();
-};
 
 const selectCampaign = (id: z.infer<typeof CampaignSchema.shape.id>) =>
   Ky.selectFrom("campaigns").selectAll().where("id", "=", id).executeTakeFirstOrThrow();
@@ -37,7 +26,7 @@ describe("put.model", () => {
         return edited;
       };
 
-      let campaign = await generateMockCampaign();
+      let campaign = await TestingMock.insertCampaign();
 
       campaign = await testingPutCampaign(campaign, { ...campaign, name: "new name" });
       campaign = await testingPutCampaign(campaign, {
@@ -63,7 +52,7 @@ describe("put.controller", () => {
       return edited;
     };
 
-    let campaign = await generateMockCampaign();
+    let campaign = await TestingMock.insertCampaign();
 
     campaign = await testingPutCampaign(campaign, { ...campaign, name: "new name" });
     campaign = await testingPutCampaign(campaign, {
