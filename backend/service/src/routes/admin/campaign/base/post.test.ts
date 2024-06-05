@@ -4,21 +4,16 @@ import { z } from "zod";
 import { insertNewCampaign } from "./post.model";
 import { controller } from "./post.controller";
 import { zRes } from "./post";
+import { testingTransaction } from "@/tests/libs/transaction";
 
 const selectCampaign = (id: z.infer<typeof CampaignSchema.shape.id>) => {
   return Ky.selectFrom("campaigns").selectAll().where("id", "=", id).executeTakeFirstOrThrow();
 };
 
-beforeAll(async () => {
-  await Ky.deleteFrom("campaigns").execute();
-});
-
-afterEach(async () => {
-  await Ky.deleteFrom("campaigns").execute();
-});
-
-afterAll(async () => {
-  await Ky.deleteFrom("campaigns").execute();
+testingTransaction({
+  beforeEach: async () => {
+    await Ky.deleteFrom("campaigns").execute();
+  },
 });
 
 const campaignData = {
