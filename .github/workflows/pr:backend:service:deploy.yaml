@@ -14,47 +14,74 @@ jobs:
     steps:
       -
         uses: actions/checkout@v4
-      -
-        name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-      -
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-          run_install: false
-      -
-        name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      -
-        uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      -
-        name: Install dependencies
-        run: pnpm install -r --frozen-lockfile
-      # deploy packages/kysely-schema
-      - 
-        name: Deploy packages/kysely-schema
-        run: pnpm deploy --filter ./backend/service ./prod/backend/service
-      # rsync production db to test migration
       - 
         name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'pr:backend:service:deploy'
+          known_hosts: 'pr:db:test:migration'
       - 
         name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - 
-        name: Rsync production backend service
-        run: rsync -avh --delete ./prod/backend/service ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_BACKEND_SERVICE_PATH }}
-
+        name: Rsync project
+        run: rsync -avh --delete . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PROJECT_PATH }}
+      -
+        name: Executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.SSH_PROJECT_PATH }}
+            pnpm install -r --frozen-lockfile
+            pnpm deploy --filter=./backend/service ./prod/backend/service
+            rsync -avh --delete ./prod/backend/service/ ${{ secrets.SSH_BACKEND_SERVICE_PATH }}
+      # -
+      #   uses: actions/checkout@v4
+      # -
+      #   name: Use Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20.0.0'
+      # -
+      #   uses: pnpm/action-setup@v4
+      #   with:
+      #     version: 8
+      #     run_install: false
+      # -
+      #   name: Get pnpm store directory
+      #   shell: bash
+      #   run: |
+      #     echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      # -
+      #   uses: actions/cache@v4
+      #   name: Setup pnpm cache
+      #   with:
+      #     path: ${{ env.STORE_PATH }}
+      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-store-
+      # -
+      #   name: Install dependencies
+      #   run: pnpm install -r --frozen-lockfile
+      # # deploy packages/kysely-schema
+      # - 
+      #   name: Deploy packages/kysely-schema
+      #   run: pnpm deploy --filter ./backend/service ./prod/backend/service
+      # # rsync production db to test migration
+      # - 
+      #   name: Install SSH Key
+      #   uses: shimataro/ssh-key-action@v2
+      #   with:
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     known_hosts: 'pr:backend:service:deploy'
+      # - 
+      #   name: Adding Known Hosts
+      #   run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      # - 
+      #   name: Rsync production backend service
+      #   run: rsync -avh --delete ./prod/backend/service ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_BACKEND_SERVICE_PATH }}
+      #
