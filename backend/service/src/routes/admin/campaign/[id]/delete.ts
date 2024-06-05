@@ -1,8 +1,7 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
-import CampaignProvider from "@/src/providers/campaigns";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { controller } from "./delete.controller";
 
 export const zParam = z.object({
   id: z.coerce.number(),
@@ -40,9 +39,7 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
 
-  await Ky.deleteFrom("campaigns").where("id", "=", param.id).execute();
-
-  return c.json(zRes.parse(await CampaignProvider.selectCampaigns()));
+  return c.json(await controller({ param }));
 });
 
 export default app;
