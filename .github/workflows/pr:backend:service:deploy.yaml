@@ -38,7 +38,8 @@ jobs:
             cd ${{ secrets.SSH_PROJECT_PATH }}
             pnpm install -r --frozen-lockfile
             pnpm deploy --filter=./backend/service ./prod/backend/service
-            rsync -avh --delete ./prod/backend/service/ ${{ secrets.SSH_BACKEND_SERVICE_PATH }}
+            rsync -avh --delete --delete-before ./prod/backend/service/ ${{ secrets.SSH_BACKEND_SERVICE_PATH }}
+            pm2 restart backend/service
       # -
       #   uses: actions/checkout@v4
       # -
