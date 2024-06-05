@@ -12,20 +12,20 @@ export const testingTransaction = (
   }>
 ) => {
   beforeEach(async () => {
+    await sql`BEGIN TRANSACTION;`.execute(Ky);
     if (options?.beforeEach) await options.beforeEach();
   });
 
   beforeAll(async () => {
-    await sql`BEGIN TRANSACTION;`.execute(Ky);
     if (options?.beforeAll) await options.beforeAll();
   });
 
   afterEach(async () => {
+    await sql`ROLLBACK TRANSACTION;`.execute(Ky);
     if (options?.afterEach) await options.afterEach();
   });
 
   afterAll(async () => {
-    await sql`ROLLBACK TRANSACTION;`.execute(Ky);
     if (options?.afterAll) await options.afterAll();
   });
 };
