@@ -1,14 +1,16 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
-import CampaignProvider from "@/src/providers/campaigns";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { CampaignSchema } from "kysely-schema";
+import { controller } from "./post.controller";
 
-export const zJson = z.object({
-  name: CampaignSchema.shape.name,
-  description: CampaignSchema.shape.description,
-  comment: CampaignSchema.shape.comment,
+export const zJson = CampaignSchema.pick({ name: true, description: true, comment: true }).openapi({
+  description: "description/comment 는 optional",
+  example: {
+    name: "오늘의 Pick",
+    description: "오늘의 Pick 입니다",
+    comment: "메인 최상단 위치",
+  },
 });
 
 export const zRes = OpenAPISchema.AdminCampaign.array();
@@ -21,15 +23,9 @@ const route = createRoute({
   description: "",
   request: {
     body: {
-      description: "description/comment 는 optional",
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({
-            name: "오늘의 Pick",
-            description: "오늘의 Pick 입니다",
-            comment: "메인_1",
-          }),
         },
       },
       required: true,
@@ -56,11 +52,7 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const json = zJson.parse(await c.req.json());
 
-  await Ky.insertInto("campaigns")
-    .values({ ...json })
-    .execute();
-
-  return c.json(zRes.parse(await CampaignProvider.selectCampaigns()));
+  return c.json(await controller({ data: json }));
 });
 
 export default app;
