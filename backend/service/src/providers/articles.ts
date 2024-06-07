@@ -1,4 +1,9 @@
+import { z } from "zod";
 import { Ky } from "../libs/kysely";
+import { ArticleSchema } from "kysely-schema";
+
+const selectArticleById = (articleId: z.infer<typeof ArticleSchema.shape.id>) =>
+  Ky.selectFrom("articles").selectAll().where("id", "=", articleId).executeTakeFirstOrThrow();
 
 const selectArticlesByKeywords = (keywords: number[]) => {
   return Ky.selectFrom((eb) =>
@@ -13,6 +18,6 @@ const selectArticlesByKeywords = (keywords: number[]) => {
     .execute();
 };
 
-const ArticleProvider = { selectArticlesByKeywords };
+const ArticleProvider = { selectArticleById, selectArticlesByKeywords };
 
 export default ArticleProvider;

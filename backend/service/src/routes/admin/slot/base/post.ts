@@ -4,8 +4,8 @@ import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { SlotSchema } from "kysely-schema";
 import { controller } from "./post.controller";
 
-export const zParam = z.object({
-  id: z.coerce.number(),
+export const zQuery = z.object({
+  campaign_id: z.string().transform((v) => SlotSchema.shape.id.parse(v)),
 });
 
 export const zJson = SlotSchema.pick({
@@ -33,7 +33,7 @@ const route = createRoute({
   summary: "campaign에 slot 추가하기",
   description: "",
   request: {
-    params: zParam,
+    query: zQuery,
     body: {
       description: "description/comment/preferences 는 옵셔널",
       content: {
@@ -63,10 +63,10 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const param = zParam.parse(c.req.param());
+  const query = zQuery.parse(c.req.query());
   const json = zJson.parse(await c.req.json());
 
-  return c.json(await controller({ param, json }));
+  return c.json(await controller({ query, json }));
 });
 
 export default app;

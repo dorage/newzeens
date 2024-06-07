@@ -1,12 +1,11 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
-import SlotProvider from "@/src/providers/slots";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { SlotSchema } from "kysely-schema";
+import { controller } from "./get.controller";
 
-export const zParam = z.object({
-  id: z.coerce.number(),
-  slotId: z.coerce.number(),
+export const zQuery = z.object({
+  campaign_id: z.string().transform((v) => SlotSchema.shape.id.parse(v)),
 });
 
 export const zRes = OpenAPISchema.AdminSlot.array();
@@ -14,11 +13,11 @@ export const zRes = OpenAPISchema.AdminSlot.array();
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "delete",
-  summary: "slot 정보 삭제하기",
+  method: "get",
+  summary: "campaign의 slot 목록 가져오기",
   description: "",
   request: {
-    params: zParam,
+    query: zQuery,
   },
   responses: {
     200: {
@@ -39,11 +38,9 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const param = zParam.parse(c.req.param());
+  const query = zQuery.parse(c.req.query());
 
-  await Ky.deleteFrom("slots").where("id", "=", param.slotId).execute();
-
-  return c.json(zRes.parse(await SlotProvider.selectSlots(param.id)));
+  return c.json(await controller({ query }));
 });
 
 export default app;

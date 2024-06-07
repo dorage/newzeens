@@ -1,10 +1,11 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
-import SlotProvider from "@/src/providers/slots";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { SlotSchema } from "kysely-schema";
+import { controller } from "./delete.controller";
 
 export const zParam = z.object({
-  id: z.coerce.number(),
+  id: z.string().transform((v) => SlotSchema.shape.id.parse(v)),
 });
 
 export const zRes = OpenAPISchema.AdminSlot.array();
@@ -12,8 +13,8 @@ export const zRes = OpenAPISchema.AdminSlot.array();
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "get",
-  summary: "campaign의 slot 목록 가져오기",
+  method: "delete",
+  summary: "slot 정보 삭제하기",
   description: "",
   request: {
     params: zParam,
@@ -39,7 +40,7 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
 
-  return c.json(zRes.parse(await SlotProvider.selectSlots(param.id)));
+  return c.json(await controller({ param }));
 });
 
 export default app;
