@@ -5,7 +5,7 @@ import { PublisherProvider } from "@/src/providers/publishers";
 import SlotProvider from "@/src/providers/slots";
 import { generateMock } from "@anatine/zod-mock";
 import { ArticleSchema, CampaignSchema, PublisherSchema, SlotSchema } from "kysely-schema";
-import { optional, z } from "zod";
+import { z } from "zod";
 
 const insertPublisher = async (): Promise<z.infer<typeof PublisherSchema>> => {
   const mock = generateMock(
