@@ -1,4 +1,5 @@
 import { Ky } from "@/src/libs/kysely";
+import { createUniqueId } from "@/src/libs/nanoid";
 import ArticleProvider from "@/src/providers/articles";
 import CampaignProvider from "@/src/providers/campaigns";
 import { PublisherProvider } from "@/src/providers/publishers";
@@ -19,6 +20,7 @@ const insertPublisher = async (): Promise<z.infer<typeof PublisherSchema>> => {
       url_subscribe: true,
       publisher_main: true,
       publisher_spec: true,
+      subscriber: true,
     })
   );
 
@@ -35,6 +37,7 @@ const insertArticle = async (
     publisherId == null
       ? await insertPublisher()
       : await PublisherProvider.selectPublisherById(publisherId);
+
   const mock = generateMock(
     ArticleSchema.pick({
       id: true,
@@ -81,7 +84,7 @@ const insertSlot = async (
     .executeTakeFirstOrThrow();
 };
 
-export const insertSlotArticle = async (options?: {
+const insertSlotArticle = async (options?: {
   slotId?: z.infer<typeof SlotSchema.shape.id>;
   articleId?: z.infer<typeof ArticleSchema.shape.id>;
 }) => {
@@ -101,7 +104,7 @@ export const insertSlotArticle = async (options?: {
   return { slot, article };
 };
 
-export const insertSlotPublisher = async (options?: {
+const insertSlotPublisher = async (options?: {
   slotId?: z.infer<typeof SlotSchema.shape.id>;
   publisherId?: z.infer<typeof PublisherSchema.shape.id>;
 }) => {
@@ -121,4 +124,11 @@ export const insertSlotPublisher = async (options?: {
   return { slot, publisher };
 };
 
-export const TestingMock = { insertPublisher, insertArticle, insertCampaign, insertSlot };
+export const TestingMock = {
+  insertPublisher,
+  insertArticle,
+  insertCampaign,
+  insertSlot,
+  insertSlotArticle,
+  insertSlotPublisher,
+};

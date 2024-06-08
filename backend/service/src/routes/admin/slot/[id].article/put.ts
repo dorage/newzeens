@@ -1,26 +1,31 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
-import SlotPublisherProvider from "@/src/providers/slot-publishers";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { PublisherSchema } from "kysely-schema";
+import { ArticleSchema, SlotSchema } from "kysely-schema";
+import { controller } from "./put.controller";
 
 export const zParam = z.object({
   id: z.coerce.number(),
-  slotId: z.coerce.number(),
 });
 
-export const zJson = z.object({
-  publisher_id: PublisherSchema.shape.id,
-});
+export const zJson = z
+  .object({})
+  .passthrough()
+  .openapi({
+    description: `number는 preferences 와 함께 등록
+truthy한 value는 생성
+falsy한 value는 삭제`,
+    example: { artcl1: 2, artcle2: false, artcle3: true, artcle4: null },
+  });
+// .record(ArticleSchema.shape.id, z.union([z.number(), z.boolean(), z.null(), z.undefined()]))
 
-export const zRes = OpenAPISchema.AdminPublisher.array();
+export const zRes = OpenAPISchema.AdminSlotArticle.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "post",
-  summary: "slot에 publisher 추가",
+  method: "put",
+  summary: "slot에 article 추가/삭제",
   description: "",
   request: {
     params: zParam,
@@ -28,7 +33,6 @@ const route = createRoute({
       content: {
         "application/json": {
           schema: zJson,
-          example: zJson.parse({ publisher_id: "asdfgh" }),
         },
       },
       required: true,
@@ -41,7 +45,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "AdminPublisher[] 반환",
+      description: "AdminArticle[] 반환",
     },
   },
   security: [{ Bearer: [] }],
@@ -56,14 +60,7 @@ export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
   const json = zJson.parse(await c.req.json());
 
-  await Ky.insertInto("slot_publishers")
-    .values({
-      slot_id: param.slotId,
-      publisher_id: json.publisher_id,
-    })
-    .execute();
-
-  return c.json(zRes.parse(await SlotPublisherProvider.selectPublisher(param.slotId)));
+  return c.json(await controller({ param, json }));
 });
 
 export default app;

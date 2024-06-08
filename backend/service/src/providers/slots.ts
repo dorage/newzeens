@@ -13,9 +13,16 @@ const selectSlots = (campaignId: number) => {
 const selectSlotById = (slotId: z.infer<typeof SlotSchema.shape.id>) =>
   Ky.selectFrom("slots").selectAll().where("id", "=", slotId).executeTakeFirstOrThrow();
 
+const selectSlotByCampaignId = (campaignId: z.infer<typeof SlotSchema.shape.id>) =>
+  Ky.selectFrom("slots")
+    .selectAll()
+    .where("campaign_id", "=", campaignId)
+    .executeTakeFirstOrThrow();
+
 const SlotProvider = {
   selectSlots,
   selectSlotById,
+  selectSlotByCampaignId,
 };
 
 export default SlotProvider;

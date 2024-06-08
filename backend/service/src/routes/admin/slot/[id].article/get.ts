@@ -1,14 +1,13 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { SlotSchema } from "kysely-schema";
 import { controller } from "./get.controller";
 
 export const zParam = z.object({
-  id: z.string().transform((v) => SlotSchema.shape.id.parse(v)),
+  id: z.coerce.number(),
 });
 
-export const zRes = OpenAPISchema.AdminArticle.array();
+export const zRes = OpenAPISchema.AdminSlotArticle.array();
 
 const route = createRoute({
   path: "",
@@ -26,7 +25,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "AdminArticle[] 반환",
+      description: "AdminSlotArticle[] 반환",
     },
   },
   security: [{ Bearer: [] }],

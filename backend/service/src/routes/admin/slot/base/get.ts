@@ -1,11 +1,10 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { SlotSchema } from "kysely-schema";
 import { controller } from "./get.controller";
 
 export const zQuery = z.object({
-  campaign_id: z.string().transform((v) => SlotSchema.shape.id.parse(v)),
+  campaign_id: z.string(),
 });
 
 export const zRes = OpenAPISchema.AdminSlot.array();

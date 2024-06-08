@@ -1,14 +1,13 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
-import SlotPublisherProvider from "@/src/providers/slot-publishers";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { controller } from "./get.controller";
 
 export const zParam = z.object({
   id: z.coerce.number(),
-  slotId: z.coerce.number(),
 });
 
-export const zRes = OpenAPISchema.AdminPublisher.array();
+export const zRes = OpenAPISchema.AdminSlotPublihser.array();
 
 const route = createRoute({
   path: "",
@@ -26,7 +25,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "AdminPublisher[] 반환",
+      description: "AdminSlotPublisher[] 반환",
     },
   },
   security: [{ Bearer: [] }],
@@ -40,7 +39,7 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
 
-  return c.json(zRes.parse(await SlotPublisherProvider.selectPublisher(param.slotId)));
+  return c.json(await controller({ param }));
 });
 
 export default app;

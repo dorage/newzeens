@@ -20,4 +20,7 @@ app.route("/article", article);
 import campaign from "./campaign/index";
 app.route("/campaign", campaign);
 
+import slot from "./slot/index";
+app.route("/slot", slot);
+
 export default app;

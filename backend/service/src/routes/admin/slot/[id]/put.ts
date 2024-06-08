@@ -5,7 +5,7 @@ import { SlotSchema } from "kysely-schema";
 import { controller } from "./put.controller";
 
 export const zParam = z.object({
-  id: z.string().transform((v) => SlotSchema.shape.id.parse(v)),
+  id: z.coerce.number(),
 });
 
 export const zJson = SlotSchema.pick({
