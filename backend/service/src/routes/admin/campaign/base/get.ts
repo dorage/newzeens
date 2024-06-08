@@ -1,5 +1,4 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import OpenAPISchema from "@/src/openapi/schemas";
 import CampaignProvider from "@/src/providers/campaigns";
 import { OpenAPIHono, createRoute } from "@hono/zod-openapi";

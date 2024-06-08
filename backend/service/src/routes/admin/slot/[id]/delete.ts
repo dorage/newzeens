@@ -1,19 +1,20 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { SlotSchema } from "kysely-schema";
 import { controller } from "./delete.controller";
 
 export const zParam = z.object({
   id: z.coerce.number(),
 });
 
-export const zRes = OpenAPISchema.AdminCampaign.array();
+export const zRes = OpenAPISchema.AdminSlot.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "delete",
-  summary: "campaign 정보 삭제",
+  summary: "slot 정보 삭제하기",
   description: "",
   request: {
     params: zParam,
@@ -25,7 +26,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminSlot[] 반환",
     },
   },
   security: [{ Bearer: [] }],

@@ -1,41 +1,35 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { CampaignSchema } from "kysely-schema";
+import { PublisherSchema, SlotSchema } from "kysely-schema";
 import { controller } from "./put.controller";
 
 export const zParam = z.object({
   id: z.coerce.number(),
 });
 
-export const zJson = CampaignSchema.pick({
-  name: true,
-  description: true,
-  comment: true,
-})
-  .partial()
+export const zJson = z
+  .object({})
+  .passthrough()
+  // .record(PublisherSchema.shape.id, z.union([z.number(), z.boolean(), z.null(), z.undefined()]))
   .openapi({
-    examples: [
-      {
-        name: "오늘의 Pick",
-        description: "오늘의 Pick 입니다",
-        comment: "메인 최상단 위치",
-      },
-    ],
+    description: `number는 preferences 와 함께 등록
+truthy한 value는 생성
+falsy한 value는 삭제`,
+    example: { pblsh1: 2, pblsh2: false, pblsh3: true, pblsh4: null },
   });
 
-export const zRes = OpenAPISchema.AdminCampaign.array();
+export const zRes = OpenAPISchema.AdminSlotPublihser.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "campaign 정보 수정",
+  summary: "slot에 publisher 추가/삭제",
   description: "",
   request: {
     params: zParam,
     body: {
-      description: "모든 필드는 옵셔널",
       content: {
         "application/json": {
           schema: zJson,
@@ -51,7 +45,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminSlotPublisher[] 반환",
     },
   },
   security: [{ Bearer: [] }],

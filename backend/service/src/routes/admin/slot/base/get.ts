@@ -1,22 +1,22 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { controller } from "./delete.controller";
+import { controller } from "./get.controller";
 
-export const zParam = z.object({
-  id: z.coerce.number(),
+export const zQuery = z.object({
+  campaign_id: z.string(),
 });
 
-export const zRes = OpenAPISchema.AdminCampaign.array();
+export const zRes = OpenAPISchema.AdminSlot.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "delete",
-  summary: "campaign 정보 삭제",
+  method: "get",
+  summary: "campaign의 slot 목록 가져오기",
   description: "",
   request: {
-    params: zParam,
+    query: zQuery,
   },
   responses: {
     200: {
@@ -25,7 +25,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminSlot[] 반환",
     },
   },
   security: [{ Bearer: [] }],
@@ -37,9 +37,9 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const param = zParam.parse(c.req.param());
+  const query = zQuery.parse(c.req.query());
 
-  return c.json(await controller({ param }));
+  return c.json(await controller({ query }));
 });
 
 export default app;

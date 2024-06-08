@@ -4,6 +4,9 @@ import { ExpressionBuilder, sql } from "kysely";
 import { DB, PublisherSchema } from "kysely-schema";
 import OpenAPISchema from "../openapi/schemas";
 
+const selectPublisherById = (publisherId: z.infer<typeof PublisherSchema.shape.id>) =>
+  Ky.selectFrom("publishers").selectAll().where("id", "=", publisherId).executeTakeFirstOrThrow();
+
 // publisher의 모든 keyword_group의 keyword를 배열로 가져옵니다
 // filter를 이용해서 필요한 keyword_group의 값을 찾아 작업
 export const getPublisherKeywords = async (query: {
@@ -89,4 +92,8 @@ export const queryPublisherWithKeywords = async () => {
         ])
     );
   };
+};
+
+export const PublisherProvider = {
+  selectPublisherById,
 };

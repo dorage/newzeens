@@ -1,36 +1,36 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { CampaignSchema } from "kysely-schema";
+import { SlotSchema } from "kysely-schema";
 import { controller } from "./put.controller";
 
 export const zParam = z.object({
   id: z.coerce.number(),
 });
 
-export const zJson = CampaignSchema.pick({
+export const zJson = SlotSchema.pick({
   name: true,
   description: true,
   comment: true,
+  preferences: true,
 })
   .partial()
   .openapi({
-    examples: [
-      {
-        name: "오늘의 Pick",
-        description: "오늘의 Pick 입니다",
-        comment: "메인 최상단 위치",
-      },
-    ],
+    example: {
+      name: "정치2",
+      description: "정치 관련 슬롯입니다2",
+      comment: "[관리자 메모] 정치관련 슬롯2",
+      preferences: 2,
+    },
   });
 
-export const zRes = OpenAPISchema.AdminCampaign.array();
+export const zRes = OpenAPISchema.AdminSlot.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
   method: "put",
-  summary: "campaign 정보 수정",
+  summary: "slot 정보 수정하기",
   description: "",
   request: {
     params: zParam,
@@ -51,7 +51,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminSlot[] 반환",
     },
   },
   security: [{ Bearer: [] }],

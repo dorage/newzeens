@@ -1,41 +1,41 @@
 import Tag from "@/src/constants/tags";
 import OpenAPISchema from "@/src/openapi/schemas";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { CampaignSchema } from "kysely-schema";
-import { controller } from "./put.controller";
+import { SlotSchema } from "kysely-schema";
+import { controller } from "./post.controller";
 
-export const zParam = z.object({
-  id: z.coerce.number(),
+export const zQuery = z.object({
+  campaign_id: z.string(),
 });
 
-export const zJson = CampaignSchema.pick({
+export const zJson = SlotSchema.pick({
   name: true,
   description: true,
   comment: true,
-})
-  .partial()
-  .openapi({
-    examples: [
-      {
-        name: "오늘의 Pick",
-        description: "오늘의 Pick 입니다",
-        comment: "메인 최상단 위치",
-      },
-    ],
-  });
+  preferences: true,
+  is_enabled: true,
+}).openapi({
+  example: {
+    name: "정치",
+    description: "정치 관련 슬롯입니다",
+    comment: "[관리자 메모] 정치관련 슬롯",
+    preferences: 1,
+    is_enabled: true,
+  },
+});
 
-export const zRes = OpenAPISchema.AdminCampaign.array();
+export const zRes = OpenAPISchema.AdminSlot.array();
 
 const route = createRoute({
   path: "",
   tags: [Tag.Admin],
-  method: "put",
-  summary: "campaign 정보 수정",
+  method: "post",
+  summary: "campaign에 slot 추가하기",
   description: "",
   request: {
-    params: zParam,
+    query: zQuery,
     body: {
-      description: "모든 필드는 옵셔널",
+      description: "description/comment/preferences 는 옵셔널",
       content: {
         "application/json": {
           schema: zJson,
@@ -51,7 +51,7 @@ const route = createRoute({
           schema: zRes,
         },
       },
-      description: "",
+      description: "AdminSlot[] 반환",
     },
   },
   security: [{ Bearer: [] }],
@@ -63,10 +63,10 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const param = zParam.parse(c.req.param());
+  const query = zQuery.parse(c.req.query());
   const json = zJson.parse(await c.req.json());
 
-  return c.json(await controller({ param, json }));
+  return c.json(await controller({ query, json }));
 });
 
 export default app;

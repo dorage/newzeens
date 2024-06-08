@@ -5,6 +5,8 @@ import {
   KeywordGroupSchema,
   KeywordSchema,
   PublisherSchema,
+  SlotArticleSchema,
+  SlotPublisherSchema,
   SlotSchema,
 } from "kysely-schema";
 
@@ -25,6 +27,18 @@ const AdminArticle = z.object({}).merge(ArticleSchema).openapi("AdminArticle");
 const AdminCampaign = z.object({}).merge(CampaignSchema).openapi("AdminCampaign");
 
 const AdminSlot = z.object({}).merge(SlotSchema).openapi("AdminSlot");
+
+const AdminSlotArticle = z
+  .object({})
+  .merge(ArticleSchema)
+  .merge(SlotArticleSchema.pick({ preferences: true }))
+  .openapi("AdminSlotArticle");
+
+const AdminSlotPublihser = z
+  .object({})
+  .merge(PublisherSchema)
+  .merge(SlotPublisherSchema.pick({ preferences: true }))
+  .openapi("AdminSlotPublisher");
 
 const Keyword = z
   .object({
@@ -95,6 +109,8 @@ const OpenAPISchema = {
   AdminArticle,
   AdminCampaign,
   AdminSlot,
+  AdminSlotArticle,
+  AdminSlotPublihser,
   Keyword,
   PublisherRank,
   PublisherDetail,
