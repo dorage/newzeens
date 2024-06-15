@@ -1,14 +1,9 @@
-import { create, createSlot } from "@/app/_actions/campaign"
 import campaignApi from "@/app/_api/campaign"
-import WidthWrapper from "@/app/_components/layout/width-wrapper"
 import { NextPageProps } from "@/app/_types/next"
 import React from "react"
-import PublisherAdd from "./_components/publisher-add"
-import newsLetterApi from "@/app/_api/news-letter"
-import ArticleEdit from "./_components/article-edit"
-import articleApi from "@/app/_api/article"
-import { IdContextProvider } from "./_context/id-context"
-import { SlotPublisherContextProvider } from "./_context/slot-publisher-context"
+
+import Link from "next/link"
+import { Card } from "@/app/_components/ui/card"
 
 interface CampaignSlotPageProps {
   campaignId: string
@@ -20,23 +15,36 @@ const CampaignSlotPage = async (props: NextPageProps<CampaignSlotPageProps>) => 
   const campaignId = Number(params.campaignId)
   const slotId = Number(params.slotId)
 
-  const publisher = await campaignApi.getAdminCampaignSlotPublisher(slotId)
+  const slotList = await campaignApi.getAdminCampaignSlot(campaignId)
+
+  const currentSlot = slotList.find((slot) => slot.id === slotId)
 
   return (
-    <IdContextProvider campaignId={campaignId} slotId={slotId}>
-      {/* <WidthWrapper>
-        <div className="flex items-center justify-between">
-          <h1 className="text-[30px] font-bold">아티클 관리</h1>
-        </div>
-        <ArticleEdit initialValues={articleList} />
+    <div className="flex min-h-screen w-full flex-col items-center bg-[#E0E5F7]">
+      <div className="h-20" />
+      <h1 className="text-[30px] font-bold">{currentSlot?.name}</h1>
+      <p className="">{currentSlot?.description}</p>
+      <p className="">{currentSlot?.comment}</p>
+      <div className="h-20" />
 
-        <div className="h-12" />
-      </WidthWrapper> */}
+      <div className="flex w-full max-w-screen-lg flex-col gap-4">
+        <Link href={`/campaign/${campaignId}/${slotId}/publisher`}>
+          <Card className="w-full cursor-pointer p-10 hover:bg-gray-100">뉴스레터용 캠페인</Card>
+        </Link>
 
-      <SlotPublisherContextProvider initialValues={publisher}>
-        <PublisherAdd />
-      </SlotPublisherContextProvider>
-    </IdContextProvider>
+        <Link href={`/campaign/${campaignId}/${slotId}/article`}>
+          <Card className="w-full cursor-pointer p-10 hover:bg-gray-100">아티클용 캠페인</Card>
+        </Link>
+      </div>
+    </div>
+
+    // <IdContextProvider campaignId={campaignId} slotId={slotId}>
+    //   <>11</>
+
+    //   {/* <SlotPublisherContextProvider initialValues={publisher}>
+    //     <PublisherAdd />
+    //   </SlotPublisherContextProvider> */}
+    // </IdContextProvider>
   )
 }
 

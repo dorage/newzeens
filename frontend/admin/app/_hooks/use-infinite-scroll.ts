@@ -21,18 +21,15 @@ const useInfiniteScroll = <KData, TParams>({
   const [data, setData] = useState(initialValues)
   const { ref, inView } = useInView()
 
+  useEffect(() => {
+    setData(initialValues)
+  }, [initialValues])
+
   const fetchNext = useCallback(async () => {
     const newItems = await apiMethod({ ...params, page })
     setData((prev) => [...prev, ...newItems])
     setPage((prev) => prev + 1)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiMethod, params])
-
-  // const searchFetch = useCallback(async () => {
-  //   const newItems = await apiMethod(params)
-  //   setItems(newItems) // 검색 결과로 목록을 업데이트
-  //   setPage(1) // 페이지를 초기화
-  // }, [apiMethod])
 
   useEffect(() => {
     if (inView) {

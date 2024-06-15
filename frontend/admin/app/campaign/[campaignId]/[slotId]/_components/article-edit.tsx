@@ -28,7 +28,6 @@ const ArticleEdit = (props: ArticleEditProps) => {
 
   useEffect(() => {
     if (!debounceSearch) return
-    console.log(`searchFetch`)
     searchFetch()
 
     setInitialData(initialValues)

@@ -51,7 +51,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
       <div className="h-2" />
       <input type="hidden" name="slotId" value={slotId} />
 
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-5 gap-x-2 gap-y-3">
         {select.map((publisher, i) => {
           return (
             <div
@@ -64,7 +64,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
                 <Image src={publisher.thumbnail} width={40} height={40} alt="썸네일" className="size-10 shrink-0" />
                 <p className="text-sm font-bold">{publisher.name}</p>
               </div>
-              <label className="text-sm font-medium">
+              <label className="px-2 text-sm font-medium">
                 우선도(선택)
                 <Input
                   ref={(el) => {
@@ -74,7 +74,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
                   }}
                   name={`${publisher.id}_preferences`}
                   type="number"
-                  className=""
+                  className="px-2"
                 />
               </label>
             </div>
