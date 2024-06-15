@@ -3,6 +3,7 @@
 import { deleteSlot, updateSlot } from "@/app/_actions/campaign"
 import { CampaignSlotResponse } from "@/app/_api/campaign.type"
 import { Button } from "@/app/_components/ui/button"
+import { Switch } from "@/app/_components/ui/switch"
 import { cn } from "@/app/_lib/utils"
 import dayjs from "dayjs"
 import Link from "next/link"
@@ -26,11 +27,14 @@ const SlotEditable = (props: SlotEditableProps) => {
     description: slot.description,
     comment: slot.comment,
     preferences: slot.preferences,
+    is_enabled: slot.is_enabled,
   })
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setEditValues((prev) => ({ ...prev, [name]: value }))
   }
+
   if (isEdit) {
     return (
       <form action={updateSlot} className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-10">
@@ -45,6 +49,16 @@ const SlotEditable = (props: SlotEditableProps) => {
             className="h-[40px] w-[300px] rounded-md border border-gray-300 px-4"
             value={editValues.name}
             onChange={handleChange}
+          />
+        </label>
+        <label>
+          <p className="font-semibold">활성화</p>
+          <Switch
+            name="is_enabled"
+            onClick={() => {
+              setEditValues((prev) => ({ ...prev, is_enabled: !prev.is_enabled }))
+            }}
+            checked={editValues.is_enabled}
           />
         </label>
 
