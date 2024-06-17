@@ -12,11 +12,16 @@ export interface AdminNewsLetterResponse {
   name: string
   description: string
   subscriber: number
+  preferences?: number
+  url_main: string
   url_subscribe: string
   publisher_main: string
   publisher_spec: string
   is_enabled: number | boolean
   created_at: string
+
+  // frontend only
+  is_to_be_deleted?: boolean
 }
 
 export type AdminNewsLetterListResponse = AdminNewsLetterResponse[]

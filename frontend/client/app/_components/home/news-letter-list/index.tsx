@@ -1,8 +1,11 @@
 "use client"
 
 import React, { useCallback, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import NewsLetterItem from "./news-letter-item"
 import KeywordTab from "../../atoms/keyword-tab"
+import mainQueryKey from "@/app/_apis/_query-key/main"
+import mainApi from "@/app/_apis/main-page/main"
 import classNames from "@/app/_utils/class-names"
 import { AllIcon, CareerIcon, EconomyIcon, HumanitiesIcon, ITIcon, LifestyleIcon, MarketingIcon } from "@/public/icons"
 
@@ -12,6 +15,11 @@ const MOCK = ["전체", "IT", "마케팅/브랜딩", "라이프스타일", "경�
 
 const NewsLetterList = (props: NewsLetterListProps) => {
   const {} = props
+
+  const { data } = useQuery({
+    queryFn: mainApi.getRecommendPublishers,
+    queryKey: mainQueryKey.recommendPublishers.list({}),
+  })
 
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)

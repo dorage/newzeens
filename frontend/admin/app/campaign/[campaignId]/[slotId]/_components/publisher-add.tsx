@@ -11,26 +11,26 @@ import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
 import React, { useEffect, useState, useTransition } from "react"
 import { useInView } from "react-intersection-observer"
-import { useIdContext } from "./id-context"
+import { useIdContext } from "../_context/id-context"
+import { putSlotPublisher } from "@/app/_actions/campaign"
+import SlotPublisherForm from "./slot-publisher-form"
+import { useSlotPublisherContext } from "../_context/slot-publisher-context"
 
-interface PublisherAddProps {
-  initialValues?: AdminNewsLetterResponse[]
-}
+interface PublisherAddProps {}
 
 const PublisherAdd = (props: PublisherAddProps) => {
-  const { initialValues } = props
-
-  const { campaignId, slotId } = useIdContext()
-
+  /**
+   * 퍼블리셔 목록
+   */
   const [page, setPage] = useState(0)
-  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>(initialValues || [])
-  const [select, setSelect] = useState<AdminNewsLetterResponse[]>([])
+  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>([])
+
   const { ref, inView } = useInView()
   const [search, setSearch] = useState("")
   const searchDebounce = useDebounce(search)
 
   const fetchNext = async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page })
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page, name: searchDebounce })
     setPublishers((prev) => [...prev, ...addPublisher])
     setPage((prev) => prev + 1)
   }
@@ -42,23 +42,21 @@ const PublisherAdd = (props: PublisherAddProps) => {
   }
 
   useEffect(() => {
-    if (searchDebounce) return
     if (inView) {
       fetchNext()
     }
   }, [inView])
 
   useEffect(() => {
-    setPage(0)
     if (searchDebounce) {
+      setPage(0)
       searchFetch()
     } else {
-      setPublishers(initialValues || [])
+      setPublishers([])
     }
   }, [searchDebounce])
 
-  const [pending, startTransition] = useTransition()
-  console.log("🚀 ~ PublisherAdd ~ pending:", pending)
+  const { isChanged, select, initialValues, setSelect } = useSlotPublisherContext()
 
   return (
     <WidthWrapper>
@@ -66,9 +64,10 @@ const PublisherAdd = (props: PublisherAddProps) => {
         <h1 className="text-[30px] font-bold">뉴스레터 관리</h1>
       </div>
       <div className="h-12" />
-      <div className="flex items-center justify-between">현재 선택: {select.length}개</div>
 
-      <div className="grid grid-cols-3"></div>
+      <SlotPublisherForm />
+
+      <div className="h-5" />
 
       <Input
         className="w-full"
@@ -76,12 +75,15 @@ const PublisherAdd = (props: PublisherAddProps) => {
         onChange={(e) => setSearch(e.target.value)}
         placeholder="뉴스레터 이름으로 검색"
       />
+
+      <div className="h-3" />
+
       <div className="flex flex-col gap-3">
         {publishers?.map((publisher, i) => {
-          const isSelected = select.some((item) => item.id === publisher.id)
+          const isSelected = select.some((item) => (item.is_to_be_deleted ? false : item.id === publisher.id))
 
           return (
-            <div key={publisher.id} className="flex items-center gap-2">
+            <div key={`temp_${publisher.id}`} className="flex items-center gap-2">
               <div
                 className={cn("flex w-full items-center px-5 py-4", {
                   "bg-[#E0E5F7]": isSelected,
@@ -111,10 +113,20 @@ const PublisherAdd = (props: PublisherAddProps) => {
               <Button
                 className="!h-full bg-[#637BF4]"
                 disabled={isSelected}
-                onClick={async () => {
-                  startTransition(async () => {
-                    await campaignApi.postAdminCampaignSlotPublisher(campaignId, slotId, { publisher_id: publisher.id })
-                  })
+                onClick={() => {
+                  const isExist = select.find((item) => item.id === publisher.id)
+
+                  if (isExist) {
+                    console.log(`publisher`, publisher)
+                    setSelect((prev) =>
+                      prev.map((item) => {
+                        if (item.id !== publisher.id) return item
+                        return { ...item, is_to_be_deleted: false }
+                      }),
+                    )
+                  } else {
+                    setSelect((prev) => [...prev, publisher])
+                  }
                 }}
               >
                 선택
@@ -123,7 +135,18 @@ const PublisherAdd = (props: PublisherAddProps) => {
                 className="!h-full bg-[#6D768E]"
                 disabled={!isSelected}
                 onClick={() => {
-                  setSelect((prev) => prev.filter((item) => item.id !== publisher.id))
+                  const isExist = initialValues.find((item) => item.id === publisher.id)
+
+                  if (isExist) {
+                    setSelect((prev) =>
+                      prev.map((item) => {
+                        if (item.id !== publisher.id) return item
+                        return { ...item, is_to_be_deleted: true }
+                      }),
+                    )
+                  } else {
+                    setSelect((prev) => prev.filter((item) => item.id !== publisher.id))
+                  }
                 }}
               >
                 제거

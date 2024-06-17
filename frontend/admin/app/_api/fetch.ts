@@ -7,7 +7,13 @@ const api = async (url: string, options?: HttpOptions) => {
   const accessToken = await getCookie("access")
   const Authorization = accessToken ? `Bearer ${accessToken}` : undefined
 
-  return fetch(`${"http://127.0.0.1:3000"}${url}`, {
+  let params = ""
+
+  if (options?.params) {
+    params = `?${new URLSearchParams(options?.params).toString()}`
+  }
+
+  return fetch(`${"http://127.0.0.1:3000"}${url}${params}`, {
     ...options,
     method: options?.method ?? "GET",
     body: JSON.stringify(options?.data),
