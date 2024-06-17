@@ -23,7 +23,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
 
   const searchFetch = useCallback(async () => {
     const newItems = await newsLetterApi.getAdminArticleList(params)
-    setInitialData(newItems) // 검색 결과로 목록을 업데이트
+    setInitialData(newItems)
   }, [params])
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
     setInitialData(initialValues)
   }, [debounceSearch, initialValues, searchFetch])
 
-  const { data } = useInfiniteScroll({
+  const { data, ref } = useInfiniteScroll({
     initialValues: initialData,
     params,
     apiMethod: (params) => newsLetterApi.getAdminArticleList(params),
@@ -52,6 +52,8 @@ const ArticleEdit = (props: ArticleEditProps) => {
 
       <div className="h-3" />
       {JSON.stringify(data)}
+
+      <div ref={ref}>{"ㅤ"}</div>
     </div>
   )
 }
