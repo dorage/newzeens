@@ -9,7 +9,7 @@ export const SlotSchema = z.object({
   name: z.string().max(50),
   description: z.string().nullable().optional(),
   comment: z.string().nullable().optional(),
-  preferences: z.number().int().positive().finite().nullable().optional(),
+  preferences: z.number().int().nonnegative().finite().nullable().optional(),
   is_enabled: z.coerce.boolean().optional().default(false),
   created_at: zMomentDatetime,
 });
