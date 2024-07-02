@@ -103,7 +103,7 @@ const campaignApi = {
   /**
    * slot에 article 추가/삭제
    */
-  putAdminSlotArticle: async (slotId: number, payload: { article_id: number }) => {
+  putAdminSlotArticle: async (slotId: number, payload: { [key: string]: number | boolean | null }) => {
     const { data } = await api(`/admin/slot/${slotId}/article`, {
       method: METHOD.PUT,
       data: payload,

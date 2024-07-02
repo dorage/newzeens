@@ -9,12 +9,7 @@ import RecommendArticles from "./_components/home/recommend-articles"
 import getQueryClient from "./_utils/query-client"
 
 const getArticles = async () => {
-  const start = performance.now()
   const result = await mainApi.getRecommendArticles()
-  const end = performance.now()
-
-  console.log(end - start + "ms")
-
   return result
 }
 

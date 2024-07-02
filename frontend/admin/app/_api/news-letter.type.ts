@@ -50,4 +50,6 @@ export interface AdminArticleResponse {
   is_enabled: boolean
   publisher_id: string
   created_at: string
+  url: string
+  preferences: number | null
 }

@@ -1,19 +1,19 @@
-import { putSlotPublisher } from "@/app/_actions/campaign"
-import React, { useEffect, useState } from "react"
-import { useSlotPublisherContext } from "../_context/slot-publisher-context"
-import { Button } from "@/app/_components/ui/button"
-import { useIdContext } from "../_context/id-context"
+import React, { useEffect } from "react"
+import { useSlotArticleContext } from "../_context/slot-article-context"
+import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
 import { Input } from "@/app/_components/ui/input"
-import { cn } from "@/app/_lib/utils"
+import { Button } from "@/app/_components/ui/button"
+import { putSlotPublisherPreferences } from "@/app/_actions/campaign"
+import { useIdContext } from "../_context/id-context"
 
-interface SlotPublisherFormProps {}
+interface SlotArticleFormProps {}
 
-const SlotPublisherForm = (props: SlotPublisherFormProps) => {
+const SlotArticleForm = (props: SlotArticleFormProps) => {
   const {} = props
 
   const { slotId } = useIdContext()
-  const { initialValues, isChanged, select, setSelect } = useSlotPublisherContext()
+  const { initialValues } = useSlotArticleContext()
 
   const inputsRef = React.useRef<HTMLInputElement[]>([])
 
@@ -27,41 +27,46 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
   }, [initialValues])
 
   const actionWithAlert = async (formData: FormData) => {
-    await putSlotPublisher(formData, select)
-
-    alert("저장되었습니다.")
+    await putSlotPublisherPreferences(formData, initialValues)
+      .then(() => {
+        alert("저장되었습니다.")
+      })
+      .catch((err) => {
+        alert(JSON.stringify(err))
+      })
   }
 
   return (
     <form action={actionWithAlert}>
-      <div className="flex items-center justify-between">
-        <p>현재 선택: {select.length}개</p>
+      <input type="hidden" name="slotId" value={slotId} />
 
-        <Button
-          type="submit"
-          className={cn({
-            invisible: !isChanged,
-            visible: isChanged,
-          })}
-        >
+      <div className="flex items-center justify-between">
+        <p>현재 선택: {initialValues.length}개</p>
+
+        <Button type="submit" className={cn({})}>
           저장
         </Button>
       </div>
       <div className="h-2" />
-      <input type="hidden" name="slotId" value={slotId} />
 
       <div className="grid grid-cols-5 gap-x-2 gap-y-3">
-        {select.map((publisher, i) => {
+        {initialValues.map((publisher, i) => {
           return (
             <div
               key={publisher.id}
               className={cn("flex flex-col gap-2", {
-                "opacity-50": publisher.is_to_be_deleted,
+                // "opacity-50": publisher.is_to_be_deleted,
               })}
             >
               <div className="flex gap-2">
-                <Image src={publisher.thumbnail} width={40} height={40} alt="썸네일" className="size-10 shrink-0" />
-                <p className="text-sm font-bold">{publisher.name}</p>
+                <Image
+                  src={publisher.thumbnail || ""}
+                  width={40}
+                  height={40}
+                  alt="썸네일"
+                  className="size-10 shrink-0"
+                />
+                <p className="text-sm font-bold">{publisher.title}</p>
               </div>
               <label className="px-2 text-sm font-medium">
                 우선도(선택)
@@ -84,4 +89,4 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
   )
 }
 
-export default SlotPublisherForm
+export default SlotArticleForm

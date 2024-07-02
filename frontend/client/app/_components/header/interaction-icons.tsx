@@ -16,7 +16,7 @@ const InteractionIcons = (props: InteractionIconsProps) => {
   return (
     <div className="flex items-center">
       <div className="cursor-pointer p-10">
-        <SearchIcon className="size-20" />
+        <SearchIcon className="size-20" onClick={() => window.alert("준비중입니다!")} />
       </div>
 
       <div
