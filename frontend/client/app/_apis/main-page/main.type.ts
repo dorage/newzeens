@@ -7,18 +7,18 @@ export interface KeywordDto {
 
 export interface PublisherDto {
   id: string
-  description: string
+  description?: string
   keywords: KeywordDto[]
   name: string
-  thumbnail: string
+  thumbnail?: string
 }
 
 export interface ArticleDto {
   id: string
   title: string
-  publisher: PublisherDto
-  created_at: string
   thumbnail: string
+  created_at: string
+  publisher: PublisherDto
 }
 
 export interface SlotPublisherDto {

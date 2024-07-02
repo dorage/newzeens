@@ -1,12 +1,9 @@
 import React from "react"
 import Image from "next/image"
 import Button from "../atoms/button"
-import GPTMark from "../atoms/gpt-mark"
 import LabelTag from "../atoms/label-tag"
 import ShareButton from "../atoms/share-button"
-import withModalProps from "@/app/_hoc/with-modal-props"
 import { dateFormat } from "@/app/_utils/date-format"
-import { CloseIcon } from "@/public/icons"
 
 interface ArticleInfoProps {}
 
@@ -15,7 +12,19 @@ const ArticleInfo = (props: ArticleInfoProps) => {
     <div>
       <PC />
       <Mobile />
-      <div className="bg-bg-4 h-screen px-20 py-40">리스트 영역</div>
+      <div className="bg-bg-4 h-screen px-20 py-40">
+        <h4 className="text-mH3">관련 아티클</h4>
+
+        <div className="h-16" />
+        <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
+          {/* {[...new Array(4)].map((_, i) => (
+            <ArticleCard
+              key={i}
+              article={}
+            />
+          ))} */}
+        </div>
+      </div>
     </div>
   )
 }

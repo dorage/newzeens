@@ -3,7 +3,7 @@ import { CampaignArticlesResponse, CampaignPublishersResponse } from "./main.typ
 import fetch from "../fetch"
 
 export const getCampaignArticles = (id: number) => `/campaign/${id}/article`
-export const getCampaignPublisher = (id: number) => `/campaign/${id}/publisher`
+export const getCampaignPublisher = (id: number) => `/campaign/${id}/publisher?limit=6`
 
 const mainApi = {
   getRecommendArticles: async () => {
