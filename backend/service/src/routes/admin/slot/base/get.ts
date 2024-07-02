@@ -4,7 +4,7 @@ import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { controller } from "./get.controller";
 
 export const zQuery = z.object({
-  campaign_id: z.string(),
+  campaign_id: z.coerce.number(),
 });
 
 export const zRes = OpenAPISchema.AdminSlot.array();
