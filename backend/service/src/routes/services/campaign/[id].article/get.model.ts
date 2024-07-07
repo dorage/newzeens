@@ -10,7 +10,8 @@ export const getCampaignArticles = async (query: { campaignId: number; limit: nu
     eb
       .selectFrom("slots")
       .leftJoin(
-        (eb) => eb.selectFrom("campaigns").selectAll().as("campaigns"),
+        (eb) =>
+          eb.selectFrom("campaigns").selectAll().where("id", "=", query.campaignId).as("campaigns"),
         (join) => join.onRef("slots.campaign_id", "=", "campaigns.id")
       )
       .leftJoin(
@@ -67,6 +68,7 @@ export const getCampaignArticles = async (query: { campaignId: number; limit: nu
 							'articles', JSON_GROUP_ARRAY(a.article)
 						)`.as("slot"),
       ])
+      .where("slots.campaign_id", "=", query.campaignId)
       .where("a.idx", "<=", query.limit)
       .orderBy("slots.preferences desc")
       .groupBy("slots.id")
