@@ -22,7 +22,7 @@ export const getCampaignPublisher = async (query: { campaignId: number; limit: n
                 eb
                   .selectFrom("slot_publishers")
                   .selectAll()
-                  .orderBy("preferences asc")
+                  .orderBy("preferences desc")
                   .as("slot_publishers"),
               (join) => join.onRef("publishers.id", "=", "slot_publishers.publisher_id")
             )
@@ -60,7 +60,7 @@ export const getCampaignPublisher = async (query: { campaignId: number; limit: n
 						)`.as("slot"),
       ])
       .where("a.idx", "<=", query.limit)
-      .orderBy("slots.preferences asc")
+      .orderBy("slots.preferences desc")
       .groupBy("slots.id")
       .as("c")
   )
