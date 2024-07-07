@@ -5,6 +5,7 @@ const Tag = {
   Publisher: "Publisher",
   Rank: "Rank",
   Campaign: "Campaign",
+  Keyword: "keyword",
 };
 
 export default Tag;
