@@ -14,7 +14,7 @@
 - [v] campaign/{id}/publisher id 기준으로 쿼리하기(현재 query에 사용하지 않음)
 - [v] campaign/{id}/article id 기준으로 쿼리하기(현재 query에 사용하지 않음)
 - [v] /rank 를 위한 /tag 전달 주기
-- [ ] rank query의 keyword를 keyword_id로 변경
+- [v] rank query의 keyword를 keyword_id로 변경
 
 ### 검색
 - [ ] /search?search_term
