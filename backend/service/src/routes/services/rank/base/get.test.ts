@@ -54,7 +54,7 @@ describe("GET /rank get.query", () => {
   test("the result of select keyword should return same row", async () => {
     const keyword = await getRandomKeyowrd();
 
-    const result = await getKeyword({ keyword: keyword.name });
+    const result = await getKeyword({ keyword_id: keyword.id });
 
     expect(result).toEqual(keyword);
   });
@@ -62,7 +62,7 @@ describe("GET /rank get.query", () => {
   test("the result of select publisher rank with keyword filter should have same keywords", async () => {
     const keyword = await getRandomKeyowrd();
 
-    const result = await getPublisherRank({ limit: 10, keyword: keyword.name });
+    const result = await getPublisherRank({ limit: 10, keyword_id: keyword.id });
 
     expect(result.every((_, idx) => keyword.name === result[idx].keywords[0].keyword_name)).toEqual(
       true
@@ -73,8 +73,11 @@ describe("GET /rank get.query", () => {
     const withNoKeyword = await getPublisherRank({ limit: 10 });
     const withWrongKeyword = await getPublisherRank({
       limit: 10,
-      keyword: "💩💩💩💩💩💩💩💩",
+      keyword_id: -1,
     });
+
+    console.log(withNoKeyword);
+    console.log(withWrongKeyword);
 
     expect(withWrongKeyword).toEqual(withNoKeyword);
   });

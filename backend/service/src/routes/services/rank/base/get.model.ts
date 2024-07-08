@@ -14,19 +14,12 @@ const getCursor = async (query: { lastPublisherId?: string }) => {
   return cursor;
 };
 
-export const getKeyword = async (query: { keyword?: string }) => {
-  if (query.keyword == null) return;
+export const getKeyword = async (query: { keyword_id?: number }) => {
+  if (query.keyword_id == null) return;
 
   const keyword = await Ky.selectFrom("keywords")
-    .where((qb) =>
-      qb.eb(
-        "keywords.keyword_group_id",
-        "=",
-        qb.selectFrom("keyword_groups").select(["id"]).where("name", "=", "분야").limit(1)
-      )
-    )
     .selectAll()
-    .where("keywords.name", "=", query.keyword)
+    .where("id", "=", query.keyword_id)
     .executeTakeFirst();
 
   return keyword;
@@ -36,24 +29,25 @@ export const getKeyword = async (query: { keyword?: string }) => {
 export const getPublisherRank = async (query: {
   limit: number;
   lastPublisherId?: z.infer<typeof PublisherSchema.shape.id>;
-  keyword?: string;
+  keyword_id?: number;
 }): Promise<z.infer<typeof zRes>> => {
-  // 실제 없는 cursor, keyword여서 null이 반환되어도 값은 필터링이 안된 값이 반환되게끔
-  const [cursor, filterKeyword] = await Promise.all([getCursor(query), getKeyword(query)]);
+  // 실제 없는 cursor여서 null이여도, 랭크는 해당 cursor를 무시한 결과값을 반환
+
+  const [cursor, keyword] = await Promise.all([getCursor(query), getKeyword(query)]);
 
   const result = await Ky.selectFrom((eb) => {
     let q = eb
       .selectFrom((eb) => {
         let q = eb.selectFrom("publishers");
 
-        if (filterKeyword != null) {
+        if (keyword != null) {
           q = q
             .leftJoin(
               (eb) =>
                 eb
                   .selectFrom("keyword_publisher_rels")
                   .selectAll()
-                  .where("keyword_id", "=", filterKeyword.id)
+                  .where("keyword_id", "=", query.keyword_id as number)
                   .as("_kpr"),
               (join) => join.onRef("_kpr.publisher_id", "=", "publishers.id")
             )
