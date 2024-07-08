@@ -2,7 +2,7 @@
 
 ## Admin
 - [ ] openapi작성
-- [ ] slot isEnabled
+- [v] slot isEnabled
 
 ### Scrapping
 

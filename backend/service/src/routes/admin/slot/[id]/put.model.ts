@@ -8,7 +8,10 @@ export const putSlot = async (query: {
   data: z.infer<typeof zJson>;
 }) => {
   await Ky.updateTable("slots")
-    .set({ ...query.data })
+    .set({
+      ...query.data,
+      is_enabled: query.data.is_enabled == null ? undefined : Number(query.data.is_enabled),
+    })
     .where("id", "=", query.slotId)
     .execute();
 

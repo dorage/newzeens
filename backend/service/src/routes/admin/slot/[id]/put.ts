@@ -13,6 +13,7 @@ export const zJson = SlotSchema.pick({
   description: true,
   comment: true,
   preferences: true,
+  is_enabled: true,
 })
   .partial()
   .openapi({
@@ -21,6 +22,7 @@ export const zJson = SlotSchema.pick({
       description: "정치 관련 슬롯입니다2",
       comment: "[관리자 메모] 정치관련 슬롯2",
       preferences: 2,
+      is_enabled: true,
     },
   });
 
