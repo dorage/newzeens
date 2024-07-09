@@ -5,9 +5,16 @@ import Header from "./_components/layout/header"
 import NeedLogin from "./_components/layout/need-login"
 
 export default async function Home() {
-  const authCheck = await authApi.getAdminAuthCheck()
-
-  if (!authCheck.okay) {
+  try {
+    const authCheck = await authApi.getAdminAuthCheck()
+    if (!authCheck.okay) {
+      return (
+        <div className="flex min-h-screen items-center justify-center">
+          <NeedLogin />
+        </div>
+      )
+    }
+  } catch (e) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <NeedLogin />

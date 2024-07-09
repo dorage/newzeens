@@ -19,8 +19,7 @@ const NewsLetterList = (props: NewsLetterListProps) => {
     queryKey: mainQueryKey.recommendPublishers.list({}),
   })
 
-  console.log("🚀 ~ NewsLetterList ~ publisherList:", publisherList)
-  const [current, setCurrent] = useState("누구나")
+  const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const IconRender = useCallback((isSelected: boolean, index: number) => {
@@ -86,11 +85,14 @@ const NewsLetterList = (props: NewsLetterListProps) => {
       <div className="flex w-full flex-col gap-12 px-20">
         <h5 className="text-mH3 text-gray-80 xl:text-h2">{publisherList?.name}</h5>
         <div className="flex gap-4 overflow-x-auto xl:hidden">
-          {publisherList?.slots?.map((tab) => (
+          {publisherList?.slots?.map((tab, i) => (
             <KeywordTab
               key={tab.name}
               isSelected={tab.name === current}
-              onClick={() => setCurrent(tab.name)}
+              onClick={() => {
+                setCurrent(tab.name)
+                setCurrentIndex(i)
+              }}
               className={classNames({
                 "bg-white": tab.name !== current,
               })}

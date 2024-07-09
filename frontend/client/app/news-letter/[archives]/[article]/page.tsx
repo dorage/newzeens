@@ -21,8 +21,6 @@ export async function generateMetadata({ params }: NextPageProps<ArticlePageProp
 
     const response = await fetchArticle(articleId)
 
-    console.log(`response`, response)
-
     return {
       title: "test",
     }
@@ -42,7 +40,7 @@ const ArticlePage = async (props: NextPageProps<ArticlePageProps>) => {
 
   const queryClient = getQueryClient()
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: detailQueryKey.article.detail({ articleId }),
     queryFn: () => fetchArticle(articleId),
   })

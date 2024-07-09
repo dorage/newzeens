@@ -31,7 +31,6 @@ const api = async (url: string, options?: HttpOptions) => {
     })
     .catch(async (err) => {
       console.log(`error`, err)
-      throw new Error(err)
     })
 }
 

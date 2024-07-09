@@ -47,9 +47,20 @@ export interface AdminArticleResponse {
   thumbnail: string | null
   title: string
   summary: string
-  is_enabled: boolean
+  is_enabled: number
   publisher_id: string
   created_at: string
   url: string
   preferences: number | null
+}
+
+export interface PutAdminArticlePayload {
+  id: string
+  payload: {
+    thumbnail?: string
+    title?: string
+    summary?: string
+    publisher_id?: string
+    is_enabled?: boolean
+  }
 }

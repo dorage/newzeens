@@ -14,10 +14,7 @@ const KeywordFormInterceptor = async ({ params, searchParams }: NextPageProps<{ 
   return (
     <InitialDataContextProvider keywordGroup={keywordGroupList} keyword={keyword}>
       <div className="flex items-center justify-between">
-        <h1 className="text-[30px] font-bold">
-          키워드 관리
-          <span className="ml-2 text-[16px]">{"테스트"}</span>
-        </h1>
+        <h1 className="text-[30px] font-bold">키워드 관리</h1>
       </div>
 
       <div className="h-12" />
