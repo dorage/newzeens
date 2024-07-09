@@ -11,12 +11,10 @@ import { AllIcon, CareerIcon, EconomyIcon, HumanitiesIcon, ITIcon, LifestyleIcon
 
 interface NewsLetterListProps {}
 
-const MOCK = ["전체", "IT", "마케팅/브랜딩", "라이프스타일", "경제/시사", "인문/저널리즘", "커리어"]
-
 const NewsLetterList = (props: NewsLetterListProps) => {
   const {} = props
 
-  const { data } = useQuery({
+  const { data: publisherList } = useQuery({
     queryFn: mainApi.getRecommendPublishers,
     queryKey: mainQueryKey.recommendPublishers.list({}),
   })
@@ -57,23 +55,22 @@ const NewsLetterList = (props: NewsLetterListProps) => {
 
   return (
     <div className="flex gap-80">
-      {/* left category side */}
       <div className="hidden xl:block">
         <div className="w-224 relative flex flex-col gap-8">
-          {MOCK.map((tab, i) => (
+          {publisherList?.slots?.map((tab, i) => (
             <div
-              key={tab}
+              key={tab.name}
               className={classNames(
                 "flex rounded-full items-center gap-6 px-20 py-12 transition-colors duration-300 ease-in-out",
-                { "text-white": current === tab },
+                { "text-white": current === tab.name },
               )}
               onClick={() => {
-                setCurrent(tab)
+                setCurrent(tab.name)
                 setCurrentIndex(i)
               }}
             >
-              {IconRender(current === tab, i)}
-              {tab}
+              {IconRender(current === tab.name, i)}
+              {tab.name}
             </div>
           ))}
 
@@ -86,27 +83,36 @@ const NewsLetterList = (props: NewsLetterListProps) => {
 
       {/* right content */}
       <div className="flex w-full flex-col gap-12 px-20">
-        <h5 className="text-mH3 text-gray-80 xl:text-h2">뉴스레터 리스트</h5>
+        <h5 className="text-mH3 text-gray-80 xl:text-h2">{publisherList?.name}</h5>
         <div className="flex gap-4 overflow-x-auto xl:hidden">
-          {MOCK.map((tab) => (
+          {publisherList?.slots?.map((tab, i) => (
             <KeywordTab
-              key={tab}
-              isSelected={tab === current}
-              onClick={() => setCurrent(tab)}
+              key={tab.name}
+              isSelected={tab.name === current}
+              onClick={() => {
+                setCurrent(tab.name)
+                setCurrentIndex(i)
+              }}
               className={classNames({
-                "bg-white": tab !== current,
+                "bg-white": tab.name !== current,
               })}
             >
-              {tab}
+              {tab.name}
             </KeywordTab>
           ))}
         </div>
         <div /> {/* gap */}
         {/* content */}
         <div className="grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
-          {[...new Array(10)].map((_, index) => (
+          {publisherList?.slots
+            ?.find((slot) => slot.name === current)
+            ?.publishers?.map((v) => {
+              return <NewsLetterItem key={v.id} publisher={v} />
+            })}
+
+          {/* {[...new Array(10)].map((_, index) => (
             <NewsLetterItem key={index} />
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

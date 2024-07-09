@@ -6,6 +6,8 @@ import keywordKey from "../_api/fetch-key/keyword"
 import newsLetterKey from "../_api/fetch-key/news-letter"
 import keywordApi from "../_api/keyword"
 import newsLetterApi from "../_api/news-letter"
+import articleApi from "../_api/article"
+import articleKey from "../_api/fetch-key/article"
 
 /**
  * 키워드 그룹생성
@@ -143,4 +145,24 @@ export const putPublisherKeyword = async (
 
   await newsLetterApi.putAdminPublisherKeyword(publisherId, payload)
   // revalidatePath(`/news-letter/[publisherId]`, "page")
+}
+
+/** ------------------------------------------------------------------------------
+ * 
+ * 아티클
+ * 
+ ------------------------------------------------------------------------------ */
+export const putArticle = async (formData: FormData) => {
+  "use server"
+  const id = formData.get("articleId") as string
+
+  const payload = {
+    title: formData.get("title") as string,
+    summary: formData.get("summary") as string,
+    is_enabled: formData.get("is_enabled") === "on" ? true : false,
+  }
+  console.log(`payload`, payload)
+
+  await articleApi.putAdminArticle({ id, payload })
+  revalidateTag(articleKey.detail(id))
 }

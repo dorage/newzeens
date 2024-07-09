@@ -25,7 +25,7 @@ const Header = (props: HeaderProps) => {
           <Link href="/">
             <h3 className="text-h3 text-gray-80 align-middle font-extrabold">maillist</h3>
           </Link>
-          <div className="bg-gray-55 rounded-full px-10 py-16">뉴스레터 검색</div>
+          {/* <div className="bg-gray-55 rounded-full px-10 py-16">뉴스레터 검색</div> */}
         </div>
 
         <div className="flex items-center gap-64">

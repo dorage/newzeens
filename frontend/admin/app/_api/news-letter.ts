@@ -101,25 +101,6 @@ const newsLetterApi = {
     })
     return data as AdminArticleResponse[]
   },
-
-  /**
-   * article 추가
-   */
-  postAdminArticle: async (payload: AdminPublisherPayload) => {
-    const data = await api("/admin/article", {
-      method: METHOD.POST,
-      data: payload,
-    })
-    return data
-  },
-
-  /**
-   * article 정보 가져오기
-   */
-  getAdminArticle: async (id: string) => {
-    const data = await api(`/admin/article/${id}`)
-    return data as AdminNewsLetterResponse
-  },
 }
 
 export default newsLetterApi

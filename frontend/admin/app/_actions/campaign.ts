@@ -4,6 +4,7 @@ import { revalidatePath, revalidateTag } from "next/cache"
 import campaignApi from "../_api/campaign"
 import campaignKey from "../_api/fetch-key/campaign"
 import { redirect } from "next/navigation"
+import { AdminArticleResponse } from "../_api/news-letter.type"
 
 export const create = async (formData: FormData) => {
   "use server"
@@ -72,6 +73,9 @@ export const deleteSlot = async (formData: FormData) => {
   revalidatePath("/campaign")
 }
 
+/**
+ * 목록에서 하나씩 추가 / 제
+ */
 export const putSlotPublisher = async (formData: FormData, selectList: any[]) => {
   "use server"
   const slotId = Number(formData.get("slotId"))
@@ -92,4 +96,35 @@ export const putSlotPublisher = async (formData: FormData, selectList: any[]) =>
   await campaignApi.putAdminSlotPublisher(slotId, reduce)
 
   revalidateTag(campaignKey.slotList(slotId))
+}
+
+export const putSlotArticle = async (slotId: number, obj: { [key: string]: boolean }) => {
+  "use server"
+
+  await campaignApi.putAdminSlotArticle(slotId, obj)
+  revalidateTag(campaignKey.slotList(slotId))
+}
+
+/**
+ * 우선도 적용
+ */
+export const putSlotPublisherPreferences = async (formData: FormData, list: AdminArticleResponse[]) => {
+  "use server"
+
+  const slotId = Number(formData.get("slotId"))
+
+  const reduce = list.reduce((acc, item) => {
+    const preferences = formData.get(`${item.id}_preferences`)
+    acc[item.id] = Number(preferences) || true
+
+    return acc
+  }, {} as Record<string, number | boolean>)
+
+  try {
+    await campaignApi.putAdminSlotArticle(0, reduce)
+    revalidateTag(campaignKey.slotList(slotId))
+  } catch (e) {
+    console.log(e)
+    throw new Error()
+  }
 }

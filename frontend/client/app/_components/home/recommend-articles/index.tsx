@@ -9,9 +9,6 @@ import mainApi from "@/app/_apis/main-page/main"
 
 interface RecommendArticlesProps {}
 
-const MOCK = ["기획자 · 마케터", "개발자", "디자이너", "누구나"]
-// const MOCK = ["기획자 · 마케터", "개발자", "디자이너", "누구나", "누구나2"]
-
 const RecommendArticles = (props: RecommendArticlesProps) => {
   const {} = props
 

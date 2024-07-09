@@ -5,12 +5,14 @@ import { NextPageProps } from "@/app/_types/next"
 import { dateFormat } from "@/app/_utils/date-format"
 import { InitialDataContextProvider } from "./context/initial-data-context"
 import DetailTemplates from "./detail-templates"
+import KeywordFormInterceptor from "./@keywordForm/page"
+import ArticleListInterceptor from "./@articleList/page"
 
 interface PublisherDetailPageParams {
   publisherId: string
 }
 
-const PublisherDetailPage = async ({ params }: NextPageProps<PublisherDetailPageParams>) => {
+const PublisherDetailPage = async ({ params, searchParams }: NextPageProps<PublisherDetailPageParams>) => {
   const { publisherId } = params
 
   const publisher = await newsLetterApi.getAdminPublisher(publisherId)
@@ -28,6 +30,12 @@ const PublisherDetailPage = async ({ params }: NextPageProps<PublisherDetailPage
       <div className="h-12" />
 
       <DetailTemplates action={putPublisher} />
+
+      <div className="h-10" />
+      <KeywordFormInterceptor params={params} searchParams={searchParams} />
+
+      <div className="h-12" />
+      <ArticleListInterceptor params={params} searchParams={searchParams} />
     </InitialDataContextProvider>
   )
 }

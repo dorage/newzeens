@@ -3,6 +3,9 @@ import React from "react"
 import ArticleEdit from "../_components/article-edit"
 import { NextPageProps } from "@/app/_types/next"
 import newsLetterApi from "@/app/_api/news-letter"
+import { SlotArticleContextProvider } from "../_context/slot-article-context"
+import campaignApi from "@/app/_api/campaign"
+import { IdContextProvider } from "../_context/id-context"
 
 interface SlotArticlePageProps {
   campaignId: string
@@ -14,16 +17,21 @@ const SlotArticlePage = async (props: NextPageProps<SlotArticlePageProps>) => {
   const campaignId = Number(params.campaignId)
   const slotId = Number(params.slotId)
 
-  const articleList = await newsLetterApi.getAdminArticleList({})
-  return (
-    <WidthWrapper>
-      <div className="flex items-center justify-between">
-        <h1 className="text-[30px] font-bold">아티클 관리</h1>
-      </div>
-      <ArticleEdit initialValues={articleList} />
+  const articleList = await campaignApi.getAdminCampaignSlotArticle(slotId)
 
-      <div className="h-12" />
-    </WidthWrapper>
+  return (
+    <IdContextProvider campaignId={campaignId} slotId={slotId}>
+      <WidthWrapper>
+        <div className="flex items-center justify-between">
+          <h1 className="text-[30px] font-bold">아티클 관리</h1>
+        </div>
+        <SlotArticleContextProvider initialValues={articleList}>
+          <ArticleEdit initialValues={articleList} />
+        </SlotArticleContextProvider>
+
+        <div className="h-12" />
+      </WidthWrapper>
+    </IdContextProvider>
   )
 }
 

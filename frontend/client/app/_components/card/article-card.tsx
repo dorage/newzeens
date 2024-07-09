@@ -11,9 +11,9 @@ interface ArticleCardProps {
 
 const ArticleCard = (props: ArticleCardProps) => {
   const { article } = props
+
   return (
-    // TODO: 링크
-    <Link href="/news-letter/2ctyc9">
+    <Link href={`/news-letter/${article.publisher.id}/${article.id}`}>
       <div>
         <div className="relative aspect-video w-full shrink-0">
           <Image

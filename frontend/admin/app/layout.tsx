@@ -4,7 +4,6 @@ import RootContext from "./_context/root-context"
 import { cn } from "./_lib/utils"
 import "./globals.css"
 import authApi from "./_api/auth"
-import NeedLogin from "./_components/layout/need-login"
 import Header from "./_components/layout/header"
 
 export const metadata: Metadata = {
@@ -17,8 +16,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const authCheck = await authApi.getAdminAuthCheck()
-
   return (
     <html lang="ko">
       <body className={cn("min-h-screen bg-[#E0E5F7]")}>

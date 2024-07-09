@@ -30,7 +30,7 @@ const api = async (url: string, options?: HttpOptions) => {
       return json
     })
     .catch(async (err) => {
-      return { okay: false }
+      console.log(`error`, err)
     })
 }
 

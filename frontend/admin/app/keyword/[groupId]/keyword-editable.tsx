@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import dayjs from "dayjs"
-import { deleteKeyword, putKeyword } from "@/app/_actions"
+import { putKeyword } from "@/app/_actions"
 import { AdminKeywordResponse } from "@/app/_api/keyword.type"
 import { Button } from "@/app/_components/ui/button"
 import { Switch } from "@/app/_components/ui/switch"
@@ -26,8 +26,6 @@ const KeywordEditable = (props: KeywordEditableProps) => {
     const { name, value } = e.target
     setEditValues((prev) => ({ ...prev, [name]: value }))
   }
-
-  const bind = deleteKeyword.bind(null, keyword.id)
 
   if (isEdit) {
     return (
@@ -85,12 +83,13 @@ const KeywordEditable = (props: KeywordEditableProps) => {
           수정
         </Button>
 
-        <form action={bind}>
+        {/* 삭제 제거 */}
+        {/* <form action={bind}>
           <input type="hidden" name="keywordId" value={keyword.id} />
           <Button type="submit" variant="destructive" className="">
             삭제
           </Button>
-        </form>
+        </form> */}
       </div>
     </div>
   )
