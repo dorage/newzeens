@@ -2,20 +2,17 @@
   "name": "newzeens",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-		"init:backend:service": "cp packages/kysely-schema/db.local backend/service/db && pnpm --filter './backend/**' env:pull",
+    "init:backend:service": "cp packages/kysely-schema/db.local backend/service/db && pnpm --filter './backend/**' env:pull",
     "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
-    "test:backend:service": "pnpm run --filter ./backend/service/ \/test:*\/",
-  
+    "test:backend:service": "pnpm run --filter ./backend/service/ /test:*/",
     "여기부터 프론트엔드": "",
-
     "init:frontend:admin": "pnpm --filter ./frontend/admin env:pull:development && pnpm --filter ./frontend/admin env:pull:production",
-
     "dev:frontend:admin": "pnpm --filter ./frontend/admin run dev",
     "dev:frontend:admin:prod": "pnpm --filter ./frontend/admin run dev:prod",
     "start:frontend:admin": "pnpm --filter ./frontend/admin run start",
     "build:frontend:admin": "pnpm --filter ./frontend/admin run build",
-
     "dev:frontend:client": "pnpm --filter ./frontend/client run dev",
     "start:frontend:client": "pnpm --filter ./frontend/client run start"
-  }
+  },
+  "packageManager": "pnpm@9.1.3"
 }

@@ -5,6 +5,7 @@ import { cn } from "./_lib/utils"
 import "./globals.css"
 import authApi from "./_api/auth"
 import Header from "./_components/layout/header"
+import api from "./_api/fetch"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +21,6 @@ export default async function RootLayout({
     <html lang="ko">
       <body className={cn("min-h-screen bg-[#E0E5F7]")}>
         <Header />
-
         <RootContext>{children}</RootContext>
       </body>
     </html>

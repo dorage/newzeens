@@ -87,6 +87,17 @@ const newsLetterApi = {
     return data
   },
 
+  /**
+   * 업로드 publisher 썸네일
+   */
+  postAdminPublisherUpload: async ({ id, file }: { id: string; file: any }) => {
+    const data = await api(`/admin/publisher/${id}/upload`, {
+      method: METHOD.POST,
+      data: file,
+    })
+    return data
+  },
+
   /** ------------------------------------------------------------------------------
    * 
    * 아티클
