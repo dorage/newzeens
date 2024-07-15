@@ -41,9 +41,6 @@ const articleApi = {
     const data = await api(`/admin/article/${id}/upload`, {
       method: METHOD.POST,
       data: file,
-      headers: {
-        "Content-Type": "application/octet-stream",
-      },
     })
     return data
   },

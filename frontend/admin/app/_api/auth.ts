@@ -21,7 +21,6 @@ const authApi = {
       method: METHOD.POST,
       data: { id, password },
     })
-    console.log(`data`, data)
     return data
   },
 

@@ -21,6 +21,7 @@ const ArticleThumbnail = (props: ArticleThumbnailProps) => {
     if (!file) return
 
     const formData = new FormData()
+    formData.append("file", file)
     await articleApi.postAdminArticleUpload({ id: articleId as string, file: formData })
   }
 

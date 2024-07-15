@@ -7,6 +7,10 @@ import { FormField, FormItem } from "@/app/_components/ui/form"
 import { Input } from "@/app/_components/ui/input"
 import { Label } from "@/app/_components/ui/label"
 import { Switch } from "@/app/_components/ui/switch"
+import newsLetterApi from "@/app/_api/news-letter"
+import { useParams } from "next/navigation"
+import { revalidateTag } from "next/cache"
+import newsLetterKey from "@/app/_api/fetch-key/news-letter"
 
 interface PublisherFormProps {
   isEdit?: boolean
@@ -15,6 +19,18 @@ interface PublisherFormProps {
 const PublisherForm = (props: PublisherFormProps) => {
   const { isEdit } = props
   const { control } = useFormContext()
+
+  const { publisherId } = useParams()
+
+  const handleThumbnailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+    if (!file) return
+
+    const formData = new FormData()
+    formData.append("file", file)
+    await newsLetterApi.postAdminPublisherUpload({ id: publisherId as string, file: formData })
+    revalidateTag(newsLetterKey.publisherDetail(publisherId as string))
+  }
 
   return (
     <div className="">
@@ -111,7 +127,7 @@ const PublisherForm = (props: PublisherFormProps) => {
                       <Cross1Icon className="size-4" />
                     </div>
                   </div>
-                  <input type="hidden" {...field} />
+                  <input type="hidden" {...field} onChange={handleThumbnailChange} />
                 </FormItem>
               )
             }

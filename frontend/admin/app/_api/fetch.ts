@@ -13,17 +13,28 @@ const api = async (url: string, options?: HttpOptions) => {
     params = `?${new URLSearchParams(options?.params).toString()}`
   }
 
-  return fetch(`${"http://127.0.0.1:3000"}${url}${params}`, {
-    ...options,
-    method: options?.method ?? "GET",
-    body: JSON.stringify(options?.data),
-    credentials: "include",
+  const fetchOptions: any = {
+    method: options?.method || "GET",
     headers: {
       ...options?.headers,
-      "Content-Type": "application/json",
       ...(Authorization && { Authorization }),
     },
+    credentials: "include",
     next: options?.next,
+  }
+
+  // formData 예외처리
+  if (options?.data) {
+    if (options.data instanceof FormData) {
+      fetchOptions.body = options.data // FormData는 stringify 하지 않음
+    } else {
+      fetchOptions.headers["Content-Type"] = "application/json"
+      fetchOptions.body = JSON.stringify(options.data)
+    }
+  }
+
+  return fetch(`${"http://127.0.0.1:3000"}${url}${params}`, {
+    ...fetchOptions,
   })
     .then(async (res) => {
       const json = await res.json()
