@@ -15,7 +15,7 @@ const KeywordTab = (props: KeywordTabProps) => {
     <div
       onClick={onClick}
       className={classNames(
-        "flex justify-center items-center whitespace-nowrap text-mBody4 rounded-full border px-14 h-36",
+        "flex transition-all duration-300 ease-in-out justify-center items-center whitespace-nowrap text-mBody4 rounded-full border px-14 h-36 md:cursor-pointer",
         {
           "border-gray-40 text-gray-60": !isSelected,
           "bg-gray-80 text-white": isSelected,

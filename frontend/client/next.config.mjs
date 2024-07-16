@@ -14,13 +14,25 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "via.placeholder.com",
-        port: '',
+        port: "",
         pathname: "**",
       },
       {
         protocol: "https",
         hostname: "picsum.photos",
         port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+        pathname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "3000",
         pathname: "**",
       }
     ]

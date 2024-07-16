@@ -9,6 +9,7 @@ interface NewsLetterItemProps {
 
 const NewsLetterItem = (props: NewsLetterItemProps) => {
   const { publisher } = props
+  console.log("🚀 ~ NewsLetterItem ~ publisher:", publisher)
   return (
     <div className="flex flex-col gap-12">
       <div className="rounded-12 xl:rounded-16 relative aspect-square shrink-0 xl:aspect-video">
@@ -26,7 +27,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
         <p className="text-gray-70 text-mBody3 xl:text-body5 line-clamp-2 xl:line-clamp-2">{publisher.description}</p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         {publisher.keywords?.map((v) => {
           return <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
         })}

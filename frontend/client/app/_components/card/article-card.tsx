@@ -23,12 +23,13 @@ const ArticleCard = (props: ArticleCardProps) => {
             src={article.thumbnail || "https://via.placeholder.com/300"}
             alt="테스트이미지"
           />
+          {/* <div className="absolute inset-0 bg-black/50"></div> */}
         </div>
 
         <p className="text-mBody2 mt-12">{article.title}</p>
         <p className="text-mBody3">{article.publisher.name}</p>
         <p className="text-mElement3 mt-8 text-gray-50">{dateFormat("2024-01-15T18:26:57.720993+09:00") + " 전"}</p>
-        <div className="mt-16 flex gap-4">
+        <div className="mt-16 flex flex-wrap gap-4">
           {article.publisher.keywords.map((keyword) => {
             return (
               <LabelTag key={keyword.keyword_id} isSelected={false}>
