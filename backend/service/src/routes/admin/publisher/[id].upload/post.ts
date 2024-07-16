@@ -70,7 +70,10 @@ export const ep = app.openapi(route, async (c) => {
       Body: buffer,
     });
 
-    await Ky.updateTable("publishers").set({ thumbnail: thumbnailUrl }).execute();
+    await Ky.updateTable("publishers")
+      .set({ thumbnail: thumbnailUrl })
+      .where("id", "=", id)
+      .execute();
 
     return c.json(zRes.parse({ okay: true }));
   } catch (err) {
