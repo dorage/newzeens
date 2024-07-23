@@ -8,8 +8,11 @@ const fetch = async (url: string, options?: any) => {
   const urlJoin = `${BASE_URL}${url}`
 
   try {
-    const response = await defaultFetch(urlJoin, options)
-    return await response.json()
+    const response = await defaultFetch(urlJoin, {
+      ...options,
+    })
+    const toJson = await response.json()
+    return toJson
   } catch (e) {
     console.error(e)
   }

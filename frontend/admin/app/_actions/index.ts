@@ -166,3 +166,19 @@ export const putArticle = async (formData: FormData) => {
   await articleApi.putAdminArticle({ id, payload })
   revalidateTag(articleKey.detail(id))
 }
+
+/**
+ * 뉴스레터 업로드 revalidate
+ */
+export const revalidateTagPublisher = async (id: string) => {
+  "use server"
+  revalidateTag(newsLetterKey.publisherDetail(id))
+}
+
+/**
+ * 아티클 업로드 revalidate
+ */
+export const revalidateTagArticle = async (id: string) => {
+  "use server"
+  revalidateTag(articleKey.detail(id))
+}
