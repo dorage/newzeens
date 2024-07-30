@@ -1,5 +1,6 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import LabelTag from "../../atoms/label-tag"
 import { PublisherDto } from "@/app/_apis/main-page/main.type"
 
@@ -9,9 +10,8 @@ interface NewsLetterItemProps {
 
 const NewsLetterItem = (props: NewsLetterItemProps) => {
   const { publisher } = props
-  console.log("🚀 ~ NewsLetterItem ~ publisher:", publisher)
   return (
-    <div className="flex flex-col gap-12">
+    <Link href={`/news-letter/${publisher.id}`} className="flex flex-col gap-12">
       <div className="rounded-12 xl:rounded-16 relative aspect-square shrink-0 xl:aspect-video">
         <Image
           className="rounded-12 xl:rounded-16"
@@ -32,7 +32,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
           return <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
         })}
       </div>
-    </div>
+    </Link>
   )
 }
 
