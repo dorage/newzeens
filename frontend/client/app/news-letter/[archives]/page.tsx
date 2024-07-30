@@ -41,7 +41,6 @@ const ArchivesPage = async (props: NextPageProps<ArchivesPageParams>) => {
   //   })
 
   const dehydratedState = dehydrate(queryClient)
-  console.log(`dehydratedState`, dehydratedState)
 
   return (
     <HydrationBoundary state={dehydratedState}>
@@ -54,7 +53,6 @@ const ArchivesPage = async (props: NextPageProps<ArchivesPageParams>) => {
 
           <LastArticles />
           <SuggestNewsLetters />
-
           <TabletFixedButton />
         </main>
       </IdContextProvider>

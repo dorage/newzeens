@@ -17,13 +17,16 @@ const TabletFixedButton = (props: TabletFixedButtonProps) => {
   const { data } = useGetPublisherQuery({ publisherId: id })
 
   return (
+    <>
     <div className="fixed bottom-0 flex w-full bg-white p-20 xl:hidden">
-      <Link href={data?.publisher?.url_subscribe || ""} target="_blank">
+      <Link href={data?.publisher?.url_subscribe || ""} target="_blank" className="w-full flex">
         <button className="bg-primary text-body1 flex-1 items-center justify-center rounded-full py-20 leading-none text-white">
           구독
         </button>
       </Link>
     </div>
+    <div className="xl:hidden h-98" />
+    </>
   )
 }
 

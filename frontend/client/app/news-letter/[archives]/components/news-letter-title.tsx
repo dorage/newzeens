@@ -7,6 +7,7 @@ import LabelTag from "@/app/_components/atoms/label-tag"
 import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
 import { ArrowRightIcon } from "@/public/icons"
+import { getField, isField, keywordByGroup } from "@/app/_utils/keyword"
 
 interface NewsLetterTitleProps {}
 
@@ -15,6 +16,8 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
 
   const { id } = useIdContext()
   const { data } = useGetPublisherQuery({ publisherId: id })
+
+  
 
   return (
     <div className="border-gray-40 border-b bg-white px-20 pb-16 pt-28 xl:px-40">
@@ -34,19 +37,15 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
 
               {/* ~ pc only */}
               <div className="hidden items-center gap-4 xl:flex">
-                {data?.publisher?.keywords?.map((v, i) => {
-                  if (i === 0) return <></>
-                  return <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
+                {keywordByGroup(data?.publisher?.keywords)?.map((v, i) => {
+                  const active = isField(v)
+                  return <LabelTag key={v.keyword_id} isSelected={active}>{v.keyword_name}</LabelTag>
                 })}
-                {/* <LabelTag isSelected>기획자 · 마케터</LabelTag>
-                <LabelTag>트렌드</LabelTag>
-                <LabelTag>인사이트</LabelTag> */}
               </div>
             </div>
 
             <div className="text-body6 text-gray-60">
-              {data?.publisher?.keywords?.[0]?.keyword_name}
-
+              {getField(data?.publisher?.keywords).keyword_name}
               {/* · 구독자 {"12.6천"}명 */}
             </div>
           </div>

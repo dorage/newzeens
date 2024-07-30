@@ -66,6 +66,7 @@ export const createKeyword = async (groupId: number, formData: FormData) => {
 export const putKeyword = async (groupId: number, formData: FormData) => {
   "use server"
   const keywordId = Number(formData.get("keyword_id")) as number
+  console.log(`keywordId`, keywordId)
   const payload = {
     name: formData.get("keyword_name") as string,
     is_enabled: formData.get("is_enabled") === "on" ? true : false,

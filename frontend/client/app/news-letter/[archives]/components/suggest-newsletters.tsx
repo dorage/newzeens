@@ -7,6 +7,7 @@ import LabelTag from "@/app/_components/atoms/label-tag"
 import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
 import classNames from "@/app/_utils/class-names"
+import { isField, keywordByGroup } from "@/app/_utils/keyword"
 
 interface SuggestNewsLettersProps {}
 
@@ -21,10 +22,6 @@ const SuggestNewsLetters = (props: SuggestNewsLettersProps) => {
   return (
     <div className="flex flex-col gap-16 px-20 py-40 xl:px-40">
       <h4 className="text-gray-80 text-h2">추천 뉴스레터</h4>
-
-      {/* <Link href="/news-letter/2ctyc9/test" scroll={false}>
-        모달켜기
-      </Link> */}
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
         {data?.related_publishers?.map((v) => {
@@ -49,11 +46,10 @@ const SuggestNewsLetters = (props: SuggestNewsLettersProps) => {
                   <p className="text-body5 text-gray-70">{v?.description}</p>
 
                   <div className="mt-8 flex gap-4">
-                    {v?.keywords?.map((keyword) => {
-                      return <LabelTag key={keyword.keyword_id}>{keyword.keyword_name}</LabelTag>
+                    {keywordByGroup(v?.keywords)?.map((keyword) => {
+                      const isActive = isField(keyword)
+                      return <LabelTag key={keyword.keyword_id} isSelected={isActive}>{keyword.keyword_name}</LabelTag>
                     })}
-                    {/* <LabelTag>트렌드</LabelTag>
-                  <LabelTag>인사이트</LabelTag> */}
                   </div>
                 </div>
               </div>

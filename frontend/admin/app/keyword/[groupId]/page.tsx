@@ -33,7 +33,6 @@ const KeywordDetailPage = async ({ params, searchParams: _searchParams }: NextPa
       <div className="flex items-center justify-between">
         <h1 className="text-[30px]">
           그룹 관리: <b>{current?.name}</b>
-          {/* <span className="text-[#2141E5]">{groupList?.length}</span> */}
         </h1>
 
         {/* <Button variant="destructive" className="" type="button">
