@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import LabelTag from "../../atoms/label-tag"
 import { PublisherDto } from "@/app/_apis/main-page/main.type"
+import { filterByKeywordGroup } from "@/app/_utils/keyword"
 
 interface NewsLetterItemProps {
   publisher: PublisherDto
@@ -28,8 +29,12 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        {publisher.keywords?.map((v) => {
-          return <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
+        {filterByKeywordGroup(publisher.keywords, ["직무", "목적", "고유", "해외"])?.map((v) => {
+          return (
+            <LabelTag key={v.keyword_id} bg4>
+              {v.keyword_name}
+            </LabelTag>
+          )
         })}
       </div>
     </Link>
