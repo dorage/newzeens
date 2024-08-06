@@ -88,19 +88,23 @@ const SlotEditable = (props: SlotEditableProps) => {
             type="number"
             name="preferences"
             className="h-[40px] w-[300px] rounded-md border border-gray-300 px-4"
-            value={slot.preferences}
+            value={editValues.preferences}
             onChange={handleChange}
           />
         </label>
 
-        <label className="flex h-[140px] items-end gap-4">
-          <button type="reset" className="h-[40px] w-[100px] rounded-md border bg-white" onClick={handleToggle}>
-            취소
-          </button>
-          <button type="submit" className="h-[40px] w-[100px] rounded-md bg-[#637BF4] text-white">
-            수정
-          </button>
-        </label>
+        <div className="flex w-full justify-end">
+          <label className="flex h-32 items-end gap-4">
+            <button type="reset" className="h-[40px] w-[100px] rounded-md border bg-white" onClick={handleToggle}>
+              취소
+            </button>
+            <button type="submit" className="h-[40px] w-[100px] rounded-md bg-[#637BF4] text-white">
+              수정
+            </button>
+          </label>
+        </div>
+
+        <div className="mb-4 h-1 w-full bg-gray-100" />
       </form>
     )
   }

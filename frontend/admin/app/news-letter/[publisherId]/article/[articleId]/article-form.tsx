@@ -1,8 +1,6 @@
 "use client"
 
 import { Form, FormField, FormItem } from "@/app/_components/ui/form"
-import { Label } from "@radix-ui/react-label"
-import { Switch } from "@radix-ui/react-switch"
 import React from "react"
 import toast from "react-hot-toast"
 import { useArticleInitialContext } from "./_context/article-initial-context"
@@ -14,6 +12,8 @@ import { Button } from "@/app/_components/ui/button"
 import ClientForm from "@/app/_components/helpers/client-form"
 import { putArticle } from "@/app/_actions"
 import ArticleThumbnail from "./aritlce-thumbnail"
+import { Switch } from "@/app/_components/ui/switch"
+import { Label } from "@/app/_components/ui/label"
 
 interface ArticleFormProps {}
 
@@ -50,9 +50,8 @@ const ArticleForm = (props: ArticleFormProps) => {
                 return (
                   <FormItem className="flex items-center gap-2">
                     <Label className="min-w-[150px] text-[18px] font-semibold">활성화 여부{field.value}</Label>
-
                     <Switch
-                      className=""
+                      className="!mt-0"
                       onClick={() => {
                         field.onChange(!field.value)
                       }}
