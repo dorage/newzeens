@@ -121,7 +121,7 @@ export const putSlotPublisherPreferences = async (formData: FormData, list: Admi
   }, {} as Record<string, number | boolean>)
 
   try {
-    await campaignApi.putAdminSlotArticle(0, reduce)
+    await campaignApi.putAdminSlotArticle(slotId, reduce)
     revalidateTag(campaignKey.slotList(slotId))
   } catch (e) {
     console.log(e)

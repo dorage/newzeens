@@ -6,6 +6,7 @@ import { Input } from "@/app/_components/ui/input"
 import { Button } from "@/app/_components/ui/button"
 import { putSlotPublisherPreferences } from "@/app/_actions/campaign"
 import { useIdContext } from "../_context/id-context"
+import toast from "react-hot-toast"
 
 interface SlotArticleFormProps {}
 
@@ -29,7 +30,7 @@ const SlotArticleForm = (props: SlotArticleFormProps) => {
   const actionWithAlert = async (formData: FormData) => {
     await putSlotPublisherPreferences(formData, initialValues)
       .then(() => {
-        alert("저장되었습니다.")
+        toast.success("저장되었습니다.")
       })
       .catch((err) => {
         alert(JSON.stringify(err))
