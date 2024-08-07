@@ -4,7 +4,7 @@ import { getCampaignArticles } from "./get.model";
 
 describe("GET /campaign/:id/article", () => {
   test("the result of the campaign articles should return well-formatted json", async () => {
-    const campaignArticles = await getCampaignArticles({ campaignId: 1, limit: 4 });
+    const campaignArticles = await getCampaignArticles({ campaignId: 2, limit: 4 });
 
     expect(zRes.safeParse(campaignArticles).success).toEqual(true);
   });
