@@ -29,7 +29,10 @@ describe("post.controller", () => {
   test("must return slots", async () => {
     const slotData = generateMock(zJson);
     const campaign = await TestingMock.insertCampaign();
-    const res = await controller({ query: { campaign_id: campaign.id }, json: slotData });
+    const res = await controller({
+      query: { campaign_id: campaign.id },
+      json: slotData,
+    });
 
     expect(zRes.safeParse(res).success).toEqual(true);
     expect(res.length).toEqual(1);

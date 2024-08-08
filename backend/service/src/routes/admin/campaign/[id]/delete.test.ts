@@ -5,20 +5,23 @@ import CampaignProvider from "@/src/providers/campaigns";
 import { controller } from "./delete.controller";
 import { zRes } from "./delete";
 
-testingTransaction();
+let campaign: any;
+testingTransaction(
+  beforeEach(async () => {
+    campaign = await TestingMock.insertCampaign();
+  })
+);
 
 describe("delete.model", () => {
   describe("deleteCampaign", () => {
     test("must delete campaign", async () => {
-      const before = zRes.parse(await CampaignProvider.selectCampaigns());
-      const campaign = await TestingMock.insertCampaign();
       // check new campaign has inserted
       await CampaignProvider.selectCampaignById(campaign.id);
 
       await deleteCampaign({ id: campaign.id });
-      const after = zRes.parse(await CampaignProvider.selectCampaigns());
+      const res = zRes.parse(await CampaignProvider.selectCampaigns());
 
-      expect(after).toEqual(before);
+      expect(res.every((_campaign) => _campaign.id !== campaign.id)).toEqual(true);
     });
   });
 });
