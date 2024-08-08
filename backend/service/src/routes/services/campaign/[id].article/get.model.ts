@@ -81,7 +81,7 @@ const getArticlesWithKeywords = async (query: { slotId: number; limit: number })
   return result;
 };
 
-export const getCampaign = async (query: { campaignId: number }) => {
+export const getCampaignById = async (query: { campaignId: number }) => {
   return Ky.selectFrom("campaigns")
     .select(["id", "name"])
     .where("id", "=", query.campaignId)
@@ -89,13 +89,14 @@ export const getCampaign = async (query: { campaignId: number }) => {
 };
 
 export const getCampaignArticles = async (query: { campaignId: number; limit: number }) => {
+  const campaign = await getCampaignById(query);
+  if (campaign == null) throw new Error("campaign not found");
+
   const slots = await Ky.selectFrom("slots")
     .selectAll()
     .where("campaign_id", "=", query.campaignId)
     .orderBy("preferences desc")
     .execute();
-
-  const campaign = await getCampaign(query);
 
   await Promise.all(
     slots.map((slot: any) =>
