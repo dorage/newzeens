@@ -44,6 +44,7 @@ const ArticlePage = async (props: NextPageProps<ArticlePageProps>) => {
     queryKey: detailQueryKey.article.detail({ articleId: article }),
     queryFn: () => fetchArticle(article),
   })
+  console.log(`fetch`, fetch)
 
   return (
     <>

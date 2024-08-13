@@ -1,10 +1,10 @@
-import { PublisherDetailDto } from "./index.type"
+import { ArticleDetailDto, PublisherDetailDto } from "./index.type"
 import fetch from "../fetch"
 
 const detailApi = {
   getArticle: async ({ articleId }: { articleId: string }) => {
     const response = await fetch(`/article/${articleId}`)
-    return response
+    return response as ArticleDetailDto
   },
 
   getPublisher: async ({ publisherId }: { publisherId: string }) => {

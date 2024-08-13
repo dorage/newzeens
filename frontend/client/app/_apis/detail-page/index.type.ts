@@ -35,3 +35,17 @@ export interface PublisherDetailDto {
   recent_articles: Article[]
   related_publishers: RelatedPublisher[]
 }
+
+export interface ArticleDetailDto {
+  article: Article
+  publisher: Publisher
+  related_articles: {
+    title: string
+    created_at: string
+    publisher: {
+      id: string
+      name: string
+      keywords: Keyword[]
+    }
+  }[]
+}

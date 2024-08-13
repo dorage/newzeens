@@ -10,3 +10,11 @@ export const useGetPublisherQuery = ({ publisherId }: { publisherId: string }) =
     enabled: !!publisherId,
   })
 }
+
+export const useGetArticleQuery = ({ articleId }: { articleId: string }) => {
+  return useQuery({
+    queryKey: detailQueryKey.article.detail({ articleId }),
+    queryFn: () => detailApi.getArticle({ articleId }),
+    enabled: !!articleId,
+  })
+}
