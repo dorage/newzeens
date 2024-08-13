@@ -2,85 +2,108 @@ import { Ky } from "@/src/libs/kysely";
 import { queryPublisherWithKeywords } from "@/src/providers/publishers";
 import { sql } from "kysely";
 import { zRes } from "./get";
+import { ArticleSchema, PublisherSchema } from "kysely-schema";
+
+export const getPublishersWithKeywords = async (query: { slotId: number; limit: number }) => {
+  const result = await Ky.selectFrom((eb) =>
+    eb.selectFrom("slot_publishers").selectAll().where("slot_id", "=", query.slotId).as("sp")
+  )
+    .leftJoin("publishers", "publishers.id", "sp.publisher_id")
+    .leftJoin("keyword_publisher_rels", "keyword_publisher_rels.publisher_id", "publishers.id")
+    .leftJoin("keyword_groups", "keyword_groups.id", "keyword_publisher_rels.keyword_group_id")
+    .leftJoin("keywords", "keywords.id", "keyword_publisher_rels.keyword_id")
+    .groupBy("publishers.id")
+    .select([
+      ...(Object.keys(PublisherSchema.shape).map((key) => `publishers.${key}`) as any),
+      sql`JSON_GROUP_ARRAY(JSON_OBJECT(
+						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
+			))`.as("keywords"),
+    ])
+    .limit(query.limit)
+    .execute();
+  return result;
+};
+
+const getArticlesWithKeywords = async (query: { slotId: number; limit: number }) => {
+  const result = await Ky.selectFrom((eb) =>
+    eb.selectFrom("slot_articles").selectAll().where("slot_id", "=", query.slotId).as("sa")
+  )
+    .leftJoin("articles", "articles.id", "sa.article_id")
+    .leftJoin(
+      (eb) =>
+        eb
+          .selectFrom((eb) =>
+            eb.selectFrom("slot_articles").selectAll().where("slot_id", "=", query.slotId).as("sa")
+          )
+          .leftJoin("articles", "articles.id", "sa.article_id")
+          .leftJoin("publishers", "publishers.id", "articles.publisher_id")
+          .leftJoin(
+            "keyword_publisher_rels",
+            "keyword_publisher_rels.publisher_id",
+            "publishers.id"
+          )
+          .leftJoin(
+            "keyword_groups",
+            "keyword_groups.id",
+            "keyword_publisher_rels.keyword_group_id"
+          )
+          .leftJoin("keywords", "keywords.id", "keyword_publisher_rels.keyword_id")
+          .groupBy("publishers.id")
+          .select([
+            ...(Object.keys(PublisherSchema.shape).map((key) => `publishers.${key}`) as any),
+            sql`JSON_GROUP_ARRAY(JSON_OBJECT(
+    			'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
+    ))`.as("keywords"),
+          ])
+          .as("p"),
+      (eq) => eq.onRef("articles.publisher_id", "=", "p.id")
+    )
+    // .selectAll()
+    .select([
+      ...(Object.keys(ArticleSchema.shape).map((key) => `articles.${key}`) as any),
+      sql`JSON_OBJECT(
+    	'keywords', p.keywords,
+			'id', p.id,
+			'thumbnail', p.thumbnail,
+			'name', p.name,
+			'description', p.description,
+			'subscriber', p.subscriber,
+			'url_main', p.url_main,
+			'url_subscribe', p.url_subscribe,
+			'publisher_main', p.publisher_main,
+			'publisher_spec', p.publisher_spec,
+			'is_enabled', p.is_enabled,
+			'created_at', p.created_at
+    )`.as("publisher"),
+    ])
+    .limit(query.limit)
+    .execute();
+  return result;
+};
+
+export const getCampaign = async (query: { campaignId: number }) => {
+  return Ky.selectFrom("campaigns")
+    .select(["id", "name"])
+    .where("id", "=", query.campaignId)
+    .executeTakeFirst();
+};
 
 export const getCampaignArticles = async (query: { campaignId: number; limit: number }) => {
-  const publisherQuery = await queryPublisherWithKeywords();
+  const slots = await Ky.selectFrom("slots")
+    .selectAll()
+    .where("campaign_id", "=", query.campaignId)
+    .orderBy("preferences desc")
+    .execute();
 
-  const campaignArticles = await Ky.selectFrom((eb) =>
-    eb
-      .selectFrom("slots")
-      .leftJoin(
-        (eb) =>
-          eb.selectFrom("campaigns").selectAll().where("id", "=", query.campaignId).as("campaigns"),
-        (join) => join.onRef("slots.campaign_id", "=", "campaigns.id")
-      )
-      .leftJoin(
-        (eb) =>
-          eb
-            .selectFrom("articles")
-            .leftJoin(
-              (eb) =>
-                eb
-                  .selectFrom("slot_articles")
-                  .selectAll()
-                  .orderBy("preferences desc")
-                  .as("slot_articles"),
-              (join) => join.onRef("articles.id", "=", "slot_articles.article_id")
-            )
-            .leftJoin(
-              (eb) => publisherQuery(eb as any).as("pq"),
-              (join) => join.onRef("pq.id", "=", "articles.publisher_id")
-            )
-            .leftJoin(
-              (eb) => eb.selectFrom("publishers").selectAll().as("p"),
-              (join) => join.onRef("articles.publisher_id", "=", "p.id")
-            )
-            .select(() => [
-              sql`articles.id`.as("id"),
-              sql<number>`ROW_NUMBER () OVER ( PARTITION BY slot_articles.slot_id ORDER BY slot_articles.preferences )`.as(
-                "idx"
-              ),
-              sql`slot_articles.slot_id`.as("slot_id"),
-              sql`JSON_OBJECT(
-							'id', articles.id,
-							'title', articles.title,
-							'thumbnail', articles.thumbnail,
-							'created_at', articles.created_at,
-							'preferences', slot_articles.preferences,
-							'publisher', JSON_OBJECT(
-								'id', p.id,
-								'name', p.name,
-								'keywords', pq.keywords
-							)
-						)`.as("article"),
-            ])
-            .as("a"),
-        (join) => join.onRef("a.slot_id", "=", "slots.id")
-      )
-      .select(() => [
-        // sql<string>`length`.as("length"),
-        sql<string>`campaigns.id`.as("id"),
-        sql<string>`campaigns.name`.as("name"),
-        sql<{ articles: any[] }[]>`JSON_OBJECT(
-							'id', slots.id,
-							'name', slots.name,
-							'preferences', slots.preferences,
-							'articles', JSON_GROUP_ARRAY(a.article)
-						)`.as("slot"),
-      ])
-      .where("slots.campaign_id", "=", query.campaignId)
-      .where("a.idx", "<=", query.limit)
-      .orderBy("slots.preferences desc")
-      .groupBy("slots.id")
-      .as("c")
-  )
-    .groupBy("c.id")
-    .select(() => [
-      sql<string>`c.id`.as("id"),
-      sql<string>`c.name`.as("name"),
-      sql<any[]>`JSON_GROUP_ARRAY(c.slot)`.as("slots"),
-    ])
-    .executeTakeFirstOrThrow();
+  const campaign = await getCampaign(query);
 
-  return zRes.parse(campaignArticles);
+  await Promise.all(
+    slots.map((slot: any) =>
+      getArticlesWithKeywords({ slotId: slot.id, ...query }).then((articles) => {
+        slot.articles = articles;
+      })
+    )
+  );
+
+  return zRes.parse({ ...campaign, slots });
 };
