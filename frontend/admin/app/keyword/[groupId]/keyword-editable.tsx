@@ -35,6 +35,7 @@ const KeywordEditable = (props: KeywordEditableProps) => {
         }}
         className="flex flex-wrap items-center gap-4"
       >
+        <input type="hidden" id="keyword_id" name="keyword_id" value={keyword.id} />
         <input
           type="text"
           name="keyword_name"

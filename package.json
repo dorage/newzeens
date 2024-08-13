@@ -12,7 +12,8 @@
     "start:frontend:admin": "pnpm --filter ./frontend/admin run start",
     "build:frontend:admin": "pnpm --filter ./frontend/admin run build",
     "dev:frontend:client": "pnpm --filter ./frontend/client run dev",
-    "start:frontend:client": "pnpm --filter ./frontend/client run start"
+    "start:frontend:client": "pnpm --filter ./frontend/client run start",
+    "build:frontend:client": "pnpm --filter ./frontend/client run build"
   },
   "packageManager": "pnpm@9.1.3"
 }

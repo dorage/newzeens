@@ -91,7 +91,7 @@ const PublisherAdd = (props: PublisherAddProps) => {
               >
                 <p className="w-10 text-[18px] font-semibold">{i + 1}</p>
 
-                <div className="ml-2 size-12 overflow-hidden bg-white">
+                <div className="ml-2 size-12 shrink-0 overflow-hidden bg-white">
                   <Image
                     className="size-full object-cover"
                     src={publisher.thumbnail}

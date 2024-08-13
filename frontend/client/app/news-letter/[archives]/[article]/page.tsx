@@ -12,14 +12,14 @@ const fetchArticle = async (articleId: string) => {
 }
 
 interface ArticlePageProps {
-  articleId: string
+  article: string
 }
 
 export async function generateMetadata({ params }: NextPageProps<ArticlePageProps>): Promise<Metadata> {
   try {
-    const { articleId } = params
+    const { article } = params
 
-    const response = await fetchArticle(articleId)
+    const response = await fetchArticle(article)
 
     return {
       title: "test",
@@ -36,14 +36,15 @@ export async function generateMetadata({ params }: NextPageProps<ArticlePageProp
 const ArticlePage = async (props: NextPageProps<ArticlePageProps>) => {
   const { params } = props
 
-  const { articleId } = params
+  const { article } = params
 
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery({
-    queryKey: detailQueryKey.article.detail({ articleId }),
-    queryFn: () => fetchArticle(articleId),
+  const fetch = await queryClient.fetchQuery({
+    queryKey: detailQueryKey.article.detail({ articleId: article }),
+    queryFn: () => fetchArticle(article),
   })
+  console.log(`fetch`, fetch)
 
   return (
     <>

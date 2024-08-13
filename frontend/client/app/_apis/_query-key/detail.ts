@@ -1,5 +1,5 @@
 const detailQueryKey = {
-  all: () => ["detail"],
+  all: () => ["detail-query"],
 
   article: {
     all: () => [...detailQueryKey.all(), "article"],

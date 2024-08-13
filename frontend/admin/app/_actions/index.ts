@@ -66,6 +66,7 @@ export const createKeyword = async (groupId: number, formData: FormData) => {
 export const putKeyword = async (groupId: number, formData: FormData) => {
   "use server"
   const keywordId = Number(formData.get("keyword_id")) as number
+  console.log(`keywordId`, keywordId)
   const payload = {
     name: formData.get("keyword_name") as string,
     is_enabled: formData.get("is_enabled") === "on" ? true : false,
@@ -164,5 +165,21 @@ export const putArticle = async (formData: FormData) => {
   console.log(`payload`, payload)
 
   await articleApi.putAdminArticle({ id, payload })
+  revalidateTag(articleKey.detail(id))
+}
+
+/**
+ * 뉴스레터 업로드 revalidate
+ */
+export const revalidateTagPublisher = async (id: string) => {
+  "use server"
+  revalidateTag(newsLetterKey.publisherDetail(id))
+}
+
+/**
+ * 아티클 업로드 revalidate
+ */
+export const revalidateTagArticle = async (id: string) => {
+  "use server"
   revalidateTag(articleKey.detail(id))
 }

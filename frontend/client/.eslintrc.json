@@ -20,6 +20,7 @@
       "whitelist": ["(bg|text|rounded|p|py|px|w|h|gap|border)\\-.*"]
     }
   },
+  "ignorePatterns": ["*.config.{ts,js,mjs}"],
   "rules": {
     "import/order": [
       "error",
@@ -39,7 +40,8 @@
         ],
         "pathGroupsExcludedImportTypes": ["react"],
         "alphabetize": {
-          "order": "asc"
+          "order": "asc",
+          "caseInsensitive": true
         },
         // @see https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#warnonunassignedimports-truefalse
         "warnOnUnassignedImports": true

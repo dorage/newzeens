@@ -1,7 +1,9 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import LabelTag from "../../atoms/label-tag"
 import { PublisherDto } from "@/app/_apis/main-page/main.type"
+import { filterByKeywordGroup } from "@/app/_utils/keyword"
 
 interface NewsLetterItemProps {
   publisher: PublisherDto
@@ -9,9 +11,8 @@ interface NewsLetterItemProps {
 
 const NewsLetterItem = (props: NewsLetterItemProps) => {
   const { publisher } = props
-  console.log("🚀 ~ NewsLetterItem ~ publisher:", publisher)
   return (
-    <div className="flex flex-col gap-12">
+    <Link href={`/news-letter/${publisher.id}`} className="flex flex-col gap-12">
       <div className="rounded-12 xl:rounded-16 relative aspect-square shrink-0 xl:aspect-video">
         <Image
           className="rounded-12 xl:rounded-16"
@@ -28,11 +29,15 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        {publisher.keywords?.map((v) => {
-          return <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
+        {filterByKeywordGroup(publisher.keywords, ["직무", "목적", "고유", "해외"])?.map((v) => {
+          return (
+            <LabelTag key={v.keyword_id} bg4>
+              {v.keyword_name}
+            </LabelTag>
+          )
         })}
       </div>
-    </div>
+    </Link>
   )
 }
 

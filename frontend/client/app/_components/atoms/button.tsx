@@ -1,14 +1,14 @@
-import React from "react"
+import React, { ButtonHTMLAttributes } from "react"
 import classNames from "@/app/_utils/class-names"
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color: "primary" | "white"
   className?: string
   children: React.ReactNode
 }
 
 const Button = (props: ButtonProps) => {
-  const { color, className, children } = props
+  const { color, className, children, ...rest } = props
   return (
     <button
       type="button"
@@ -20,6 +20,7 @@ const Button = (props: ButtonProps) => {
         },
         className,
       )}
+      {...rest}
     >
       {children}
     </button>

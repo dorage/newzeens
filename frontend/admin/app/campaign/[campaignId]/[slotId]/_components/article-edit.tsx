@@ -89,7 +89,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
               >
                 <p className="w-10 text-[18px] font-semibold">{i + 1}</p>
 
-                <div className="ml-2 size-12 overflow-hidden bg-white">
+                <div className="ml-2 size-12 shrink-0 overflow-hidden bg-white">
                   <Image
                     className="size-full object-cover"
                     src={publisher.thumbnail || ""}
@@ -114,9 +114,15 @@ const ArticleEdit = (props: ArticleEditProps) => {
                   "bg-[#6D768E]": isSelected,
                 })}
                 onClick={async () => {
-                  await putSlotArticle(Number(slotId), {
-                    [publisher.id]: true,
-                  })
+                  if (isSelected) {
+                    await putSlotArticle(Number(slotId), {
+                      [publisher.id]: false,
+                    })
+                  } else {
+                    await putSlotArticle(Number(slotId), {
+                      [publisher.id]: true,
+                    })
+                  }
                 }}
               >
                 {isSelected ? "제거" : "추가"}
