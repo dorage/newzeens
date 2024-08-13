@@ -20,6 +20,7 @@
       "whitelist": ["(bg|text|rounded|p|py|px|w|h|gap|border)\\-.*"]
     }
   },
+  "ignorePatterns": ["*.config.{ts,js,mjs}"],
   "rules": {
     "import/order": [
       "error",
