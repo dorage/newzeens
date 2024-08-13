@@ -15,7 +15,7 @@ export const controller = async (query: {
   json: z.infer<typeof zJson>;
 }) => {
   const slotId = query.param.id;
-  const publisherIds = Object.getOwnPropertyNames(query.json) as (keyof typeof query.json)[];
+  const publisherIds = Object.getOwnPropertyNames(query.json);
 
   const promises = publisherIds.map(async (publisherId) => {
     const value = refineValue(query.json[publisherId]);
