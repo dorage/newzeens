@@ -1,3 +1,7 @@
+
+console.log(process.env.NODE_ENV)
+console.log(process.env.HELLO)
+  
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config) => {
