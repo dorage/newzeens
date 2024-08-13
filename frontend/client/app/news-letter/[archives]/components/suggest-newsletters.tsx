@@ -48,7 +48,11 @@ const SuggestNewsLetters = (props: SuggestNewsLettersProps) => {
                   <div className="mt-8 flex gap-4">
                     {keywordByGroup(v?.keywords)?.map((keyword) => {
                       const isActive = isField(keyword)
-                      return <LabelTag key={keyword.keyword_id} isSelected={isActive}>{keyword.keyword_name}</LabelTag>
+                      return (
+                        <LabelTag key={keyword.keyword_id} isSelected={isActive}>
+                          {keyword.keyword_name}
+                        </LabelTag>
+                      )
                     })}
                   </div>
                 </div>

@@ -6,8 +6,8 @@ import Link from "next/link"
 import LabelTag from "@/app/_components/atoms/label-tag"
 import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
-import { ArrowRightIcon } from "@/public/icons"
 import { getField, isField, keywordByGroup } from "@/app/_utils/keyword"
+import { ArrowRightIcon } from "@/public/icons"
 
 interface NewsLetterTitleProps {}
 
@@ -16,8 +16,6 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
 
   const { id } = useIdContext()
   const { data } = useGetPublisherQuery({ publisherId: id })
-
-  
 
   return (
     <div className="border-gray-40 border-b bg-white px-20 pb-16 pt-28 xl:px-40">
@@ -39,7 +37,11 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
               <div className="hidden items-center gap-4 xl:flex">
                 {keywordByGroup(data?.publisher?.keywords)?.map((v, i) => {
                   const active = isField(v)
-                  return <LabelTag key={v.keyword_id} isSelected={active}>{v.keyword_name}</LabelTag>
+                  return (
+                    <LabelTag key={v.keyword_id} isSelected={active}>
+                      {v.keyword_name}
+                    </LabelTag>
+                  )
                 })}
               </div>
             </div>

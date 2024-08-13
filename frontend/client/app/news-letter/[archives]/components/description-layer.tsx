@@ -15,9 +15,7 @@ const DescriptionLayer = (props: DescriptionLayerProps) => {
 
   return (
     <div className="bg-white px-20 py-28 xl:px-40 xl:py-48">
-      <p className="text-gray-80 xl:text-body4 text-mBody1">
-        {data?.publisher?.description}
-      </p>
+      <p className="text-gray-80 xl:text-body4 text-mBody1">{data?.publisher?.description}</p>
 
       <div className="h-28" />
 
