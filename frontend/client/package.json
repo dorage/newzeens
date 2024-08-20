@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3666",
-    "build": "next build",
+    "build": "DOTENV_KEY='dotenv://:key_bc111b86a0903223f9173d6e446ffd5e86f4bd7bc233eb6e783558f3d8e01e6c@dotenv.org/vault/.env.vault?environment=production' next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "env:pull:development": "npx dotenv-vault@latest pull development",
