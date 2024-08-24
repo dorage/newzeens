@@ -90,7 +90,7 @@ const PublisherForm = (props: PublisherFormProps) => {
             <Label className="min-w-[150px] text-[18px] font-semibold">
               발행 스펙<span className="text-[#2141E5]">*</span>
             </Label>
-            <Input className="w-[400px]" placeholder="발행인을 입력해주세요" {...field} />
+            <Input className="w-[400px]" placeholder="발행스펙을 입력해주세요" {...field} />
           </FormItem>
         )}
       />
@@ -110,7 +110,7 @@ const PublisherForm = (props: PublisherFormProps) => {
 
       <div className="h-10" />
 
-      <PublisherThumbnailInput />
+      {isEdit && <PublisherThumbnailInput />}
 
       <FormField
         name="url_subscribe"

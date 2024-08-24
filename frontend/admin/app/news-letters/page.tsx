@@ -13,7 +13,8 @@ const NewsLettersPage = async () => {
     <WidthWrapper>
       <div className="flex items-center justify-between">
         <h1 className="text-[30px] font-bold">
-          리스트 관리 <span className="text-[#2141E5]">{100}</span>
+          리스트 관리
+          {/* <span className="text-[#2141E5]">{publisherList?.length || 0}</span> */}
         </h1>
 
         <Link href="/news-letter/create">

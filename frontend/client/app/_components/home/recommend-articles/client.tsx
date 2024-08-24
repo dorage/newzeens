@@ -20,7 +20,7 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
   const [currentSelected, setCurrentSelected] = useState(data?.slots?.[0].name)
 
   return (
-    <div className="">
+    <div>
       <div className="flex flex-col justify-between xl:flex-row xl:items-center">
         <h3 className="text-gray-80 text-mH3 xl:text-h2">
           <span className="text-primary hidden sm:inline">{currentSelected}&nbsp;</span>
@@ -55,3 +55,8 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
 }
 
 export default RecommendArticles
+
+export const RecommendArticlesFallback = (props: any) => {
+  console.log(`props`, props)
+  return <div>gdgd</div>
+}
