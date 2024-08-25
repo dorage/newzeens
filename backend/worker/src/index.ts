@@ -1,54 +1,61 @@
-import puppeteer from "puppeteer";
+import { JSDOM } from "jsdom";
+import ky from "ky";
+import path from "path";
+
+const host = "https://dolletter.stibee.com";
+
+export const getHtml = async () => {
+  const res = await ky.get(host);
+  const html = await res.text();
+
+  return html;
+};
+
+type NewsletterJobPayload = {
+  title: string;
+  url: string;
+  publisher_id: string;
+};
+
+const getLatestNewsletters = async (dom: JSDOM) => {
+  // check latest 5 newsletters
+  const threshold = 5;
+  const elems = [...dom.window.document.querySelectorAll(".title")];
+
+  const nl: NewsletterJobPayload[] = [];
+
+  for (const elem of elems) {
+    if (nl.length >= threshold) break;
+    // is it link?
+    let cursor = elem;
+    while (cursor.parentElement !== null) {
+      if (cursor.tagName.toLowerCase() === "a") {
+        const href = (cursor as any).href as string;
+        nl.push({
+          title: elem.textContent!,
+          url: href.startsWith("/") ? path.join(host, href) : href,
+          publisher_id: "any",
+        });
+      }
+      cursor = cursor.parentElement;
+    }
+    continue;
+  }
+
+  return nl;
+};
 
 (async () => {
-  // Launch the browser and open a new blank page
-  const browser = await puppeteer.launch();
+  console.time("scrap titles");
+  const html = await getHtml();
+  console.log("html has retrieved");
 
-  try {
-    const page = await browser.newPage();
-
-    // Navigate the page to a URL
-    await page.goto("https://stibee.com/api/v1.0/emails/share/0IBCdTIItTRGEIlnbS3xtiPpxGkZ_To");
-
-    // Set screen size
-    await page.setViewport({ width: 1080, height: 1024 });
-
-    const content = await page.evaluate(() => {
-      const results = [];
-      const root = document.querySelector("tbody")!;
-      let queue: HTMLElement[] = [root];
-
-      while (queue) {
-        const el = queue.shift()!;
-        if (el == null) continue;
-        const candidates: HTMLElement[] = [];
-
-        // last element
-        if (!el.children.length) {
-          const content = el.textContent;
-          if (content == null) continue;
-          if (!content.trim().length) continue;
-          results.push(content.trim());
-          continue;
-        }
-
-        for (let i = 0; i < el.children.length; i++) {
-          const item = el.children.item(i);
-          if (item == null) continue;
-          candidates.push(item as HTMLElement);
-        }
-
-        queue = [...candidates, ...queue];
-      }
-
-      return document.querySelector("tbody");
-    });
-
-    console.log(content);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    await browser.close();
-  }
-  console.log("DONE");
+  const dom = new JSDOM(html);
+  console.log("dom has generated");
+  // 5 newest
+  console.log(dom.window.document.querySelectorAll(".title").length);
+  const jobs = await getLatestNewsletters(dom);
+  // TODO: save jobs
+  console.log(jobs);
+  console.timeEnd("scrap titles");
 })();
