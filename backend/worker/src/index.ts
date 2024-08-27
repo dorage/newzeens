@@ -2,6 +2,10 @@ import { JSDOM } from "jsdom";
 import ky from "ky";
 import path from "path";
 
+// TODO:
+// retrieve all publishers
+//
+
 const host = "https://dolletter.stibee.com";
 
 export const getHtml = async () => {
@@ -17,21 +21,21 @@ type NewsletterJobPayload = {
   publisher_id: string;
 };
 
-const getLatestNewsletters = async (dom: JSDOM) => {
+const getLatestNewsletterJobs = async (dom: JSDOM) => {
   // check latest 5 newsletters
   const threshold = 5;
   const elems = [...dom.window.document.querySelectorAll(".title")];
 
-  const nl: NewsletterJobPayload[] = [];
+  const jobs: NewsletterJobPayload[] = [];
 
   for (const elem of elems) {
-    if (nl.length >= threshold) break;
+    if (jobs.length >= threshold) break;
     // is it link?
     let cursor = elem;
     while (cursor.parentElement !== null) {
       if (cursor.tagName.toLowerCase() === "a") {
         const href = (cursor as any).href as string;
-        nl.push({
+        jobs.push({
           title: elem.textContent!,
           url: href.startsWith("/") ? path.join(host, href) : href,
           publisher_id: "any",
@@ -42,7 +46,22 @@ const getLatestNewsletters = async (dom: JSDOM) => {
     continue;
   }
 
-  return nl;
+  // TODO:
+  // check if the article has already been scraped
+  // select job with url
+  // return job/null
+  // insert into job queue table
+
+  (
+    await Promise.all(
+      jobs.map((job) => {
+        // select job with url
+        // return job/null
+      })
+    )
+  ).filter((e) => e !== null);
+
+  return jobs;
 };
 
 (async () => {
@@ -54,7 +73,7 @@ const getLatestNewsletters = async (dom: JSDOM) => {
   console.log("dom has generated");
   // 5 newest
   console.log(dom.window.document.querySelectorAll(".title").length);
-  const jobs = await getLatestNewsletters(dom);
+  const jobs = await getLatestNewsletterJobs(dom);
   // TODO: save jobs
   console.log(jobs);
   console.timeEnd("scrap titles");
