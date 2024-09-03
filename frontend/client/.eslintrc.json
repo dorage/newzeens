@@ -1,0 +1,19 @@
+{
+  "root": false,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  
+  "extends": ["next", "eslint-config-next", "next/core-web-vitals", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
+  "plugins": ["tailwindcss", "import", "unused-imports"],
+  "settings": {
+    "tailwindcss": {
+      "config": "./tailwind.config.ts"
+    }
+  },
+  "rules": {
+    "react/display-name": "off"
+  }
+}

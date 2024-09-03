@@ -7,14 +7,11 @@ import MainBanner from "./_components/home/main-banner"
 import { RecommendArticlesFallback } from "./_components/home/recommend-articles/client"
 import RecommendArticlesServer from "./_components/home/recommend-articles/server"
 import getQueryClient from "./_utils/query-client"
+import NewsLetterList from "./_components/home/news-letter-list"
+import NewsLetterRanking from "./_components/home/new-letter-ranking"
 
 export default async function Home() {
   const queryClient = getQueryClient()
-
-  // await queryClient.prefetchQuery({
-  //   queryKey: mainQueryKey.recommendArticles.list({}),
-  //   queryFn: () => getArticles(),
-  // })
 
   await queryClient.prefetchQuery({
     queryKey: mainQueryKey.recommendPublishers.list({}),
@@ -34,11 +31,11 @@ export default async function Home() {
           </ErrorHandlingWrapper>
           {/* <div className="bg-white p-20 pb-40 xl:px-40 xl:pb-80">
             <NewsLetterRanking />
-          </div>
+          </div> */}
 
           <div className="px-20 py-40 xl:px-40 xl:py-80">
             <NewsLetterList />
-          </div> */}
+          </div>
         </div>
       </main>
     </HydrationBoundary>

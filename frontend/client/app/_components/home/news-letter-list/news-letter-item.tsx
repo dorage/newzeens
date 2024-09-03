@@ -13,7 +13,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
   const { publisher } = props
   return (
     <Link href={`/news-letter/${publisher.id}`} className="flex flex-col gap-12">
-      <div className="rounded-12 xl:rounded-16 relative aspect-square shrink-0 xl:aspect-video">
+      <div className="rounded-12 xl:rounded-16 relative aspect-video shrink-0">
         <Image
           className="rounded-12 xl:rounded-16"
           src={publisher.thumbnail || "https://via.placeholder.com/300"}

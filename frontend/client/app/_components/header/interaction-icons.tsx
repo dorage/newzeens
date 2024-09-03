@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import HamburgerPopup from "../relative-modal/hamburger-popup"
 import { useRelativeModal } from "@/app/_hooks/use-relative-modal"
 import classNames from "@/app/_utils/class-names"

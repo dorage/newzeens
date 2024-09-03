@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import RootContext from "./_context/root-context"
+import { Analytics } from "@vercel/analytics/react"
 import "./_styles/globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -17,16 +18,15 @@ export default function RootLayout(
   }>,
 ) {
   const { children, modal } = props
-  console.log("root layout: ", props)
   return (
     <html lang="en">
       <body className={inter.className}>
         <div id="portal" />
-
         <RootContext>
           {children}
           {modal}
         </RootContext>
+        <Analytics />
       </body>
     </html>
   )
