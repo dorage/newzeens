@@ -7,7 +7,7 @@ export const PublisherSchema = z.object({
   thumbnail: z.string().url().nullable().default(null),
   name: z.string().max(99),
   description: z.string(),
-  subscriber: z.number().int().positive().finite(),
+  subscriber: z.number().int().nonnegative().finite(),
   url_main: z.string().url().max(2048),
   url_subscribe: z.string().url().max(2048),
   publisher_main: z.string().max(2048),

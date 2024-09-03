@@ -10,8 +10,8 @@ export const zParam = z.object({
 
 export const zRes = z.object({
   publisher: OpenAPISchema.PublisherDetail,
-  recent_articles: OpenAPISchema.ArticlePreview.array().length(4),
-  related_publishers: OpenAPISchema.PublisherPreview.array().length(4),
+  recent_articles: OpenAPISchema.ArticlePreview.array(),
+  related_publishers: OpenAPISchema.PublisherPreview.array(),
 });
 
 const route = createRoute({
