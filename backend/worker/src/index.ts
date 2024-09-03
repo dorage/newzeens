@@ -8,11 +8,13 @@ import path from "path";
 
 const host = "https://dolletter.stibee.com";
 
-export const getHtml = async () => {
-  const res = await ky.get(host);
+// retrieve text from url, then generate DOM
+export const getDOM = async (url: string) => {
+  const res = await ky.get(url);
   const html = await res.text();
+  const dom = new JSDOM(html);
 
-  return html;
+  return dom;
 };
 
 type NewsletterJobPayload = {
@@ -20,6 +22,20 @@ type NewsletterJobPayload = {
   url: string;
   publisher_id: string;
 };
+
+const scrapNewsletter = async (url: string) => {
+  const dom = await getDOM(url);
+
+  // get a root
+  const root = dom.window.document.querySelector(".inner");
+  if (root == null) {
+    return;
+  }
+
+  return root.textContent;
+};
+
+const summarizeNewsletter = async () => {};
 
 const getLatestNewsletterJobs = async (dom: JSDOM) => {
   // check latest 5 newsletters
@@ -66,10 +82,8 @@ const getLatestNewsletterJobs = async (dom: JSDOM) => {
 
 (async () => {
   console.time("scrap titles");
-  const html = await getHtml();
-  console.log("html has retrieved");
+  const dom = await getDOM(host);
 
-  const dom = new JSDOM(html);
   console.log("dom has generated");
   // 5 newest
   console.log(dom.window.document.querySelectorAll(".title").length);
