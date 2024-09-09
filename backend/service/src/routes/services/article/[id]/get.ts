@@ -35,8 +35,7 @@ export const zRes = z.object({
       }),
     })
     .merge(ArticleSchema.pick({ title: true, description: true, created_at: true }))
-    .array()
-    .length(4),
+    .array(),
 });
 
 const route = createRoute({
