@@ -1,9 +1,8 @@
 import Tag from "@/src/constants/tags";
-import { Ky } from "@/src/libs/kysely";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { selectScrapInfo } from "./get.model";
 
-export const zJson = z.object({
+export const zQuery = z.object({
   url: z.string(),
 });
 
@@ -16,7 +15,7 @@ const route = createRoute({
   summary: "check if url is scrapped",
   description: "",
   request: {
-    body: { description: "", content: { "application/json": { schema: zJson } }, required: true },
+    query: zQuery,
   },
   responses: {
     200: {
@@ -37,9 +36,9 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const json = zJson.parse(await c.req.json());
+  const query = zQuery.parse(c.req.query());
 
-  const scrapInfo = await selectScrapInfo(json.url);
+  const scrapInfo = await selectScrapInfo(decodeURI(query.url));
 
   return c.json({ ok: scrapInfo != null });
 });
