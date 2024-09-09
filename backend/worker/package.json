@@ -2,7 +2,8 @@
   "name": "scrap",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+		"fetch:publisher": "tsx src/publisher-list.ts"
   },
   "dependencies": {
     "croner": "^8.0.0",
