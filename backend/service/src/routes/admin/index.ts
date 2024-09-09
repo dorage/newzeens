@@ -23,4 +23,7 @@ app.route("/campaign", campaign);
 import slot from "./slot/index";
 app.route("/slot", slot);
 
+import scrap from "./scrap/index";
+app.route("/scrap", scrap);
+
 export default app;
