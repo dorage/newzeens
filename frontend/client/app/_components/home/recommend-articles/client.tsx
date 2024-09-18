@@ -1,22 +1,16 @@
 "use client"
 
 import React, { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import KeywordTab from "../../atoms/keyword-tab"
 import ArticleCard from "../../card/article-card"
-import mainQueryKey from "@/app/_apis/_query-key/main"
-import mainApi from "@/app/_apis/main-page/main"
+import { useGetArticles } from "@/app/_actions/home/hooks"
 
 interface RecommendArticlesProps {}
 
 const RecommendArticles = (props: RecommendArticlesProps) => {
   const {} = props
 
-  const { data } = useQuery({
-    queryFn: mainApi.getRecommendArticles,
-    queryKey: mainQueryKey.recommendArticles.list({}),
-  })
-
+  const { data } = useGetArticles()
   const [currentSelected, setCurrentSelected] = useState(data?.slots?.[0].name)
 
   return (

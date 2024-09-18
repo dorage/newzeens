@@ -4,8 +4,7 @@ import mainApi from "./_apis/main-page/main"
 import ErrorHandlingWrapper from "./_components/error-handling-wrapper"
 import Header from "./_components/header"
 import MainBanner from "./_components/home/main-banner"
-import { RecommendArticlesFallback } from "./_components/home/recommend-articles/client"
-import RecommendArticlesServer from "./_components/home/recommend-articles/server"
+import RecommendArticles, { RecommendArticlesFallback } from "./_components/home/recommend-articles/client"
 import getQueryClient from "./_utils/query-client"
 import NewsLetterList from "./_components/home/news-letter-list"
 import NewsLetterRanking from "./_components/home/new-letter-ranking"
@@ -26,9 +25,9 @@ export default async function Home() {
       <main className="min-h-screen">
         <MainBanner />
         <div className="mx-auto max-w-screen-xl">
-          <ErrorHandlingWrapper fallbackComponent={RecommendArticlesFallback} suspenseFallback={<div>gdgd</div>}>
-            <RecommendArticlesServer />
-          </ErrorHandlingWrapper>
+          
+            <RecommendArticles />
+          
           {/* <div className="bg-white p-20 pb-40 xl:px-40 xl:pb-80">
             <NewsLetterRanking />
           </div> */}
