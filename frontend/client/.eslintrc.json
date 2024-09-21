@@ -1,12 +1,12 @@
 {
-  "root": false,
+  "root": true,
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
   
-  "extends": ["next", "eslint-config-next", "next/core-web-vitals", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
+  "extends": ["next", "eslint-config-next", "next/core-web-vitals", "plugin:prettier/recommended"],
   "plugins": ["tailwindcss", "import", "unused-imports"],
   "settings": {
     "tailwindcss": {

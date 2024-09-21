@@ -5,6 +5,6 @@ import mainQueryKey from "@/app/_apis/_query-key/main"
 export const useGetArticles = () => {
   return useQuery({
     queryFn: () => getArticles(),
-    queryKey:  mainQueryKey.recommendArticles.list({}),
+    queryKey: mainQueryKey.recommendArticles.list({}),
   })
 }

@@ -1,39 +1,56 @@
-import React from "react"
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
+"use client"
+
+import React, { useState } from "react"
 import { NextPageProps } from "@/app/_types/next"
-import getQueryClient from "@/app/_utils/query-client"
+import classNames from "../_utils/class-names"
+import IconRender, { ICON_LIST } from "../_components/atoms/icon-render"
+import { useGetRank } from "../_actions/rank/get-rank"
 
 interface RankingPageParams {}
 
-const RankingPage = async (props: NextPageProps<RankingPageParams>) => {
-  // get Server queryClient
-  const queryClient = getQueryClient()
+const RankingPage = (props: NextPageProps<RankingPageParams>) => {
+  const [current, setCurrent] = useState("전체")
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-  // Optional: define params
-  const params = {}
-
-  // prefetch query
-  await queryClient.prefetchQuery({
-    queryKey: [],
-    queryFn: () => {},
-    staleTime: 1000 * 60,
-    gcTime: 1000 * 60 * 60,
+  const { data } = useGetRank({
+    limit: 20,
+    keyword_id: undefined,
   })
 
-  // prefetch infinite query
-  //   await queryClient.prefetchInfiniteQuery({
-  //     queryKey: [],
-  //     queryFn: () => {},
-  //     staleTime: 1000 * 60,
-  //     gcTime: 1000 * 60 * 60,
-  //   })
-
-  const dehydratedState = dehydrate(queryClient)
+  console.log(data)
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div>RankingPage</div>
-    </HydrationBoundary>
+    <div className="px-40 py-56">
+      <main className="min-h-screen">
+        <div className="grid grid-cols-[244px_1fr] gap-81">
+          <div className="w-224 relative flex flex-col gap-8">
+            {ICON_LIST.map((tab, i) => (
+              <div
+                key={tab.name}
+                className={classNames(
+                  "flex rounded-full items-center gap-6 px-20 py-12 transition-colors duration-300 ease-in-out",
+                  { "text-white": current === tab.name },
+                )}
+                onClick={() => {
+                  setCurrent(tab.name)
+                  setCurrentIndex(i)
+                }}
+              >
+                <IconRender index={i} isSelected={current === tab.name} />
+                {tab.name}
+              </div>
+            ))}
+
+            <div
+              className="bg-gray-90 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
+              style={{ top: currentIndex * 56 }}
+            />
+          </div>
+
+          {JSON.stringify(data)}
+        </div>
+      </main>
+    </div>
   )
 }
 

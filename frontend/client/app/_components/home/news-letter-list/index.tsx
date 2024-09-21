@@ -1,19 +1,15 @@
 "use client"
 
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import NewsLetterItem from "./news-letter-item"
 import KeywordTab from "../../atoms/keyword-tab"
 import mainQueryKey from "@/app/_apis/_query-key/main"
 import mainApi from "@/app/_apis/main-page/main"
 import classNames from "@/app/_utils/class-names"
-import { AllIcon, CareerIcon, EconomyIcon, HumanitiesIcon, ITIcon, LifestyleIcon, MarketingIcon } from "@/public/icons"
+import IconRender from "../../atoms/icon-render"
 
-interface NewsLetterListProps {}
-
-const NewsLetterList = (props: NewsLetterListProps) => {
-  const {} = props
-
+const NewsLetterList = () => {
   const { data: publisherList } = useQuery({
     queryFn: mainApi.getRecommendPublishers,
     queryKey: mainQueryKey.recommendPublishers.list({}),
@@ -21,37 +17,6 @@ const NewsLetterList = (props: NewsLetterListProps) => {
 
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
-
-  const IconRender = useCallback((isSelected: boolean, index: number) => {
-    switch (index) {
-      case 0:
-        return <AllIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-
-      case 1:
-        return <ITIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-
-      case 2:
-        return (
-          <MarketingIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-        )
-
-      case 3:
-        return (
-          <LifestyleIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-        )
-
-      case 4:
-        return <EconomyIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-
-      case 5:
-        return (
-          <HumanitiesIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-        )
-
-      case 6:
-        return <CareerIcon className={classNames("transition-all duration-200 ease-in-out", { "w-0": !isSelected })} />
-    }
-  }, [])
 
   return (
     <div className="flex gap-80">
@@ -69,7 +34,7 @@ const NewsLetterList = (props: NewsLetterListProps) => {
                 setCurrentIndex(i)
               }}
             >
-              {IconRender(current === tab.name, i)}
+              <IconRender index={i} isSelected={current === tab.name} />
               {tab.name}
             </div>
           ))}
@@ -101,18 +66,13 @@ const NewsLetterList = (props: NewsLetterListProps) => {
             </KeywordTab>
           ))}
         </div>
-        <div /> {/* gap */}
-        {/* content */}
+        <div />
         <div className="grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
           {publisherList?.slots
             ?.find((slot) => slot.name === current)
             ?.publishers?.map((v) => {
               return <NewsLetterItem key={v.id} publisher={v} />
             })}
-
-          {/* {[...new Array(10)].map((_, index) => (
-            <NewsLetterItem key={index} />
-          ))} */}
         </div>
       </div>
     </div>

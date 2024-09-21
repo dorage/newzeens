@@ -25,9 +25,8 @@ export default async function Home() {
       <main className="min-h-screen">
         <MainBanner />
         <div className="mx-auto max-w-screen-xl">
-          
-            <RecommendArticles />
-          
+          <RecommendArticles />
+
           {/* <div className="bg-white p-20 pb-40 xl:px-40 xl:pb-80">
             <NewsLetterRanking />
           </div> */}
