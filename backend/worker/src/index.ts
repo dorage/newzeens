@@ -1,3 +1,5 @@
 import "./libs/dotenv.ts";
 
-// console.log(require("./scrap/dol-letter.ts").default(1234));
+(async () => {
+  console.log(await require("./scrap/dol-letter.ts").default({ threshold: 3 }));
+})();
