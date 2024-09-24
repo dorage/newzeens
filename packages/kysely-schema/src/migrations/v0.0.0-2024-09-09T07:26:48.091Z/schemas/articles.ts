@@ -5,13 +5,13 @@ import { PublisherSchema } from "./publishers";
 
 export const ArticleSchema = z.object({
   id: z.string().length(6),
-  thumbnail: z.string().url().max(2048).nullable(),
+  thumbnail: z.string().max(2048).nullable(),
   title: z.string().max(99),
   summary: z.string(),
   is_enabled: z.coerce.boolean(),
   publisher_id: PublisherSchema.shape.id,
   created_at: zMomentDatetime,
-  url: z.string().url().max(2048),
+  url: z.string().max(2048).nullable(),
 });
 
 export interface KyArticleTable {
