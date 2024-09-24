@@ -1,5 +1,6 @@
 import ky from "ky";
 import fs from "fs";
+import { ArticleSchema } from "kysely-schema";
 
 let accessToken: string;
 
@@ -10,8 +11,8 @@ const signIn = async () => {
   if (accessToken != null) return;
   const res = await client.post(`admin/auth/login`, {
     json: {
-      id: "admin",
-      password: "password",
+      id: process.env.ADMIN_ID,
+      password: process.env.ADMIN_PWD,
     },
   });
   const json = (await res.json()) as any;
@@ -31,7 +32,7 @@ const getScrap = async (url: string) => {
 
 const postScrap = async (url: string) => {
   await signIn();
-  await client.post("/admin/scrap", {
+  await client.post("admin/scrap", {
     headers: { Authorization: `Bearer ${accessToken}` },
     json: { url },
   });
@@ -50,8 +51,33 @@ const getPublisherList = async () => {
   return true;
 };
 
+const postArticle = async (body: {
+  title: string;
+  summary: string;
+  publisher_id: string;
+  is_enabled: boolean;
+  url: string;
+}) => {
+  await signIn();
+  const res = await client.post("admin/article", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    json: { ...body, thumbnail: null },
+  });
+  return ArticleSchema.parse(await res.json());
+};
+
+const postArticleThumbnail = async (articleId: string, formData: FormData) => {
+  await signIn();
+  await client.post(`admin/article/${articleId}/upload`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: formData,
+  });
+};
+
 export const Admin = {
   getScrap,
   postScrap,
+  postArticle,
   getPublisherList,
+  postArticleThumbnail,
 };

@@ -1,1 +1,6 @@
 publisher_list*.json
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

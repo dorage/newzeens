@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tsx src/index.ts",
-		"fetch:publisher": "tsx src/publisher-list.ts"
+    "fetch:publisher": "tsx src/publisher-list.ts"
   },
   "dependencies": {
     "croner": "^8.0.0",
+    "dotenv": "^16.4.5",
+    "form-data": "^4.0.0",
     "jsdom": "^25.0.0",
-    "ky": "^1.7.1"
+    "ky": "^1.7.1",
+    "kysely-schema": "workspace:^"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
