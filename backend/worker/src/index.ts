@@ -1,5 +1,12 @@
 import "./libs/dotenv.ts";
+import fs from "fs";
+import path from "path";
 
 (async () => {
-  console.log(await require("./scrap/dol-letter.ts").default({ threshold: 3 }));
+  const dirs = fs.readdirSync(path.resolve("src/scrap"));
+
+  for (const dir of dirs) {
+    if (dir.includes(".test.")) continue;
+    await require("./scrap/dol-letter.ts").default({ threshold: 3 });
+  }
 })();

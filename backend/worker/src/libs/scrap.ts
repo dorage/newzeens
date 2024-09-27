@@ -46,7 +46,7 @@ export type ScrapOpts = {
   threshold: number;
 };
 
-export const createScrapingTask = (configs: ScrapConfigs) => {
+export function createScrapingTask(configs: ScrapConfigs) {
   const scrapingTask = async (opts: ScrapOpts) => {
     const publisher = await Admin.getPublisher(configs.publisherName);
     if (publisher == null) throw new Error("publisher does not exist");
@@ -99,4 +99,4 @@ export const createScrapingTask = (configs: ScrapConfigs) => {
   scrapingTask.configs = configs;
 
   return scrapingTask;
-};
+}

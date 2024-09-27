@@ -2,10 +2,6 @@ import path from "path";
 import { createScrapingTask, NewsletterJobPayload } from "../libs/scrap";
 
 const HOST = "https://dolletter.stibee.com";
-const PUBLISHER = {
-  dev: () => {},
-  publisher: () => {},
-};
 
 export default createScrapingTask({
   host: HOST,
