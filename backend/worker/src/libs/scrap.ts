@@ -35,22 +35,23 @@ export type NewsletterJobPayload = {
   publisher_id: string;
 };
 
+export type ScrapConfigs = {
+  host: string;
+  publisherName: string;
+  scrapList: (dom: JSDOM, opts: ScrapOpts) => Promise<NewsletterJobPayload[]>;
+  scrapContent: (dom: JSDOM) => Promise<string>;
+  scrapThumbnail: (dom: JSDOM) => Promise<string>;
+};
+
 export type ScrapOpts = {
   threshold: number;
 };
 
-export const createScrapingTask = (configs: {
-  host: string;
-  publisherId: string;
-  scrapList: (dom: JSDOM, opts: ScrapOpts) => Promise<NewsletterJobPayload[]>;
-  scrapContent: (dom: JSDOM) => Promise<string>;
-  scrapThumbnail: (dom: JSDOM) => Promise<string>;
-}) => {
+export const createScrapingTask = (configs: ScrapConfigs) => {
   const scrapingTask = async (opts: ScrapOpts) => {
     console.time("scrap titles");
     const dom = await getDOM(configs.host);
 
-    // 5 newest
     const newsletters = await configs.scrapList(dom, opts);
     console.debug("latest newsletter count", newsletters.length);
 
@@ -71,7 +72,7 @@ export const createScrapingTask = (configs: {
         const newArticle = await Admin.postArticle({
           title: newsletter.title,
           summary,
-          publisher_id: configs.publisherId,
+          publisher_id: configs.publisherName,
           is_enabled: true,
           url: newsletter.url,
         });

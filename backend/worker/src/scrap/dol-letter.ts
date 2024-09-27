@@ -10,7 +10,7 @@ const PUBLISHER = {
 export default createScrapingTask({
   host: HOST,
   // TODO: getting publisherId
-  publisherId: "asdf",
+  publisherName: "돌멩이",
   scrapList: async (dom, opts) => {
     const elems = [...dom.window.document.querySelectorAll(".title")];
 
