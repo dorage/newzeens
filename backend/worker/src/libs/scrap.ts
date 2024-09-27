@@ -32,7 +32,6 @@ const uploadThumbnail = async (articleId: string, sourceUrl: string) => {
 export type NewsletterJobPayload = {
   title: string;
   url: string;
-  publisher_id: string;
 };
 
 export type ScrapConfigs = {
@@ -49,6 +48,9 @@ export type ScrapOpts = {
 
 export const createScrapingTask = (configs: ScrapConfigs) => {
   const scrapingTask = async (opts: ScrapOpts) => {
+    const publisher = await Admin.getPublisher(configs.publisherName);
+    if (publisher == null) throw new Error("publisher does not exist");
+
     console.time("scrap titles");
     const dom = await getDOM(configs.host);
 
@@ -72,7 +74,7 @@ export const createScrapingTask = (configs: ScrapConfigs) => {
         const newArticle = await Admin.postArticle({
           title: newsletter.title,
           summary,
-          publisher_id: configs.publisherName,
+          publisher_id: publisher.id,
           is_enabled: true,
           url: newsletter.url,
         });

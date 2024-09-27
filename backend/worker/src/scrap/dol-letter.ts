@@ -26,7 +26,6 @@ export default createScrapingTask({
           jobs.push({
             title: elem.textContent!,
             url: href.startsWith("/") ? path.join(HOST, href) : href,
-            publisher_id: "any",
           });
         }
         cursor = cursor.parentElement;

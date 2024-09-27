@@ -1,6 +1,6 @@
 import ky from "ky";
 import fs from "fs";
-import { ArticleSchema } from "kysely-schema";
+import { ArticleSchema, PublisherSchema } from "kysely-schema";
 
 let accessToken: string;
 
@@ -74,10 +74,21 @@ const postArticleThumbnail = async (articleId: string, formData: FormData) => {
   });
 };
 
+const getPublisher = async (publisherName: string) => {
+  await signIn();
+  const res = await client.get(`admin/publisher?name=${encodeURI(publisherName)}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const json = PublisherSchema.array().parse(await res.json());
+  console.log(json);
+  return json.at(0);
+};
+
 export const Admin = {
   getScrap,
   postScrap,
   postArticle,
   getPublisherList,
+  getPublisher,
   postArticleThumbnail,
 };
