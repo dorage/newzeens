@@ -1,5 +1,5 @@
-import type { DB as _DB } from "./migrations/v0.0.0-2024-04-29T07:31:56.202Z/index";
-import * as DBSchema from "./migrations/v0.0.0-2024-04-29T07:31:56.202Z/index";
+import type { DB as _DB } from "./migrations/v0.0.0-2024-09-09T07:26:48.091Z/index";
+import * as DBSchema from "./migrations/v0.0.0-2024-09-09T07:26:48.091Z/index";
 
 export type DB = _DB;
 
@@ -14,6 +14,7 @@ export const SlotSchema = DBSchema.SlotSchema;
 export const SlotArticleSchema = DBSchema.SlotArticleSchema;
 export const SlotPublisherSchema = DBSchema.SlotPublisherSchema;
 export const JTISchema = DBSchema.JTISchema;
+export const ScrapInfoSchema = DBSchema.ScrapInfoSchema;
 
 // use adapter what you want
 import { SQLiteAdapter as _SQLiteAdapter } from "./adapters/sqlite";

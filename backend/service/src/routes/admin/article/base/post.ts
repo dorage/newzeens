@@ -13,6 +13,7 @@ export const zJson = z.object({
   summary: ArticleSchema.shape.summary,
   publisher_id: ArticleSchema.shape.publisher_id,
   is_enabled: ArticleSchema.shape.is_enabled,
+  url: ArticleSchema.shape.url,
 });
 
 export const zRes = OpenAPISchema.AdminArticle;
@@ -62,6 +63,7 @@ export const ep = app.openapi(route, async (c) => {
       summary: json.summary,
       publisher_id: json.publisher_id,
       is_enabled: +json.is_enabled,
+      url: json.url,
     })
     .returningAll()
     .executeTakeFirstOrThrow();
