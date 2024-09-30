@@ -4,7 +4,8 @@ import { ArticleSchema, PublisherSchema } from "kysely-schema";
 
 let accessToken: string;
 
-const HOST = "http://localhost:3000";
+const HOST =
+  process.env.NODE_ENV === "production" ? "https://api.maillist.site" : "http://localhost:3000";
 const client = ky.create({ prefixUrl: HOST });
 
 const signIn = async () => {
