@@ -21,7 +21,7 @@ const NewsLetterList = () => {
   return (
     <div className="flex gap-80">
       <div className="hidden xl:block">
-        <div className="w-224 relative flex flex-col gap-8">
+        <div className="w-[224px] relative flex flex-col gap-8">
           {publisherList?.slots?.map((tab, i) => (
             <div
               key={tab.name}

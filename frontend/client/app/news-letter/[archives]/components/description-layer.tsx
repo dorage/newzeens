@@ -28,7 +28,7 @@ const DescriptionLayer = (props: DescriptionLayerProps) => {
 
         <div className="flex flex-col gap-12">
           {keywordByGroupExclude(data?.publisher?.keywords)?.map((v) => {
-            return <p key={v.keyword_id}>{v.keyword_name}</p>
+            return <p key={v.keyword_id}>{v.keyword_name || "ㅤ"}</p>
           })}
         </div>
       </div>

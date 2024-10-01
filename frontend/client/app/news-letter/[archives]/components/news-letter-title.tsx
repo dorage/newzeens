@@ -21,7 +21,7 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
     <div className="border-b border-gray-40 bg-white px-20 pb-16 pt-28 xl:px-40">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-16 xl:flex-row">
-          <div className="size-76 shrink-0 overflow-hidden rounded-14 md:size-68">
+          <div className="size-[76px] shrink-0 overflow-hidden rounded-14 xl:size-[68px]">
             <Image
               src={data?.publisher?.thumbnail || "https://via.placeholder.com/300"}
               width={76}
@@ -55,7 +55,7 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
         </div>
 
         <Link href={data?.publisher?.url_subscribe || ""} target="_blank">
-          <button className="hidden h-44 w-102 items-center justify-center gap-4 rounded-full bg-primary text-white xl:flex">
+          <button className="hidden h-[44px] w-[102px] items-center justify-center gap-4 rounded-full bg-primary text-white xl:flex">
             <div className="w-2" />
             <span className="text-body4">구독</span>
             <ArrowRightIcon />
