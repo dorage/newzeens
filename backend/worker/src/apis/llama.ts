@@ -4,7 +4,7 @@ const postGenerate = async (prompt: string) => {
   try {
     const res = await ky.post("http://localhost:11434/api/generate", {
       json: {
-        model: "llama3.1",
+        model: "llama3.1:8b",
         prompt,
         stream: false,
       },
