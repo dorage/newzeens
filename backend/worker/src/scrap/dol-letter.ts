@@ -5,7 +5,6 @@ const HOST = "https://dolletter.stibee.com";
 
 export default createScrapingTask({
   host: HOST,
-  // TODO: getting publisherId
   publisherName: "돌멩이",
   scrapList: async (dom, opts) => {
     const elems = [...dom.window.document.querySelectorAll(".title")];

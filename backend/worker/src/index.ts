@@ -7,6 +7,8 @@ import path from "path";
 
   for (const dir of dirs) {
     if (dir.includes(".test.")) continue;
+    console.log("start job: " + dir.split("/").pop());
     await require("./scrap/dol-letter.ts").default({ threshold: 3 });
+    console.log("end job: " + dir.split("/").pop());
   }
 })();

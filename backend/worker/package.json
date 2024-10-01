@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "fetch:publisher": "tsx src/publisher-list.ts"
+		"scrap": "DOTENV_KEY='dotenv://:key_bd7582233347dd691b29f8fd7f82df02c6538dbb1245f8f5a7602c6830bc7113@dotenv.org/vault/.env.vault?environment=production' tsx src/index.ts"
   },
   "dependencies": {
     "croner": "^8.0.0",
