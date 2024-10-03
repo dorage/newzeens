@@ -8,14 +8,9 @@ import ClientForm from "@/app/_components/helpers/client-form"
 import { Button } from "@/app/_components/ui/button"
 import { useInitialDataContext } from "./context/initial-data-context"
 import PublisherForm from "../form/publisher-form"
+import { putPublisher } from "@/app/_actions"
 
-interface DetailTemplatesProps {
-  action: any
-}
-
-const DetailTemplates = (props: DetailTemplatesProps) => {
-  const { action } = props
-
+const DetailTemplates = () => {
   const { publisher } = useInitialDataContext()
 
   const { publisherId } = useParams()
@@ -30,7 +25,7 @@ const DetailTemplates = (props: DetailTemplatesProps) => {
   return (
     <FormProvider {...methods}>
       <ClientForm
-        action={action}
+        action={putPublisher}
         successCb={() => {
           toast.success("수정되었습니다.")
         }}

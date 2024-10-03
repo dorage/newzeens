@@ -1,5 +1,5 @@
 import React from "react"
-import { putPublisher } from "@/app/_actions"
+
 import newsLetterApi from "@/app/_api/news-letter"
 import { NextPageProps } from "@/app/_types/next"
 import { dateFormat } from "@/app/_utils/date-format"
@@ -29,7 +29,7 @@ const PublisherDetailPage = async ({ params, searchParams }: NextPageProps<Publi
 
       <div className="h-12" />
 
-      <DetailTemplates action={putPublisher} />
+      <DetailTemplates />
 
       <div className="h-10" />
       <KeywordFormInterceptor params={params} searchParams={searchParams} />

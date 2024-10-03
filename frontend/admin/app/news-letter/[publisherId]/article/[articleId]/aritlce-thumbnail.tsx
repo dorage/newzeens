@@ -7,6 +7,7 @@ import { Input } from "@/app/_components/ui/input"
 import articleApi from "@/app/_api/article"
 import { useParams } from "next/navigation"
 import { revalidateTagArticle } from "@/app/_actions"
+import Image from "next/image"
 
 interface ArticleThumbnailProps {}
 
@@ -50,7 +51,7 @@ const ArticleThumbnail = (props: ArticleThumbnailProps) => {
                   <>
                     <div className="relative aspect-video w-[250px] shrink-0 overflow-hidden rounded-[12px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={field.value} className="size-full object-cover" alt="" />
+                      <Image src={field.value} fill className="size-full object-cover" alt="" />
                       <div
                         className="absolute right-2 top-2 cursor-pointer rounded-full bg-white p-1"
                         onClick={() => field.onChange("")}

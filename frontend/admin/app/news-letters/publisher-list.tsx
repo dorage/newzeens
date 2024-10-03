@@ -26,12 +26,18 @@ const PublisherList = (props: PublisherListProps) => {
 
   const fetchNext = useCallback(async () => {
     const addPublisher = await newsLetterApi.getAdminPublisherList({ page, name: searchDebounce })
+    if (addPublisher.length === 0) {
+      return
+    }
     setPublishers((prev) => [...prev, ...addPublisher])
     setPage((prev) => prev + 1)
   }, [page, searchDebounce])
 
   const searchFetch = useCallback(async () => {
     const newItems = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
+    if (newItems.length === 0) {
+      return
+    }
     setPublishers(newItems)
     setPage((prev) => prev + 1)
   }, [searchDebounce])

@@ -119,9 +119,9 @@ export const putPublisher = async (formData: FormData) => {
   // revalidatePath("/news-letter/[publisherId]", "page")
   revalidateTag(newsLetterKey.publisherDetail(formData.get("publisherId") as string))
 
-  return {
-    status: "success",
-  }
+  // return {
+  //   status: "success",
+  // }
 }
 
 /**
