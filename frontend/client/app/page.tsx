@@ -8,6 +8,7 @@ import getQueryClient from "./_utils/query-client"
 import NewsLetterList from "./_components/home/news-letter-list"
 import NewsLetterRanking from "./_components/home/new-letter-ranking"
 import { getArticles } from "./_actions/home/get-articles"
+import { getRank, RANK_LIMIT } from "./_actions/rank/get-rank"
 
 export default async function Home() {
   const queryClient = getQueryClient()
@@ -20,6 +21,13 @@ export default async function Home() {
   await queryClient.prefetchQuery({
     queryKey: mainQueryKey.recommendPublishers.list({}),
     queryFn: () => mainApi.getRecommendPublishers(),
+  })
+
+  const params = { limit: RANK_LIMIT, keyword_id: undefined }
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["rank", { ...params }],
+    queryFn: () => getRank(params),
+    initialPageParam: undefined,
   })
 
   const dehydratedState = dehydrate(queryClient)

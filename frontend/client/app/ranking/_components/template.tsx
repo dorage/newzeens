@@ -11,17 +11,12 @@ const Template = () => {
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const { data,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-   } = useGetRank({
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetRank({
     limit: RANK_LIMIT,
     keyword_id: currentIndex === 0 ? undefined : currentIndex,
   })
 
   const flatMap = (data?.pages ?? []).flatMap((page) => page)
-
 
   return (
     <div className="max-w-[1280px] mx-auto grid grid-cols-[244px_1fr] gap-[81px] pt-56 pb-80 px-40">
@@ -63,10 +58,16 @@ const Template = () => {
           <div className="col-span-4 h-px bg-gray-50 mt-8 mb-12" />
 
           {flatMap.map((item, index) => {
-              return (
-                <React.Fragment key={item.id}>
-                  <div className="text-[18px] font-bold">{index + 1}</div>
-                  <Link href={`/news-letter/${item.id}`}>
+            return (
+              <React.Fragment key={item.id}>
+                <div
+                  className={classNames("text-[18px] font-bold", {
+                    "text-primary": index < 3,
+                  })}
+                >
+                  {index + 1}
+                </div>
+                <Link href={`/news-letter/${item.id}`}>
                   <div className="flex gap-8 h-fit items-center">
                     <div className="size-48 p-1 shrink-0 overflow-hidden rounded-8">
                       <Image src={item.thumbnail} className="object-cover" width={48} height={48} alt={item.name} />
@@ -76,28 +77,28 @@ const Template = () => {
                       <p className="text-gray-60 text-element1">발행인1</p>
                     </div>
                   </div>
-                  </Link>
+                </Link>
 
-                  <p className="text-body3 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
-                  <p className="text-body3 text-gray-70 text-end">{_formatSubscriberCount(item.subscriber)}</p>
+                <p className="text-body3 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
+                <p className="text-body3 text-gray-70 text-end">{_formatSubscriberCount(item.subscriber)}</p>
 
-                  <div className="col-span-4 h-px bg-gray-50 my-12" />
-                </React.Fragment>
-              )
-            })}
+                <div className="col-span-4 h-px bg-gray-50 my-12" />
+              </React.Fragment>
+            )
+          })}
         </div>
 
-{hasNextPage && <div className="mt-36">
-          
-          <button
+        {hasNextPage && (
+          <div className="mt-36">
+            <button
               className="h-56 w-full bg-bg-4 text-gray-60 text-body3 rounded-full active:bg-bg-2 disabled:cursor-not-allowed"
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
             >
-              {isFetchingNextPage ? '로딩 중...' : '더보기'}
+              {isFetchingNextPage ? "로딩 중..." : "더보기"}
             </button>
-          </div>}
-        
+          </div>
+        )}
       </main>
     </div>
   )
