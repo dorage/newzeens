@@ -36,16 +36,16 @@ const NeedLogin = (props: NeedLoginProps) => {
 
   return (
     <form onSubmit={onSubmit} className="mx-auto w-full max-w-[670px] rounded-lg border border-gray-300 bg-white p-14">
+      현재환경: {process.env.NODE_ENV}
+      {process.env.NEXT_PUBLIC_API_URL}
       <div className="">
         <Label>아이디</Label>
         <Input name="id" value={id} onChange={onChange} />
       </div>
-
       <div className="mt-6">
         <Label>비밀번호</Label>
         <Input name="password" value={password} onChange={onChange} />
       </div>
-
       <div className="h-10" />
       <div className="flex justify-end">
         <Button className="">로그인</Button>

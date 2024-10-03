@@ -28,7 +28,7 @@ const ArticleListInterceptor = async (props: NextPageProps<ArticleListIntercepto
               <div className="relative aspect-video h-auto w-[253px] shrink-0 overflow-hidden">
                 <Image
                   fill
-                  className="shrink-0"
+                  className="shrink-0 object-cover"
                   src={article.thumbnail ?? "https://via.placeholder.com/300"}
                   sizes="400px"
                   alt={article.title}

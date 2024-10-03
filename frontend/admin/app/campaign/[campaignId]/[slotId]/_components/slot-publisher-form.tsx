@@ -6,6 +6,7 @@ import { useIdContext } from "../_context/id-context"
 import Image from "next/image"
 import { Input } from "@/app/_components/ui/input"
 import { cn } from "@/app/_lib/utils"
+import toast from "react-hot-toast"
 
 interface SlotPublisherFormProps {}
 
@@ -29,7 +30,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
   const actionWithAlert = async (formData: FormData) => {
     await putSlotPublisher(formData, select)
 
-    alert("저장되었습니다.")
+    toast.success("저장되었습니다.")
   }
 
   return (
@@ -52,6 +53,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
 
       <div className="grid grid-cols-5 gap-x-2 gap-y-3">
         {select.map((publisher, i) => {
+          console.log(`publisher`, publisher)
           return (
             <div
               key={publisher.id}

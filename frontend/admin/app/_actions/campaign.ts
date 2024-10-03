@@ -67,9 +67,8 @@ export const updateSlot = async (formData: FormData) => {
 
 export const deleteSlot = async (formData: FormData) => {
   "use server"
-  const campaignId = Number(formData.get("campaignId"))
   const slotId = Number(formData.get("slotId"))
-  await campaignApi.deleteAdminCampaignSlot(campaignId, slotId)
+  await campaignApi.deleteAdminCampaignSlot(slotId)
   revalidatePath("/campaign")
 }
 

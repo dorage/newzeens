@@ -75,7 +75,7 @@ const RelativeModalProvider = (props: RelativeModalProviderProps) => {
         createPortal(
           <div
             ref={parentRef}
-            className={classNames("absolute animate-fade-in shadow-[-4px_4px_16px_0px_rgba(0,0,0,0.08)]", {
+            className={classNames("absolute z-20 animate-fade-in shadow-[-4px_4px_16px_0px_rgba(0,0,0,0.08)]", {
               "animate-fade-out": transitionOut,
             })}
           >

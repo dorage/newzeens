@@ -5,7 +5,7 @@
     "init:backend:service": "cp packages/kysely-schema/db.local backend/service/db && pnpm --filter './backend/**' env:pull",
     "dev:backend:service": "pnpm run --filter ./backend/service/ dev",
     "test:backend:service": "pnpm run --filter ./backend/service/ /test:*/",
-    "여기부터 프론트엔드": "",
+    "여기부터 프론트엔드": "------------------------------------------------------",
     "init:frontend:admin": "pnpm --filter ./frontend/admin env:pull:development && pnpm --filter ./frontend/admin env:pull:production",
     "dev:frontend:admin": "pnpm --filter ./frontend/admin run dev",
     "dev:frontend:admin:prod": "pnpm --filter ./frontend/admin run dev:prod",

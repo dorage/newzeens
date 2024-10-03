@@ -1,10 +1,17 @@
 {
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
     "cSpell.words": [
-        "clsx",
-        "Maillist",
-        "pageview",
-        "tailwindcss",
-        "tanstack"
+      "clsx",
+      "Maillist",
+      "nums",
+      "pageview",
+      "swiper",
+      "tailwindcss",
+      "tanstack"
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"

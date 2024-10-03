@@ -11,7 +11,7 @@ const nextConfig = {
       // for test
       {
         protocol: "https",
-        hostname: "https://via.placeholder.com",
+        hostname: "via.placeholder.com",
         pathname: "**",
       },
       {
@@ -25,7 +25,7 @@ const nextConfig = {
         hostname: "127.0.0.1",
         port: "3000",
         pathname: "**",
-      }
+      },
     ],
   },
 

@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { ChangeEvent, useState } from "react"
 import HamburgerPopup from "../relative-modal/hamburger-popup"
 import { useRelativeModal } from "@/app/_hooks/use-relative-modal"
 import classNames from "@/app/_utils/class-names"
-import { SearchIcon } from "@/public/icons"
+import { CloseIcon, SearchIcon } from "@/public/icons"
+import { useRouter } from "next/navigation"
 
 interface InteractionIconsProps {}
 
@@ -13,11 +14,30 @@ const InteractionIcons = (props: InteractionIconsProps) => {
 
   const { isOpen, open, close } = useRelativeModal()
 
+  const router = useRouter()
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [search, setSearch] = useState("")
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
+
   return (
     <div className="flex items-center">
-      <div className="cursor-pointer p-10">
-        <SearchIcon className="size-20" onClick={() => window.alert("준비중입니다!")} />
+      <div className="cursor-pointer p-10" onClick={() => setSearchOpen(!searchOpen)}>
+        {searchOpen ? <></> : <SearchIcon className="size-20" />}
       </div>
+      {searchOpen && (
+        <div className="bg-bg rounded-full px-16 py-10">
+          <div className="flex gap-6 items-center">
+            <CloseIcon className="cursor-pointer size-20" onClick={() => setSearchOpen(false)} />
+            <input
+              className="text-element1 bg-bg text-gray-80 placeholder:text-gray-55"
+              placeholder="뉴스레터 검색"
+              value={search}
+              onChange={onChange}
+              onKeyDown={(e) => e.key === "Enter" && router.push(`/search?word=${search}`)}
+            />
+          </div>
+        </div>
+      )}
 
       <div
         className="cursor-pointer p-10"

@@ -34,14 +34,6 @@ const ArchivesPage = async (props: NextPageProps<ArchivesPageParams>) => {
     gcTime: 1000 * 60 * 60,
   })
 
-  // prefetch infinite query
-  //   await queryClient.prefetchInfiniteQuery({
-  //     queryKey: ["archives"],
-  //     queryFn: () => {},
-  //     staleTime: 1000 * 60,
-  //     gcTime: 1000 * 60 * 60,
-  //   })
-
   const dehydratedState = dehydrate(queryClient)
 
   return (

@@ -1,26 +1,21 @@
 "use client"
 
 import React, { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import KeywordTab from "../../atoms/keyword-tab"
 import ArticleCard from "../../card/article-card"
-import mainQueryKey from "@/app/_apis/_query-key/main"
-import mainApi from "@/app/_apis/main-page/main"
+import { useGetArticles } from "@/app/_actions/home/hooks"
+import classNames from "@/app/_utils/class-names"
 
 interface RecommendArticlesProps {}
 
 const RecommendArticles = (props: RecommendArticlesProps) => {
   const {} = props
 
-  const { data } = useQuery({
-    queryFn: mainApi.getRecommendArticles,
-    queryKey: mainQueryKey.recommendArticles.list({}),
-  })
-
+  const { data } = useGetArticles()
   const [currentSelected, setCurrentSelected] = useState(data?.slots?.[0].name)
 
   return (
-    <div className="">
+    <div>
       <div className="flex flex-col justify-between xl:flex-row xl:items-center">
         <h3 className="text-gray-80 text-mH3 xl:text-h2">
           <span className="text-primary hidden sm:inline">{currentSelected}&nbsp;</span>
@@ -28,15 +23,36 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
         </h3>
         <div className="h-12 xl:hidden" />
 
-        <div className="flex gap-4 overflow-x-auto">
+        {/* mobile */}
+        <div className="block xl:hidden">
+          <div className="flex gap-4 overflow-x-auto">
+            {data?.slots.map((tab) => (
+              <KeywordTab
+                key={tab.name}
+                isSelected={tab.name === currentSelected}
+                onClick={() => setCurrentSelected(tab.name)}
+              >
+                {tab.name}
+              </KeywordTab>
+            ))}
+          </div>
+        </div>
+
+        {/* pc */}
+        <div className="hidden xl:block">
           {data?.slots.map((tab) => (
-            <KeywordTab
+            <button
               key={tab.name}
-              isSelected={tab.name === currentSelected}
+              className={classNames(
+                "h-[38px] text-body3 py-8 px-12 rounded-full transition-all duration-300 ease-in-out",
+                {
+                  "text-primary bg-bg-3": tab.name === currentSelected,
+                },
+              )}
               onClick={() => setCurrentSelected(tab.name)}
             >
               {tab.name}
-            </KeywordTab>
+            </button>
           ))}
         </div>
       </div>
@@ -55,3 +71,8 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
 }
 
 export default RecommendArticles
+
+export const RecommendArticlesFallback = (props: any) => {
+  console.log(`props`, props)
+  return <div>gdgd</div>
+}

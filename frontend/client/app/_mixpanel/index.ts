@@ -3,15 +3,7 @@
 import mixpanel from "mixpanel-browser"
 import { getMXToken, isProduction } from "../_utils/env"
 
-export const utmKeys = [
-  "utm_trk",
-  "utm_id",
-  "utm_campaign",
-  "utm_source",
-  "utm_medium",
-  "utm_content",
-  "utm_term",
-] as const
+export const utmKeys = ["utm_trk", "utm_campaign", "utm_source", "utm_medium", "utm_content", "utm_term"] as const
 
 export const MXCaptureUTM = async () => {
   const queryString = window.location.search

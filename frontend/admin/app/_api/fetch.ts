@@ -33,7 +33,7 @@ const api = async (url: string, options?: HttpOptions) => {
     }
   }
 
-  return fetch(`${"http://127.0.0.1:3000"}${url}${params}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${params}`, {
     ...fetchOptions,
   })
     .then(async (res) => {

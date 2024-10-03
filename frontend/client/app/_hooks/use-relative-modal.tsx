@@ -31,6 +31,5 @@ export const useRelativeModal = () => {
     open,
     close,
     forceClose,
-    // updateTarget
   }
 }

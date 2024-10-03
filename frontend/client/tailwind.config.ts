@@ -1,4 +1,15 @@
 import type { Config } from "tailwindcss"
+import defaultTheme from "tailwindcss/defaultTheme"
+
+const spacing = Object.fromEntries(
+  Object.entries(defaultTheme.spacing).map(([key, value]) => {
+    if (typeof value === "string" && value.endsWith("rem")) {
+      const pxValue = parseFloat(value) * 4
+      return [key, `${pxValue}px`]
+    }
+    return [key, value]
+  }),
+)
 
 const config: Config = {
   content: [
@@ -8,14 +19,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      spacing: () => ({
-        ...Array.from({ length: 1000 }, (_, index) => index * 0.5)
-          .filter((i) => i)
-          .reduce((acc, i) => {
-            // console.log(acc)
-            return { ...acc, [i]: `${i / 10}rem` }
-          }, {}),
-      }),
+      spacing: { ...spacing },
 
       colors: {
         primary: {

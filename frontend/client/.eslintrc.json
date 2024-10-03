@@ -1,51 +1,19 @@
 {
-  "root": false,
+  "root": true,
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
-  "extends": [
-    "next",
-    "next/core-web-vitals",
-    "eslint-config-next",
-    "plugin:prettier/recommended",
-    "plugin:tailwindcss/recommended",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
-  ],
+  
+  "extends": ["next", "eslint-config-next", "next/core-web-vitals", "plugin:prettier/recommended"],
   "plugins": ["tailwindcss", "import", "unused-imports"],
   "settings": {
     "tailwindcss": {
-      "config": "./tailwind.config.ts",
-      "whitelist": ["(bg|text|rounded|p|py|px|w|h|gap|border)\\-.*"]
+      "config": "./tailwind.config.ts"
     }
   },
-  "ignorePatterns": ["*.config.{ts,js,mjs}"],
   "rules": {
-    "import/order": [
-      "error",
-      {
-        "groups": ["builtin", "external", "internal"],
-        "pathGroups": [
-          {
-            "pattern": "next*",
-            "group": "builtin",
-            "position": "before"
-          },
-          {
-            "pattern": "react*",
-            "group": "builtin",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"],
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        },
-        // @see https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#warnonunassignedimports-truefalse
-        "warnOnUnassignedImports": true
-      }
-    ]
+    "react/display-name": "off"
   }
 }
