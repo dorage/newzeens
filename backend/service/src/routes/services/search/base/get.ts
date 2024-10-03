@@ -6,11 +6,6 @@ import { controller } from "./get.controller";
 
 export const zQuery = z.object({
   word: z.string().or(z.string().array()),
-  limit: z.coerce
-    .number()
-    .optional()
-    .default(4)
-    .openapi({ description: "length of publishers in each slot" }),
 });
 
 export const zRes = z
@@ -54,17 +49,15 @@ app.use(route.getRoutingPath());
 
 export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
-  const { word, limit } = zQuery.parse(c.req.queries());
+  const { word } = zQuery.parse(c.req.queries());
   let res;
   if (typeof word === "object")
     res = await controller({
       term: word[0],
-      limit: limit,
     });
   else
     res = await controller({
       term: word,
-      limit: limit,
     });
 
   return c.json(res);

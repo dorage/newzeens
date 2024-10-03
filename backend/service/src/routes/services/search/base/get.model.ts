@@ -2,7 +2,7 @@ import { Ky } from "@/src/libs/kysely";
 import { sql } from "kysely";
 import { PublisherSchema } from "kysely-schema";
 
-export const getPublishersWithSearchTerm = async (query: { term: string; limit: number }) => {
+export const getPublishersWithSearchTerm = async (query: { term: string }) => {
   const result = await Ky.selectFrom((eb) =>
     eb
       .selectFrom("publishers")
@@ -20,7 +20,6 @@ export const getPublishersWithSearchTerm = async (query: { term: string; limit: 
 						'keyword_id', keywords.id, 'keyword_name', keywords.name, 'keyword_group_id', keyword_groups.id, 'keyword_group_name', keyword_groups.name
 			))`.as("keywords"),
     ])
-    .limit(query.limit)
     .execute();
   return result;
 };
