@@ -237,7 +237,7 @@ importers:
         version: 9.1.0(eslint@8.57.0)
       eslint-plugin-import:
         specifier: ^2.29.1
-        version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.3.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+        version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.4.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^4.2.1
         version: 4.2.1(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.8)
@@ -296,8 +296,8 @@ importers:
         specifier: ^9.8.1
         version: 9.8.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       swiper:
-        specifier: ^11.0.5
-        version: 11.1.0
+        specifier: 11.1.12
+        version: 11.1.12
       tailwind-merge:
         specifier: ^2.2.1
         version: 2.2.2
@@ -331,7 +331,7 @@ importers:
         version: 14.1.4(eslint@8.57.0)(typescript@5.3.3)
       eslint-plugin-import:
         specifier: ^2.29.1
-        version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.3.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+        version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.4.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-tailwindcss:
         specifier: ^3.12.0
         version: 3.15.1(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.11.30)(typescript@5.3.3)))
@@ -5021,8 +5021,8 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  swiper@11.1.0:
-    resolution: {integrity: sha512-Pm78CgU7Wvg+w/MgIL/1NwMSLgx0XqFof25EnVyX8iZFCYJv5CppH7LHkBj43qW2k5Cp3Iz7FcdBxrox7XX2AQ==}
+  swiper@11.1.12:
+    resolution: {integrity: sha512-PUkCToYAZMB4kP7z+YfPnkMHOMwMO71g8vUhz2o5INGIgIMb6Sb0XiP6cEJFsiFTd7FRDn5XCbg+KVKPDZqXLw==}
     engines: {node: '>= 4.7.0'}
 
   symbol-tree@3.2.4:
@@ -11129,7 +11129,7 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.0.0
 
-  swiper@11.1.0: {}
+  swiper@11.1.12: {}
 
   symbol-tree@3.2.4: {}
 

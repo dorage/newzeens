@@ -5,11 +5,12 @@
     }
   ],
     "cSpell.words": [
-        "clsx",
-        "Maillist",
-        "pageview",
-        "tailwindcss",
-        "tanstack"
+      "clsx",
+      "Maillist",
+      "pageview",
+      "swiper",
+      "tailwindcss",
+      "tanstack"
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
