@@ -27,9 +27,9 @@ export default async function Home() {
         <div className="mx-auto max-w-screen-xl">
           <RecommendArticles />
 
-          {/* <div className="bg-white p-20 pb-40 xl:px-40 xl:pb-80">
+          <div className="bg-white p-20 pb-40 xl:px-40 xl:pb-80">
             <NewsLetterRanking />
-          </div> */}
+          </div>
 
           <div className="px-20 py-40 xl:px-40 xl:py-80">
             <NewsLetterList />

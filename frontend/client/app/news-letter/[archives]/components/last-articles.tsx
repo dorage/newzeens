@@ -29,7 +29,7 @@ const LastArticles = (props: LastArticlesProps) => {
               <div className="group relative">
                 <div
                   className={classNames(
-                    "group-hover:bg-bg-2 bg-transparent transition-colors duration-300 ease-in-out rounded-22 absolute -inset-12 z-[-1]",
+                    "group-hover:bg-bg-2 bg-transparent transition-colors duration-300 ease-in-out rounded-[22px] absolute -inset-12 z-[-1]",
                   )}
                 />
                 <div className="flex flex-col gap-16">

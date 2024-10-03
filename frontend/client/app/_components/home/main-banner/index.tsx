@@ -45,18 +45,18 @@ const BANNER_DATA = [
     id: 1,
     category: "developer",
     src: DeveloperBanner,
-    href: "/search?word=IT",
+    href: "/search?word=개발자",
   },
   {
     id: 2,
     category: "marketer",
     src: MarketerBanner,
-    href: "/search?word=IT",
+    href: "/search?word=마케터",
   },
   {
     id: 3,
     category: "designer",
     src: DesignerBanner,
-    href: "/search?word=IT",
+    href: "/search?word=디자이너",
   },
 ]
