@@ -12,6 +12,7 @@ export const zRes = z.object({
   article: z.object({}).merge(
     ArticleSchema.pick({
       title: true,
+      summary: true,
       description: true,
       thumbnail: true,
       created_at: true,
@@ -26,6 +27,7 @@ export const zRes = z.object({
       url_main: true,
       url_subscribe: true,
       publisher_main: true,
+      thumbnail: true,
     })
   ),
   related_articles: z
