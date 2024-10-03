@@ -30,19 +30,22 @@ const NewsLetterRanking = () => {
         </Link>
       </div>
 
-      <div className="mt-12 flex gap-4 overflow-x-auto">
-        {ICON_LIST.map((tab, i) => (
-          <KeywordTab
-            key={tab.name}
-            isSelected={tab.name === current}
-            onClick={() => {
-              setCurrent(tab.name)
-              setCurrentIndex(i)
-            }}
-          >
-            {tab.name}
-          </KeywordTab>
-        ))}
+      {/* mobile only */}
+      <div className="block xl:hidden">
+        <div className="mt-12 flex gap-4 overflow-x-auto">
+          {ICON_LIST.map((tab, i) => (
+            <KeywordTab
+              key={tab.name}
+              isSelected={tab.name === current}
+              onClick={() => {
+                setCurrent(tab.name)
+                setCurrentIndex(i)
+              }}
+            >
+              {tab.name}
+            </KeywordTab>
+          ))}
+        </div>
       </div>
 
       {/* mobile */}
@@ -59,24 +62,26 @@ const NewsLetterRanking = () => {
                   {index + 1}
                 </p>
 
-                <div className="flex items-center gap-8">
-                  <div className="relative size-48">
-                    <Image
-                      src={item.thumbnail}
-                      sizes="80px"
-                      alt="next"
-                      fill
-                      className="rounded-8 aspect-square object-cover"
-                    />
-                  </div>
+                <Link href={`/news-letter/${item.id}`}>
+                  <div className="flex items-center gap-8">
+                    <div className="relative size-48">
+                      <Image
+                        src={item.thumbnail}
+                        sizes="80px"
+                        alt="next"
+                        fill
+                        className="rounded-8 aspect-square object-cover"
+                      />
+                    </div>
 
-                  <div>
-                    <p className="text-mBody2">{item.name}</p>
-                    <p className="text-mElement1">
-                      {item.keywords?.[0]?.keyword_name} · {`${_formatSubscriberCount(item.subscriber)} 구독`}
-                    </p>
+                    <div>
+                      <p className="text-mBody2">{item.name}</p>
+                      <p className="text-mElement1">
+                        {item.keywords?.[0]?.keyword_name} · {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             )
           })}
@@ -107,33 +112,35 @@ const NewsLetterRanking = () => {
                   {index + 1}
                 </p>
 
-                <div className="flex items-center gap-8">
-                  <div className="relative size-48">
-                    <Image
-                      src={item.thumbnail}
-                      sizes="80px"
-                      alt="next"
-                      fill
-                      className="rounded-8 aspect-square object-cover"
-                    />
-                  </div>
+                <Link href={`/news-letter/${item.id}`}>
+                  <div className="flex items-center gap-8">
+                    <div className="relative size-48">
+                      <Image
+                        src={item.thumbnail}
+                        sizes="80px"
+                        alt="next"
+                        fill
+                        className="rounded-8 aspect-square object-cover"
+                      />
+                    </div>
 
-                  <div className="flex gap-4 items-center">
-                    <p className="text-mBody2 text-gray-80">{item.name}</p>
+                    <div className="flex gap-4 items-center">
+                      <p className="text-mBody2 text-gray-80">{item.name}</p>
 
-                    {isRank && <CrownIcon className="size-12" />}
-                    <p className="text-mElement1 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
+                      {isRank && <CrownIcon className="size-12" />}
+                      <p className="text-mElement1 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
 
-                    <div
-                      className={classNames("border rounded-full py-4 px-6 text-element4", {
-                        "text-gray-65 border-gray-65": !isRank,
-                        "text-primary border-primary": isRank,
-                      })}
-                    >
-                      {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                      <div
+                        className={classNames("border rounded-full py-4 px-6 text-element4", {
+                          "text-gray-65 border-gray-65": !isRank,
+                          "text-primary border-primary": isRank,
+                        })}
+                      >
+                        {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             )
           })}

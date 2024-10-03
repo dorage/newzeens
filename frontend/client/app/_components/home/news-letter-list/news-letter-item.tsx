@@ -39,6 +39,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
           src={publisher.thumbnail || "https://via.placeholder.com/300"}
           fill
           alt="테스트이미지"
+          quality={100}
         />
       </div>
 

@@ -14,9 +14,9 @@ const HamburgerPopup = (props: HamburgerPopupProps) => {
       <Link href="/" className="hover:bg-bg-2 px-20 py-[14px]" onClick={forceClose}>
         <p>홈</p>
       </Link>
-      {/* <Link href="/ranking" className="hover:bg-bg-2 px-20 py-[14px]" onClick={forceClose}>
+      <Link href="/ranking" className="hover:bg-bg-2 px-20 py-[14px]" onClick={forceClose}>
         <p className="">랭킹</p>
-      </Link> */}
+      </Link>
       <Link href="/" className="hover:bg-bg-2 px-20 py-[14px]" onClick={forceClose}>
         <p className="">피드백 보내기</p>
       </Link>

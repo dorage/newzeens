@@ -53,36 +53,19 @@ const PC = (props: DetailProps) => {
 
   return (
     <div className="hidden bg-white p-40 xl:block">
-      <div className="gap-66 flex justify-between">
+      <div className="gap-[66px] flex justify-between">
         <div className="flex flex-col gap-12">
           <h3 className="text-h4 flex items-center">
             {article.title} &nbsp;
             <ShareButton />
           </h3>
 
-          <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">
-            {article.summary}
-            {/* <li className="">2024년 개인정보 보호 트렌드: 광고 업계 변화</li>
-            <li className="">구글 프라이버시 샌드박스: 새로운 개인정보 보호 방식 도입, 서드 파티 쿠키</li>
-            <li className="">
-              40대 이상 사용자 비중 증가하며, 주요 앱은 캐시워크, 타임스프레드, 발로소발로소득발로소득
-            </li>
-            <li className="">
-              40대 이상 사용자 비중 증가하며, 주요 앱은 캐시워크, 타임스프레드, 발로소발로소득발로소득
-            </li>
-            <li className="">
-              40대 이상 사용자 비중 증가하며, 주요 앱은 캐시워크, 타임스프레드, 발로소발로소득발로소득
-            </li>
-            <li className="">
-              40대 이상 사용자 비중 증가하며, 주요 앱은 캐시워크, 타임스프레드,
-              발로소발로소득발로소득발로소발로소득발로소득발로소발로소득발로소득발로소발로소득발로소득
-            </li> */}
-          </ul>
+          <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">{article.summary}</ul>
 
           <span className="text-element2 text-gray-50">{dateFormat(article.created_at) + " 전"}</span>
         </div>
 
-        <div className="rounded-16 relative h-[11.8rem] w-[20.9rem] shrink-0">
+        <div className="rounded-16 relative h-[118px] w-[209px] shrink-0">
           <Image
             className="rounded-16 object-cover"
             src={article.thumbnail || "https://via.placeholder.com/400"}
@@ -111,20 +94,18 @@ const PC = (props: DetailProps) => {
               {filterByKeywordGroup(publisher.keywords, ["직무", "목적", "고유", "해외"]).map((v) => (
                 <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
               ))}
-              {/* <LabelTag>트렌드</LabelTag>
-              <LabelTag>인사이트</LabelTag> */}
             </div>
 
             <div className="text-gray-60 text-element2">{publisher.description}</div>
           </div>
         </div>
         <div className="flex items-center justify-center gap-8">
-          <Button color="white" className="w-101 h-40">
+          <Button color="white" className="w-[101px] h-40">
             <span className="text-body7 text-gray-80">{publisher.publisher_main}</span>
           </Button>
           <Button
             color="primary"
-            className="w-101 h-40"
+            className="w-[101px] h-40"
             onClick={() => globalThis?.window?.open(publisher.url_subscribe)}
           >
             <span className="text-body7 text-white">구독</span>
@@ -137,6 +118,7 @@ const PC = (props: DetailProps) => {
 
 const Mobile = (props: DetailProps) => {
   const { article, publisher } = props
+  console.log("🚀 ~ Mobile ~ article, publisher:", article, publisher)
 
   return (
     <div className="block bg-white px-20 py-40 xl:hidden">
@@ -160,7 +142,6 @@ const Mobile = (props: DetailProps) => {
       <div className="h-8" />
 
       <ul className="text-mBody3 li-marker-style flex list-disc flex-col gap-4 pl-10">
-        {/* TODO: article description */}
         {article.summary}
 
         {/* <li className="">2024년 개인정보 보호 트렌드: 광고 업계 변화</li>
@@ -170,7 +151,7 @@ const Mobile = (props: DetailProps) => {
 
       <div className="h-16" />
 
-      <span className="text-mElement1 text-gray-50">{dateFormat("2024-01-15T18:26:57.720993+09:00") + " 전"}</span>
+      <span className="text-mElement1 text-gray-50">{dateFormat(article?.created_at) + " 전"}</span>
 
       <div className="h-32" />
       <div className="flex gap-8">
@@ -188,7 +169,6 @@ const Mobile = (props: DetailProps) => {
             {filterByKeywordGroup(publisher.keywords, ["직무", "목적", "고유", "해외"]).map((v) => (
               <LabelTag key={v.keyword_id}>{v.keyword_name}</LabelTag>
             ))}
-            {/* <LabelTag>인사이트</LabelTag> */}
           </div>
 
           <div className="text-gray-60 text-mElement1">{publisher.description}</div>
