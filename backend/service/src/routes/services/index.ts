@@ -20,4 +20,7 @@ app.route("/article", article);
 import publisher from "./publisher";
 app.route("/publisher", publisher);
 
+import search from "./search";
+app.route("/search", search);
+
 export default app;
