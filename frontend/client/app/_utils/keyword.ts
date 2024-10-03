@@ -7,7 +7,10 @@ import { Keyword } from "../_apis/detail-page/index.type"
  ------------------------------------------------------------------------------ */
 export const filterByKeywordGroup = (data: Keyword[] | undefined, groups: string[]) => {
   if (!data) return []
-  return data.filter((item) => groups.includes(item.keyword_group_name))
+
+  const filter = data.filter((item) => groups.includes(item.keyword_group_name))
+  const uniqueData = Array.from(new Map(filter.map((item) => [item.keyword_id, item])).values())
+  return uniqueData
 }
 
 export const filterGroup = ["분야", "직무", "목적", "고유"]

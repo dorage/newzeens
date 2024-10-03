@@ -40,29 +40,36 @@ export const ICON_LIST = [
   {
     name: "전체",
     icon: <AllIcon />,
+    id: 0,
   },
   {
     name: "IT",
     icon: <ITIcon />,
+    id: 1,
   },
   {
     name: "마케팅/브랜딩",
     icon: <MarketingIcon />,
+    id: 2,
   },
   {
     name: "라이프스타일",
     icon: <LifestyleIcon />,
+    id: 3,
   },
   {
     name: "경제/시사",
     icon: <EconomyIcon />,
+    id: 4,
   },
   {
     name: "인문/저널리즘",
     icon: <HumanitiesIcon />,
+    id: 5,
   },
   {
     name: "커리어",
     icon: <CareerIcon />,
+    id: 6,
   },
 ]

@@ -4,12 +4,17 @@ import React, { ChangeEvent, useState } from "react"
 import Link from "next/link"
 import InteractionIcons from "./header/interaction-icons"
 import { SearchIcon } from "@/public/icons"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import classNames from "../_utils/class-names"
 
 const Header = () => {
   const router = useRouter()
+  const pathname = usePathname()
   const [search, setSearch] = useState("")
   const onChange = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
+
+  const isHome = pathname === "/"
+  const isRank = pathname === "/ranking"
 
   return (
     <>
@@ -46,10 +51,10 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-64">
-          <Link href="/" className="text-body2">
+          <Link href="/" className={classNames("text-body2", { "text-gray-50": !isHome })}>
             홈
           </Link>
-          <Link href="/ranking" className="text-body2 text-gray-50">
+          <Link href="/ranking" className={classNames("text-body2", { "text-gray-50": !isRank })}>
             랭킹
           </Link>
         </div>

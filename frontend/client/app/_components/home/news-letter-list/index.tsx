@@ -47,7 +47,7 @@ const NewsLetterList = () => {
       </div>
 
       {/* right content */}
-      <div className="flex w-full flex-col gap-12 px-20">
+      <div className="flex w-full flex-col gap-12">
         <h5 className="text-mH3 text-gray-80 xl:text-h2">{publisherList?.name}</h5>
         <div className="flex gap-4 overflow-x-auto xl:hidden">
           {publisherList?.slots?.map((tab, i) => (
@@ -67,7 +67,7 @@ const NewsLetterList = () => {
           ))}
         </div>
         <div />
-        <div className="grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
+        <div className="w-full grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
           {publisherList?.slots
             ?.find((slot) => slot.name === current)
             ?.publishers?.map((v) => {

@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import Image from "next/image"
 import KeywordTab from "../../atoms/keyword-tab"
 import classNames from "@/app/_utils/class-names"
+import Link from "next/link"
 
 interface NewsLetterRankingProps {}
 
@@ -19,7 +20,9 @@ const NewsLetterRanking = (props: NewsLetterRankingProps) => {
       <div className="flex items-center justify-between">
         <h3 className="text-mH3">뉴스레터 랭킹</h3>
 
-        <p className="text-mBody4 text-gray-60">더보기</p>
+        <Link href="/ranking" className="text-mBody4 text-gray-60">
+          더보기
+        </Link>
       </div>
 
       <div className="mt-12 flex gap-4 overflow-x-auto">
