@@ -16,7 +16,7 @@ const s3Client = () =>
   });
 
 const getImageUrlFromKey = (key: string) => {
-  return `${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/${key}`;
+  return key.split(`/${process.env.R2_BUCKET}/`).pop();
 };
 
 const getKeyFromImageUrl = (url: string) => {
