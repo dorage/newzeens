@@ -16,10 +16,11 @@ const s3Client = () =>
   });
 
 const getImageUrlFromKey = (key: string) => {
-  return key.split(`/${process.env.R2_BUCKET}/`).pop();
+  return `${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/${key}`;
 };
 
 const getKeyFromImageUrl = (url: string) => {
+  return url.split(`/${process.env.R2_BUCKET}/`).pop();
   return url.replace(`${process.env.ORIGIN_IMAGE}/${process.env.R2_BUCKET}/`, "");
 };
 
