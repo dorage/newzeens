@@ -128,7 +128,7 @@ export const getRelatedArticles = async (query: { articleId: string }) => {
     ])
     .execute();
 
-  return zRes.shape.related_articles.parse(relatedArticles);
+  return zRes.shape.related_articles.element.array().parse(relatedArticles);
 };
 
 export const getAnyArticles = async (query: { articleId: string; limit: number }) => {
@@ -147,7 +147,7 @@ export const getAnyArticles = async (query: { articleId: string; limit: number }
   const relatedArticles = await Ky.selectFrom((eb) =>
     publisherQuery(eb)
       .orderBy(sql`RANDOM()`)
-      .limit(4)
+      .limit(query.limit)
       .as("p")
   )
     .leftJoin(
@@ -177,5 +177,5 @@ export const getAnyArticles = async (query: { articleId: string; limit: number }
     ])
     .execute();
 
-  return zRes.shape.related_articles.parse(relatedArticles);
+  return zRes.shape.related_articles.element.array().parse(relatedArticles);
 };
