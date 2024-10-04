@@ -40,6 +40,7 @@ export const uploadObject = async (input: {
 
 export const getObject = async (url: string) => {
   const key = getKeyFromImageUrl(url);
+  console.debug("r2 object key", key);
 
   const command = new GetObjectCommand({
     Bucket: process.env.R2_BUCKET,
