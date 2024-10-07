@@ -52,10 +52,11 @@ button {
 }
 
 .li-marker-style li {
-  /* padding-left: 10px; */
   margin-left: 1.5rem;
 }
 
 .li-marker-style li::marker {
-  font-size: 0.7rem;
+  /* font-size: 0.8rem; */
+  /* height: 2.0rem !important; */
+  /* padding-top: 1rem !important; */
 }
