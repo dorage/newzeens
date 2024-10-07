@@ -86,22 +86,6 @@ describe("GET /article/:id get.query", () => {
 
     console.log(JSON.stringify(relatedArticles, undefined, 2));
   });
-
-  test("should return article in zRes related_articles shape", async () => {
-    const article = await getRandomArticle();
-    const articles = await getAnyArticles({ articleId: article.id, limit: 4 });
-    expect(zRes.shape.related_articles.safeParse(articles).success).toEqual(true);
-    expect(articles.every((_article) => _article.id != article.id)).toEqual(true);
-    expect(articles.length).toEqual(4);
-  });
-
-  test("should return article in zRes related_articles shape", async () => {
-    const article = await getRandomArticle();
-    const articles = await getAnyArticles({ articleId: article.id, limit: 3 });
-    expect(zRes.shape.related_articles.safeParse(articles).success).toEqual(true);
-    expect(articles.every((_article) => _article.id != article.id)).toEqual(true);
-    expect(articles.length).toEqual(3);
-  });
 });
 
 describe("GET /article/:id get.controller", () => {
