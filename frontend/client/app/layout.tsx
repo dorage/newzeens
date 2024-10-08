@@ -30,7 +30,7 @@ export default function RootLayout(
 ) {
   const { children, modal } = props
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={inter.className}>
         <div id="portal" />
         <RootContext>

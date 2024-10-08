@@ -13,6 +13,7 @@
     "env:push:production": "npx dotenv-vault@latest push production"
   },
   "dependencies": {
+    "@next/third-parties": "^14.2.14",
     "@tanstack/react-query": "^5.17.19",
     "@tanstack/react-query-devtools": "^5.17.21",
     "@vercel/analytics": "^1.3.1",
