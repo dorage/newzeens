@@ -3,12 +3,23 @@ import { Inter } from "next/font/google"
 import RootContext from "./_context/root-context"
 import { Analytics } from "@vercel/analytics/react"
 import "./_styles/globals.css"
+import Opengraph from "@/public/opengraph.png"
+import { getImageUrl } from "./_utils/image"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "메일리스트 | 뉴스레터 정보 한눈에 보기",
-  description: "메일리스트에서 나에게 맞는 뉴스레터를 한번에 보고 구독해보세요.",
+  title: {
+    default: "메일리스트",
+    template: `메일리스트 | %s`,
+  },
+  description:
+    "기획자, 개발자, 디자이너에게 꼭 필요한 뉴스레터를 놓치지 마세요. 다양한 직군별 트렌드 뉴스레터를 한곳에서 쉽게 찾아보세요.",
+  openGraph: {
+    type: "website",
+    title: "메일리스트 | 직무 트렌드 뉴스레터 모아보기",
+    images: [getImageUrl(Opengraph.src)],
+  },
 }
 
 export default function RootLayout(

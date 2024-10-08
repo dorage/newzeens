@@ -13,6 +13,13 @@ import LastArticles from "./components/last-articles"
 import NewsLetterTitle from "./components/news-letter-title"
 import SuggestNewsLetters from "./components/suggest-newsletters"
 import TabletFixedButton from "./components/tablet-fixed-button"
+import { Metadata } from "next"
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "상세페이지",
+  }
+}
 
 interface ArchivesPageParams {
   archives: string
