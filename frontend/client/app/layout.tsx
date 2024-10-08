@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react"
 import "./_styles/globals.css"
 import Opengraph from "@/public/opengraph.png"
 import { getImageUrl } from "./_utils/image"
+import GaScript from "./_ga/ga-script"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -31,6 +32,12 @@ export default function RootLayout(
   const { children, modal } = props
   return (
     <html lang="ko">
+      <head>
+        <GaScript />
+        {/* search advisor */}
+        <meta name="google-site-verification" content="ABqIFcOvqzrmG3lpXz8xDt2GnvXN7tYPUmmfeFLGI7o" />
+        <meta name="naver-site-verification" content="402f9ae3e19b80a1937687b96beb2b54645c7c7d" />
+      </head>
       <body className={inter.className}>
         <div id="portal" />
         <RootContext>
