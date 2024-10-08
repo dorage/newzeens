@@ -35,7 +35,6 @@ export default function RootLayout(
       <head>
         <GaScript />
         {/* search advisor */}
-        <meta name="google-site-verification" content="ABqIFcOvqzrmG3lpXz8xDt2GnvXN7tYPUmmfeFLGI7o" />
         <meta name="naver-site-verification" content="402f9ae3e19b80a1937687b96beb2b54645c7c7d" />
       </head>
       <body className={inter.className}>
