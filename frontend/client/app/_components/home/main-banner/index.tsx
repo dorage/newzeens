@@ -14,6 +14,7 @@ import Link from "next/link"
 import { SwiperOptions } from "swiper/types"
 import "swiper/css"
 import "swiper/css/pagination"
+import { sendEvent } from "@/app/_meta/track"
 
 const MainBanner = () => {
   return (
@@ -24,7 +25,14 @@ const MainBanner = () => {
             {BANNER_DATA.map((banner) => (
               <SwiperSlide key={banner.id}>
                 <div className="w-full h-auto">
-                  <Link href={banner.href}>
+                  <Link
+                    href={banner.href}
+                    onClick={() => {
+                      sendEvent("mobile_banner_click", {
+                        category: banner.category,
+                      })
+                    }}
+                  >
                     <Image src={banner.mobileSrc} alt={banner.category} />
                   </Link>
                 </div>
@@ -40,7 +48,14 @@ const MainBanner = () => {
             {BANNER_DATA.map((banner) => (
               <SwiperSlide key={banner.id}>
                 <div className="w-full h-auto">
-                  <Link href={banner.href}>
+                  <Link
+                    href={banner.href}
+                    onClick={() => {
+                      sendEvent("pc_banner_click", {
+                        category: banner.category,
+                      })
+                    }}
+                  >
                     <Image src={banner.src} alt={banner.category} />
                   </Link>
                 </div>

@@ -6,12 +6,9 @@ import { useRelativeModal } from "@/app/_hooks/use-relative-modal"
 import classNames from "@/app/_utils/class-names"
 import { CloseIcon, SearchIcon } from "@/public/icons"
 import { useRouter } from "next/navigation"
+import { sendEvent } from "@/app/_meta/track"
 
-interface InteractionIconsProps {}
-
-const InteractionIcons = (props: InteractionIconsProps) => {
-  const {} = props
-
+const InteractionIcons = () => {
   const { isOpen, open, close } = useRelativeModal()
 
   const router = useRouter()
@@ -33,7 +30,15 @@ const InteractionIcons = (props: InteractionIconsProps) => {
               placeholder="뉴스레터 검색"
               value={search}
               onChange={onChange}
-              onKeyDown={(e) => e.key === "Enter" && router.push(`/search?word=${search}`)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  router.push(`/search?word=${search}`)
+
+                  sendEvent("mobile_search", {
+                    searchWord: search,
+                  })
+                }
+              }}
             />
           </div>
         </div>
