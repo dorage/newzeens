@@ -9,16 +9,12 @@ import { Input } from "@/app/_components/ui/input"
 import { useDebounce } from "@/app/_hooks/use-debounce"
 import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
-import React, { useEffect, useState, useTransition } from "react"
+import React, { useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
-import { useIdContext } from "../_context/id-context"
-import { putSlotPublisher } from "@/app/_actions/campaign"
 import SlotPublisherForm from "./slot-publisher-form"
 import { useSlotPublisherContext } from "../_context/slot-publisher-context"
 
-interface PublisherAddProps {}
-
-const PublisherAdd = (props: PublisherAddProps) => {
+const PublisherAdd = () => {
   /**
    * 퍼블리셔 목록
    */
@@ -31,14 +27,20 @@ const PublisherAdd = (props: PublisherAddProps) => {
 
   const fetchNext = async () => {
     const addPublisher = await newsLetterApi.getAdminPublisherList({ page, name: searchDebounce })
-    setPublishers((prev) => [...prev, ...addPublisher])
+    if (addPublisher.length === 0) {
+      return
+    }
     setPage((prev) => prev + 1)
+    setPublishers((prev) => [...prev, ...addPublisher])
   }
 
   const searchFetch = async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
-    setPublishers(addPublisher) // 검색 결과로 출판사 목록을 업데이트
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: page, name: searchDebounce })
+    if (addPublisher.length === 0) {
+      return
+    }
     setPage((prev) => prev + 1)
+    setPublishers(addPublisher)
   }
 
   useEffect(() => {
