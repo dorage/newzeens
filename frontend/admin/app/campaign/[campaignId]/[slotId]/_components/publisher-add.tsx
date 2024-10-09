@@ -14,19 +14,26 @@ import { useInView } from "react-intersection-observer"
 import SlotPublisherForm from "./slot-publisher-form"
 import { useSlotPublisherContext } from "../_context/slot-publisher-context"
 
-const PublisherAdd = () => {
+interface PublisherAddProps {
+  initialData: AdminNewsLetterResponse[]
+}
+
+const PublisherAdd = (props: PublisherAddProps) => {
+  const { initialData } = props
+
   /**
    * 퍼블리셔 목록
    */
-  const [page, setPage] = useState(0)
-  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>([])
+  const [page, setPage] = useState(1)
+  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>(initialData)
 
   const { ref, inView } = useInView()
   const [search, setSearch] = useState("")
   const searchDebounce = useDebounce(search)
 
   const fetchNext = async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page, name: searchDebounce })
+    console.log("fetch!", page)
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: page, name: searchDebounce })
     if (addPublisher.length === 0) {
       return
     }
@@ -35,10 +42,7 @@ const PublisherAdd = () => {
   }
 
   const searchFetch = async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: page, name: searchDebounce })
-    if (addPublisher.length === 0) {
-      return
-    }
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
     setPage((prev) => prev + 1)
     setPublishers(addPublisher)
   }
@@ -54,9 +58,10 @@ const PublisherAdd = () => {
       setPage(0)
       searchFetch()
     } else {
-      setPublishers([])
+      setPage(1)
+      setPublishers(initialData)
     }
-  }, [searchDebounce])
+  }, [initialData, searchDebounce])
 
   const { isChanged, select, initialValues, setSelect } = useSlotPublisherContext()
 
