@@ -8,6 +8,7 @@ import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
 import { getField, isField, keywordByGroup } from "@/app/_utils/keyword"
 import { ArrowRightIcon } from "@/public/icons"
+import { sendEvent } from "@/app/_meta/track"
 
 interface NewsLetterTitleProps {}
 
@@ -54,7 +55,15 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
           </div>
         </div>
 
-        <Link href={data?.publisher?.url_subscribe || ""} target="_blank">
+        <Link
+          href={data?.publisher?.url_subscribe || ""}
+          target="_blank"
+          onClick={() => {
+            sendEvent("pc_subscribe", {
+              ...data?.publisher,
+            })
+          }}
+        >
           <button className="hidden h-[44px] w-[102px] items-center justify-center gap-4 rounded-full bg-primary text-white xl:flex">
             <div className="w-2" />
             <span className="text-body4">구독</span>

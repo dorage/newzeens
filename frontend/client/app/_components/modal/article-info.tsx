@@ -26,7 +26,7 @@ const ArticleInfo = () => {
     <div>
       <PC publisher={data.publisher} article={data.article} />
       <Mobile publisher={data.publisher} article={data.article} />
-      <div className="bg-bg-4 h-screen px-20 py-40">
+      <div className="bg-bg-4 max-h-screen px-20 py-40">
         <h4 className="text-mH3">관련 아티클</h4>
 
         <div className="h-16" />
@@ -60,7 +60,12 @@ const PC = (props: DetailProps) => {
             <ShareButton />
           </h3>
 
-          <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">{article.summary}</ul>
+          <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">
+            {article.summary.split("\n").map((v) => {
+              if (v === "") return <></>
+              return <li key={v}>{v}</li>
+            })}
+          </ul>
 
           <span className="text-element2 text-gray-50">{dateFormat(article.created_at) + " 전"}</span>
         </div>
@@ -118,7 +123,6 @@ const PC = (props: DetailProps) => {
 
 const Mobile = (props: DetailProps) => {
   const { article, publisher } = props
-  console.log("🚀 ~ Mobile ~ article, publisher:", article, publisher)
 
   return (
     <div className="block bg-white px-20 py-40 xl:hidden">
@@ -142,7 +146,10 @@ const Mobile = (props: DetailProps) => {
       <div className="h-8" />
 
       <ul className="text-mBody3 li-marker-style flex list-disc flex-col gap-4 pl-10">
-        {article.summary}
+        {article.summary.split("\n\n").map((v) => {
+          if (v === "") return <></>
+          return <li key={v}>{v}</li>
+        })}
 
         {/* <li className="">2024년 개인정보 보호 트렌드: 광고 업계 변화</li>
         <li className="">구글 프라이버시 샌드박스: 새로운 개인정보 보호 방식 도입, 서드 파티 쿠키</li>
@@ -176,8 +183,14 @@ const Mobile = (props: DetailProps) => {
       </div>
       <div className="h-16" />
       <div className="flex w-full items-center justify-center gap-8">
-        <Button color="white" className="h-40 flex-1">
-          <span className="text-mBody5 text-gray-80">{publisher.publisher_main}</span>
+        <Button
+          color="white"
+          className="h-40 flex-1"
+          onClick={() => {
+            globalThis?.window?.open(publisher.url_main, "_blank")
+          }}
+        >
+          <span className="text-mBody5 text-gray-80">{publisher.publisher_main} 홈</span>
         </Button>
         <Button
           color="primary"

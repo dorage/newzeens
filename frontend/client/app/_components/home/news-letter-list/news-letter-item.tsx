@@ -4,6 +4,7 @@ import Link from "next/link"
 import LabelTag from "../../atoms/label-tag"
 import { PublisherDto } from "@/app/_apis/main-page/main.type"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
+import { sendEvent } from "@/app/_meta/track"
 
 interface NewsLetterItemProps {
   publisher: PublisherDto
@@ -32,7 +33,15 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
   }
 
   return (
-    <Link href={`/news-letter/${publisher.id}`} className="flex flex-col gap-12">
+    <Link
+      href={`/news-letter/${publisher.id}`}
+      className="flex flex-col gap-12"
+      onClick={() => {
+        sendEvent("news-letter_click", {
+          ...publisher,
+        })
+      }}
+    >
       <div className="rounded-12 xl:rounded-16 relative aspect-video shrink-0">
         <Image
           className="rounded-12 xl:rounded-16"
