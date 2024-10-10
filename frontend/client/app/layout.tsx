@@ -3,9 +3,10 @@ import { Inter } from "next/font/google"
 import RootContext from "./_context/root-context"
 import { Analytics } from "@vercel/analytics/react"
 import "./_styles/globals.css"
-import Opengraph from "@/public/opengraph.png"
+
 import { getImageUrl } from "./_utils/image"
 import GaScript from "./_ga/ga-script"
+import { OG_IMAGE } from "./_meta/constant"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     title: "메일리스트 | 직무 트렌드 뉴스레터 모아보기",
-    images: [getImageUrl(Opengraph.src)],
+    images: [OG_IMAGE],
   },
 }
 

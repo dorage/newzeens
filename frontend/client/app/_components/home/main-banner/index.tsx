@@ -12,9 +12,9 @@ import DesignerBanner from "@/public/banner/designer.png"
 import Image from "next/image"
 import Link from "next/link"
 import { SwiperOptions } from "swiper/types"
+import { sendEvent } from "@/app/_meta/track"
 import "swiper/css"
 import "swiper/css/pagination"
-import { sendEvent } from "@/app/_meta/track"
 
 const MainBanner = () => {
   return (
@@ -84,6 +84,7 @@ const BANNER_DATA = [
     category: "developer",
     src: DeveloperBanner,
     mobileSrc: DeveloperMobile,
+    // 프로덕션 요즘IT
     href: "/news-letter/odsljy",
   },
   {
@@ -91,13 +92,15 @@ const BANNER_DATA = [
     category: "marketer",
     src: MarketerBanner,
     mobileSrc: MarketerMobile,
-    href: "/search?word=마케터",
+    // 프로덕션 와이즈앱
+    href: "/news-letter/sgpktm",
   },
   {
     id: 3,
     category: "designer",
     src: DesignerBanner,
     mobileSrc: DesignerMobile,
-    href: "/search?word=디자이너",
+    // 프로덕션 디자인나침반
+    href: "/news-letter/bbzlfu",
   },
 ]
