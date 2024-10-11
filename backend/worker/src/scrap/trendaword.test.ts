@@ -1,4 +1,4 @@
 import { testScrapingTask } from "../libs/testing";
-import scrapingTask from "./dol-letter";
+import scrapingTask from "./trendaword";
 
 testScrapingTask(scrapingTask, { describe, test, expect });
