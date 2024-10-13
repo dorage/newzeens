@@ -6,8 +6,8 @@ export default createScrapingTask({
   puppeteer: true,
   host: HOST,
   publisherName: "일분톡",
-  scrapList: async (html, opts) => {
-    const elems = [...html.querySelectorAll("#stb_archives > div.stb_archives_body > div > a")];
+  scrapList: async (opts) => {
+    const elems = [...document.querySelectorAll("#stb_archives > div.stb_archives_body > div > a")];
 
     const jobs: NewsletterJobPayload[] = [];
 
@@ -21,15 +21,15 @@ export default createScrapingTask({
 
     return jobs;
   },
-  scrapContent: async (html) => {
-    const root = html.querySelector("table");
+  scrapContent: async () => {
+    const root = document.querySelector("table");
     if (root == null) throw new Error("no root element in DOM");
     const content = root.textContent;
     if (content == null) throw new Error("no content under the root element");
     return content;
   },
-  scrapThumbnail: async (html) => {
-    const metaImage = html.querySelector('meta[property="og:image"]');
+  scrapThumbnail: async () => {
+    const metaImage = document.querySelector('meta[property="og:image"]');
     const sourceUrl = (metaImage as any).content;
     return sourceUrl ?? "https://img.stibee.com/108448_1712975243.jpg";
   },

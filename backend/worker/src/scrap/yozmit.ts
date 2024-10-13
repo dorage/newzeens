@@ -1,7 +1,6 @@
-import path from "path";
 import { createScrapingTask, NewsletterJobPayload } from "../libs/scrap";
 
-const HOST = "https://dolletter.stibee.com";
+const HOST = "https://yozm.wishket.com/magazine/list/new/";
 
 export default createScrapingTask({
   host: HOST,
@@ -19,7 +18,7 @@ export default createScrapingTask({
       if (jobs.length >= opts.threshold) break;
       jobs.push({
         title: elem.textContent!,
-        url: (elem as HTMLAnchorElement).href,
+        url: "https://yozm.wishket.com" + (elem as HTMLAnchorElement).href,
       });
       continue;
     }

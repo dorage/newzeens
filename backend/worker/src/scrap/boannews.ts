@@ -4,13 +4,12 @@ import { createScrapingTask, NewsletterJobPayload } from "../libs/scrap";
 const HOST = "https://www.boannews.com/newsletter/";
 
 export default createScrapingTask({
+  puppeteer: true,
   host: HOST,
   publisherName: "보안뉴스",
-  scrapList: async (dom, opts) => {
+  scrapList: async (opts) => {
     const elems = [
-      ...dom.window.document.querySelectorAll(
-        "#body_right > div > table:nth-child(4) > tbody > tr > td > a"
-      ),
+      ...document.querySelectorAll("#body_right > div > table:nth-child(4) > tbody > tr > td > a"),
     ];
 
     const jobs: NewsletterJobPayload[] = [];
@@ -27,15 +26,15 @@ export default createScrapingTask({
 
     return jobs;
   },
-  scrapContent: async (dom) => {
-    const root = dom.window.document.querySelector("#body_right > div > table:nth-child(6)");
+  scrapContent: async () => {
+    const root = document.querySelector("#body_right > div > table:nth-child(6)");
     if (root == null) throw new Error("no root element in DOM");
     const content = root.textContent;
     if (content == null) throw new Error("no content under the root element");
     return content;
   },
-  scrapThumbnail: async (dom) => {
-    const metaImage = dom.window.document.querySelector('meta[property="og:image"]');
+  scrapThumbnail: async () => {
+    const metaImage = document.querySelector('meta[property="og:image"]');
     const sourceUrl = (metaImage as any).content;
     return sourceUrl;
   },

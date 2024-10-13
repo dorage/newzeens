@@ -11,14 +11,6 @@ export type PuppeteerScrapConfigs = InitScrapConfigs & {
   puppeteer: true;
 };
 
-export const execute = async <T>(
-  page: Page,
-  evaluateFunc: (html: HTMLElement) => Promise<T>
-): Promise<T> => {
-  const result = await page.evaluate(evaluateFunc);
-  return result;
-};
-
 export const puppeteerScraping = (configs: PuppeteerScrapConfigs) => async (opts: ScrapOpts) => {
   const publisher = await Admin.getPublisher(configs.publisherName);
   if (publisher == null) throw new Error("publisher does not exist");
@@ -32,8 +24,8 @@ export const puppeteerScraping = (configs: PuppeteerScrapConfigs) => async (opts
     waitUntil: ["domcontentloaded", "networkidle2"],
   });
 
-  const newsletters = await execute(page, (html) => configs.scrapList(html, opts));
-  const fallbackThumbnailUrl = await execute(page, (html) => configs.scrapThumbnail(html));
+  const newsletters = await page.evaluate(configs.scrapList, opts);
+  const fallbackThumbnailUrl = await page.evaluate(configs.scrapThumbnail);
 
   for (const newsletter of newsletters) {
     try {
@@ -42,7 +34,7 @@ export const puppeteerScraping = (configs: PuppeteerScrapConfigs) => async (opts
           waitUntil: ["domcontentloaded", "networkidle2"],
         });
         // scrap content
-        const content = await execute(page, (html) => configs.scrapContent(html));
+        const content = await page.evaluate(configs.scrapContent);
         // summarize content
         const summary = await summarizeNewsletter(content);
         if (summary == null) throw new Error("no summary");
@@ -57,7 +49,7 @@ export const puppeteerScraping = (configs: PuppeteerScrapConfigs) => async (opts
         });
 
         // scrap thumbnail source
-        let sourceUrl = await execute(page, (html) => configs.scrapThumbnail(html));
+        let sourceUrl = await page.evaluate(configs.scrapThumbnail);
         if (!isUrl(sourceUrl)) sourceUrl = fallbackThumbnailUrl;
         // upload & update thumbnail
         if (isUrl(sourceUrl)) await uploadThumbnail(newArticle.id, sourceUrl);

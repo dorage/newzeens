@@ -1,31 +1,26 @@
 import path from "path";
 import { createScrapingTask, NewsletterJobPayload } from "../libs/scrap";
 
-const HOST = "https://digiq.stibee.com/?ref=blog.stibee.com";
+const HOST = "https://digiq.stibee.com";
 
 export default createScrapingTask({
   host: HOST,
   publisherName: "DGQ",
   scrapList: async (dom, opts) => {
-    const elems = [...dom.window.document.querySelectorAll(".title")];
+    const elems = [...dom.window.document.querySelectorAll(".clickArea")];
 
     const jobs: NewsletterJobPayload[] = [];
 
     for (const elem of elems) {
       if (jobs.length >= opts.threshold) break;
-      // is it link?
-      let cursor = elem;
-      while (cursor.parentElement !== null) {
-        if (cursor.tagName.toLowerCase() === "a") {
-          const href = (cursor as any).href as string;
-          jobs.push({
-            title: elem.textContent!,
-            url: href.startsWith("/") ? path.join(HOST, href) : href,
-          });
-        }
-        cursor = cursor.parentElement;
-      }
-      continue;
+      const title = elem.querySelector(".title");
+      if (title == null) throw new Error("there has no title");
+      const href = (elem.parentElement as HTMLAnchorElement).href;
+
+      jobs.push({
+        title: title.textContent!,
+        url: href.startsWith("/") ? path.join(HOST, href) : href,
+      });
     }
 
     return jobs;

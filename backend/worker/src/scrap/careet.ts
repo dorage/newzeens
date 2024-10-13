@@ -16,9 +16,16 @@ export default createScrapingTask({
 
     for (const elem of elems) {
       if (jobs.length >= opts.threshold) break;
+      console.log(elem.getAttribute("onclick"));
+      const onclick = elem.getAttribute("onclick");
+      if (onclick == null) throw new Error("there has no onclick");
+      const matches = onclick.match(/\d+/g);
+      if (matches == null) throw new Error("there has no matches");
+      const [id] = matches;
+
       jobs.push({
         title: elem.querySelector(".list-title")?.textContent!,
-        url: (elem as HTMLAnchorElement).href,
+        url: `https://www.careet.net/Newsletter/Detail?id=${id}&pageidx=1`,
       });
     }
 
@@ -32,8 +39,6 @@ export default createScrapingTask({
     return content;
   },
   scrapThumbnail: async (dom) => {
-    const metaImage = dom.window.document.querySelector('meta[property="og:image"]');
-    const sourceUrl = (metaImage as any).content;
-    return sourceUrl;
+    return "https://www.careet.netContent/images/share.png";
   },
 });
