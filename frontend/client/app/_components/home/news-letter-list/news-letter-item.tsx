@@ -44,7 +44,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
     >
       <div className="rounded-12 xl:rounded-16 relative aspect-video shrink-0">
         <Image
-          className="rounded-12 xl:rounded-16"
+          className="rounded-12 xl:rounded-16 bg-white"
           src={publisher.thumbnail || "https://via.placeholder.com/300"}
           fill
           alt="테스트이미지"

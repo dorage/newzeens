@@ -54,7 +54,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="pt-40 xl:pt-80 pb-[140px] px-20 xl:px-40">
+        <div className="pt-40 xl:pt-80 pb-[140px] px-20 xl:px-40 max-w-screen-xl mx-auto">
           <NewsLetterList />
         </div>
       </main>
