@@ -8,6 +8,7 @@ import keywordApi from "../_api/keyword"
 import newsLetterApi from "../_api/news-letter"
 import articleApi from "../_api/article"
 import articleKey from "../_api/fetch-key/article"
+import { AdminPublisherPayload } from "../_api/news-letter.type"
 
 /**
  * 키워드 그룹생성
@@ -110,18 +111,17 @@ export const putPublisher = async (formData: FormData) => {
 
   formData.forEach((value, key) => {
     if (key === "publisherId") {
+    } else if (key === "is_enabled") {
+      payload[key] = Boolean(value)
+    } else if (key === "subscriber") {
+      payload[key] = Number(value)
     } else {
       payload[key] = value
     }
   })
 
   await newsLetterApi.putAdminPublisher(formData.get("publisherId") as string, payload)
-  // revalidatePath("/news-letter/[publisherId]", "page")
   revalidateTag(newsLetterKey.publisherDetail(formData.get("publisherId") as string))
-
-  // return {
-  //   status: "success",
-  // }
 }
 
 /**

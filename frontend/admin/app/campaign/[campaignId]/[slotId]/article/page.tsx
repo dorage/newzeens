@@ -17,7 +17,8 @@ const SlotArticlePage = async (props: NextPageProps<SlotArticlePageProps>) => {
   const campaignId = Number(params.campaignId)
   const slotId = Number(params.slotId)
 
-  const articleList = await campaignApi.getAdminCampaignSlotArticle(slotId)
+  const campaignList = await campaignApi.getAdminCampaignSlotArticle(slotId)
+  const articleList = await newsLetterApi.getAdminArticleList({ page: 0 })
 
   return (
     <IdContextProvider campaignId={campaignId} slotId={slotId}>
@@ -25,8 +26,8 @@ const SlotArticlePage = async (props: NextPageProps<SlotArticlePageProps>) => {
         <div className="flex items-center justify-between">
           <h1 className="text-[30px] font-bold">아티클 관리</h1>
         </div>
-        <SlotArticleContextProvider initialValues={articleList}>
-          <ArticleEdit initialValues={articleList} />
+        <SlotArticleContextProvider initialValues={campaignList}>
+          <ArticleEdit initialData={articleList} />
         </SlotArticleContextProvider>
 
         <div className="h-12" />
