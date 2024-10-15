@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
 import { zRes } from "./get";
-import { getAnyArticles, getArticleSpec, getPublisherSpec, getRelatedArticles } from "./get.model";
+import { getArticleSpec, getPublisherSpec, getRelatedArticles } from "./get.model";
 
 export const controller = async ({
   articleId,
@@ -12,12 +12,6 @@ export const controller = async ({
     getPublisherSpec({ articleId }),
     getRelatedArticles({ articleId }),
   ]);
-
-  if (related_articles.length <= 4) {
-    related_articles.push(
-      ...(await getAnyArticles({ articleId, limit: 4 - related_articles.length }))
-    );
-  }
 
   return zRes.parse({
     article,
