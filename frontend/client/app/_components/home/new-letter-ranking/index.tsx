@@ -8,6 +8,7 @@ import Link from "next/link"
 import { RANK_LIMIT, useGetRank } from "@/app/_actions/rank/get-rank"
 import { ICON_LIST } from "../../atoms/icon-render"
 import { CrownIcon } from "@/public/icons"
+import { sendEvent } from "@/app/_meta/track"
 
 const NewsLetterRanking = () => {
   const [current, setCurrent] = useState("전체")
@@ -62,7 +63,14 @@ const NewsLetterRanking = () => {
                   {index + 1}
                 </p>
 
-                <Link href={`/news-letter/${item.id}`}>
+                <Link
+                  href={`/news-letter/${item.id}`}
+                  onClick={() => {
+                    sendEvent("ranking_click", {
+                      ...item,
+                    })
+                  }}
+                >
                   <div className="flex items-center gap-8">
                     <div className="relative size-48">
                       <Image
@@ -112,7 +120,14 @@ const NewsLetterRanking = () => {
                   {index + 1}
                 </p>
 
-                <Link href={`/news-letter/${item.id}`}>
+                <Link
+                  href={`/news-letter/${item.id}`}
+                  onClick={() => {
+                    sendEvent("ranking_click", {
+                      ...item,
+                    })
+                  }}
+                >
                   <div className="flex items-center gap-8">
                     <div className="relative size-48">
                       <Image

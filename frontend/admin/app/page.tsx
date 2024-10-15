@@ -35,6 +35,10 @@ export default async function Home() {
             <Card className="w-full cursor-pointer p-10 hover:bg-gray-100">뉴스레터 관리</Card>
           </Link>
 
+          <Link href="/articles">
+            <Card className="w-full cursor-pointer p-10 hover:bg-gray-100">아티클 리스트</Card>
+          </Link>
+
           <Link href="/campaign">
             <Card className="w-full cursor-pointer p-10 hover:bg-gray-100">캠페인 관리</Card>
           </Link>

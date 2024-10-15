@@ -6,9 +6,11 @@ export interface Keyword {
 }
 
 export interface Publisher {
+  id: string
   name: string
   thumbnail: string
   description: string
+  url_main: string
   url_subscribe: string
   publisher_main: string
   keywords: Keyword[]

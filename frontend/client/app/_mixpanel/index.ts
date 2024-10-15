@@ -19,7 +19,7 @@ export const MXCaptureUTM = async () => {
   mixpanel.register(superProperties)
 }
 
-export const trackSend = (event: string, params: any) => {
+export const sendMX = (event: string, params: any) => {
   mixpanel.track(event, params)
 }
 

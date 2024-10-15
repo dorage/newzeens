@@ -8,11 +8,7 @@ import { putSlotPublisherPreferences } from "@/app/_actions/campaign"
 import { useIdContext } from "../_context/id-context"
 import toast from "react-hot-toast"
 
-interface SlotArticleFormProps {}
-
-const SlotArticleForm = (props: SlotArticleFormProps) => {
-  const {} = props
-
+const SlotArticleForm = () => {
   const { slotId } = useIdContext()
   const { initialValues } = useSlotArticleContext()
 

@@ -17,6 +17,11 @@ const TABS = [
     include: "news-letter",
   },
   {
+    label: "아티클",
+    value: "/articles",
+    include: "asdfasdfasdfasdf",
+  },
+  {
     label: "캠페인",
     value: "/campaign",
     include: "campaign",

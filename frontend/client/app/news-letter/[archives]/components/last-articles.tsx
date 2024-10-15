@@ -6,12 +6,9 @@ import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
 import classNames from "@/app/_utils/class-names"
 import { dateBeforeNowKo } from "@/app/_utils/dayjs"
+import { sendEvent } from "@/app/_meta/track"
 
-interface LastArticlesProps {}
-
-const LastArticles = (props: LastArticlesProps) => {
-  const {} = props
-
+const LastArticles = () => {
   const { id } = useIdContext()
   const { data } = useGetPublisherQuery({ publisherId: id })
 
@@ -23,9 +20,16 @@ const LastArticles = (props: LastArticlesProps) => {
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
         {data?.recent_articles?.map((v) => {
-          console.log(`지난 아티클`, v.thumbnail)
           return (
-            <Link key={v.id} href={`${id}/${v?.id}`}>
+            <Link
+              key={v.id}
+              href={`${id}/${v?.id}`}
+              onClick={() => {
+                sendEvent(`last_article`, {
+                  ...v,
+                })
+              }}
+            >
               <div className="group relative">
                 <div
                   className={classNames(

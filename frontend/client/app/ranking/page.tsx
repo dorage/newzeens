@@ -5,10 +5,15 @@ import Header from "../_components/header"
 import Template from "./_components/template"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import getQueryClient from "../_utils/query-client"
+import { Metadata } from "next"
 
 interface RankingPageParams {}
 
-const RankingPage = async (props: NextPageProps<RankingPageParams>) => {
+export const metadata: Metadata = {
+  title: "랭킹",
+}
+
+const RankingPage = async (_props: NextPageProps<RankingPageParams>) => {
   const queryClient = getQueryClient()
 
   const params = { limit: RANK_LIMIT, keyword_id: undefined }

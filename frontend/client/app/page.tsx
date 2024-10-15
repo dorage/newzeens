@@ -9,6 +9,11 @@ import NewsLetterList from "./_components/home/news-letter-list"
 import NewsLetterRanking from "./_components/home/new-letter-ranking"
 import { getArticles } from "./_actions/home/get-articles"
 import { getRank, RANK_LIMIT } from "./_actions/rank/get-rank"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "직무 트렌드 뉴스레터 모아보기",
+}
 
 export default async function Home() {
   const queryClient = getQueryClient()
@@ -37,19 +42,20 @@ export default async function Home() {
       <Header />
       <main className="min-h-screen">
         <MainBanner />
-        <div className="mx-auto max-w-screen-xl">
-          <div className="pt-40 px-20 xl:pt-60 xl:px-40 bg-white">
-            <RecommendArticles />
-            <div className="h-40 xl:h-80" />
+        <div className="w-screen bg-white">
+          <div className="mx-auto max-w-screen-xl">
+            <div className="pt-40 px-20 xl:pt-60 xl:px-40 bg-white">
+              <RecommendArticles />
+              <div className="h-40 xl:h-80" />
 
-            <div className="pt-20 pb-40 xl:pt-0 xl:pb-80">
-              <NewsLetterRanking />
+              <div className="pt-20 pb-40 xl:pt-0 xl:pb-80">
+                <NewsLetterRanking />
+              </div>
             </div>
           </div>
-
-          <div className="pt-40 xl:pt-80 pb-[140px] px-20 xl:px-40">
-            <NewsLetterList />
-          </div>
+        </div>
+        <div className="pt-40 xl:pt-80 pb-[140px] px-20 xl:px-40 max-w-screen-xl mx-auto">
+          <NewsLetterList />
         </div>
       </main>
     </HydrationBoundary>

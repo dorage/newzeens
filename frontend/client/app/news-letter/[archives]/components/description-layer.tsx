@@ -6,10 +6,7 @@ import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
 import { keywordByGroup, keywordByGroupExclude } from "@/app/_utils/keyword"
 
-interface DescriptionLayerProps {}
-
-const DescriptionLayer = (props: DescriptionLayerProps) => {
-  const {} = props
+const DescriptionLayer = () => {
   const { id } = useIdContext()
   const { data } = useGetPublisherQuery({ publisherId: id })
 
