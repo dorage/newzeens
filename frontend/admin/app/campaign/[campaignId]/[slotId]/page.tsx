@@ -4,6 +4,7 @@ import React from "react"
 
 import Link from "next/link"
 import { Card } from "@/app/_components/ui/card"
+import BackButton from "@/app/_components/layout/back-button"
 
 interface CampaignSlotPageProps {
   campaignId: string
@@ -22,7 +23,10 @@ const CampaignSlotPage = async (props: NextPageProps<CampaignSlotPageProps>) => 
   return (
     <div className="flex min-h-screen w-full flex-col items-center bg-[#E0E5F7]">
       <div className="h-20" />
-      <h1 className="text-[30px] font-bold">{currentSlot?.name}</h1>
+      <div className="relative w-full">
+        <BackButton className="absolute left-4" />
+        <h1 className="text-center text-[30px] font-bold">{currentSlot?.name}</h1>
+      </div>
       <p className="">{currentSlot?.description}</p>
       <p className="">{currentSlot?.comment}</p>
       <div className="h-20" />

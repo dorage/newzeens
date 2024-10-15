@@ -2,6 +2,7 @@
  * 쿼리스트링 생성 유틸리티 함수
  */
 export const queryString = (params: any): string => {
+  console.log(`params`, params)
   const queryParams = Object.keys(params).reduce((acc, key) => {
     const value = params[key]
     // 값이 undefined가 아니면 문자열로 변환하여 누적 객체에 추가
@@ -10,6 +11,8 @@ export const queryString = (params: any): string => {
     }
     return acc
   }, {} as Record<string, string>)
+
+  console.log(`queryParams`, queryParams)
 
   return new URLSearchParams(queryParams).toString()
 }

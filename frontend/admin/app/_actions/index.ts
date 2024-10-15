@@ -183,3 +183,17 @@ export const revalidateTagArticle = async (id: string) => {
   "use server"
   revalidateTag(articleKey.detail(id))
 }
+
+export const deleteArticle = async (id: string) => {
+  "use server"
+  await articleApi.deleteAdminArticle({ id })
+  revalidateTag(articleKey.list())
+}
+
+export const deleteArticles = async (ids: string[]) => {
+  "use server"
+  for (const id of ids) {
+    await articleApi.deleteAdminArticle({ id })
+  }
+  revalidateTag(articleKey.list())
+}
