@@ -83,6 +83,15 @@ export const queryPublisherWithKeywords = async () => {
               .as("kpr"),
           (join) => join.onRef("publishers.id", "=", "kpr.publisher_id")
         )
+        .leftJoin(
+          (eb) =>
+            eb
+              .selectFrom("articles")
+              .select(({ fn }) => [fn("count", ["id"]).as("article_count"), "publisher_id"])
+              .as("a"),
+          (eb) => eb.onRef("kpr.publisher_id", "=", "a.publisher_id")
+        )
+        .where("article_count", ">", 0)
         .select(() => [
           // publisher id
           sql<string>`id`.as("id"),
