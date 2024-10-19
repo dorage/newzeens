@@ -28,6 +28,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
   }, [initialValues])
 
   const actionWithAlert = async (formData: FormData) => {
+    console.log(select)
     await putSlotPublisher(formData, select)
 
     toast.success("저장되었습니다.")
@@ -53,7 +54,6 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
 
       <div className="grid grid-cols-5 gap-x-2 gap-y-3">
         {select.map((publisher, i) => {
-          console.log(`publisher`, publisher)
           return (
             <div
               key={publisher.id}

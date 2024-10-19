@@ -3,6 +3,7 @@
 import { RANK_LIMIT, useGetRank } from "@/app/_actions/rank/get-rank"
 import IconRender, { ICON_LIST } from "@/app/_components/atoms/icon-render"
 import KeywordTab from "@/app/_components/atoms/keyword-tab"
+import { sendEvent } from "@/app/_meta/track"
 import classNames from "@/app/_utils/class-names"
 import { CrownIcon } from "@/public/icons"
 import Image from "next/image"
@@ -90,7 +91,15 @@ const Template = () => {
                     {index + 1}
                   </p>
 
-                  <Link href={`/news-letter/${item.id}`} className="w-full">
+                  <Link
+                    href={`/news-letter/${item.id}`}
+                    className="w-full"
+                    onClick={() => {
+                      sendEvent("ranking_click", {
+                        ...item,
+                      })
+                    }}
+                  >
                     <div className="flex items-center gap-8">
                       <div className="relative size-48">
                         <Image
@@ -148,7 +157,14 @@ const Template = () => {
                   >
                     {index + 1}
                   </div>
-                  <Link href={`/news-letter/${item.id}`}>
+                  <Link
+                    href={`/news-letter/${item.id}`}
+                    onClick={() => {
+                      sendEvent("ranking_click", {
+                        ...item,
+                      })
+                    }}
+                  >
                     <div className="flex gap-8 h-fit items-center">
                       <div className="size-48 p-1 shrink-0 overflow-hidden rounded-8">
                         <Image src={item.thumbnail} className="object-cover" width={48} height={48} alt={item.name} />

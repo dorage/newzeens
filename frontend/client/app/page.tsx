@@ -9,6 +9,11 @@ import NewsLetterList from "./_components/home/news-letter-list"
 import NewsLetterRanking from "./_components/home/new-letter-ranking"
 import { getArticles } from "./_actions/home/get-articles"
 import { getRank, RANK_LIMIT } from "./_actions/rank/get-rank"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "직무 트렌드 뉴스레터 모아보기",
+}
 
 export default async function Home() {
   const queryClient = getQueryClient()
