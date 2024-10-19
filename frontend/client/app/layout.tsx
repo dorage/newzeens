@@ -2,11 +2,9 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import RootContext from "./_context/root-context"
 import { Analytics } from "@vercel/analytics/react"
-import "./_styles/globals.css"
-
-import { getImageUrl } from "./_utils/image"
 import GaScript from "./_ga/ga-script"
 import { OG_IMAGE } from "./_meta/constant"
+import "./_styles/globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,6 +19,8 @@ export const metadata: Metadata = {
     type: "website",
     title: "메일리스트 | 직무 트렌드 뉴스레터 모아보기",
     images: [OG_IMAGE],
+    url: "https://www.maillist.site",
+    siteName: "메일리스트",
   },
 }
 

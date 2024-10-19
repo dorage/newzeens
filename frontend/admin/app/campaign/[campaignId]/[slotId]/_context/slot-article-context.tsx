@@ -20,7 +20,6 @@ interface SlotArticleContextProviderProps extends PropsWithChildren {
 }
 export const SlotArticleContextProvider = ({ children, initialValues }: SlotArticleContextProviderProps) => {
   const [select, setSelect] = useState<AdminArticleResponse[]>(initialValues)
-  // const isChanged = initialValues.length !== select.length || select.some((v) => !!v.is_to_be_deleted)
 
   const prevRef = useRef<AdminArticleResponse[]>([])
 

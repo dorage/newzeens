@@ -1,6 +1,5 @@
 "use client"
 
-import campaignApi from "@/app/_api/campaign"
 import newsLetterApi from "@/app/_api/news-letter"
 import { AdminNewsLetterResponse } from "@/app/_api/news-letter.type"
 import WidthWrapper from "@/app/_components/layout/width-wrapper"
@@ -9,7 +8,7 @@ import { Input } from "@/app/_components/ui/input"
 import { useDebounce } from "@/app/_hooks/use-debounce"
 import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 import SlotPublisherForm from "./slot-publisher-form"
 import { useSlotPublisherContext } from "../_context/slot-publisher-context"
@@ -31,27 +30,26 @@ const PublisherAdd = (props: PublisherAddProps) => {
   const [search, setSearch] = useState("")
   const searchDebounce = useDebounce(search)
 
-  const fetchNext = async () => {
-    console.log("fetch!", page)
+  const fetchNext = useCallback(async () => {
     const addPublisher = await newsLetterApi.getAdminPublisherList({ page: page, name: searchDebounce })
     if (addPublisher.length === 0) {
       return
     }
     setPage((prev) => prev + 1)
     setPublishers((prev) => [...prev, ...addPublisher])
-  }
+  }, [page, searchDebounce])
 
-  const searchFetch = async () => {
+  const searchFetch = useCallback(async () => {
     const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
     setPage((prev) => prev + 1)
     setPublishers(addPublisher)
-  }
+  }, [searchDebounce])
 
   useEffect(() => {
     if (inView) {
       fetchNext()
     }
-  }, [inView])
+  }, [inView, fetchNext])
 
   useEffect(() => {
     if (searchDebounce) {
@@ -61,9 +59,9 @@ const PublisherAdd = (props: PublisherAddProps) => {
       setPage(1)
       setPublishers(initialData)
     }
-  }, [initialData, searchDebounce])
+  }, [initialData, searchDebounce, searchFetch])
 
-  const { isChanged, select, initialValues, setSelect } = useSlotPublisherContext()
+  const { select, initialValues, setSelect } = useSlotPublisherContext()
 
   return (
     <WidthWrapper>

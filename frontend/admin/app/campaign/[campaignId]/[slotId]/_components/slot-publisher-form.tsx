@@ -8,13 +8,9 @@ import { Input } from "@/app/_components/ui/input"
 import { cn } from "@/app/_lib/utils"
 import toast from "react-hot-toast"
 
-interface SlotPublisherFormProps {}
-
-const SlotPublisherForm = (props: SlotPublisherFormProps) => {
-  const {} = props
-
+const SlotPublisherForm = () => {
   const { slotId } = useIdContext()
-  const { initialValues, isChanged, select, setSelect } = useSlotPublisherContext()
+  const { initialValues, select, setSelect } = useSlotPublisherContext()
 
   const inputsRef = React.useRef<HTMLInputElement[]>([])
 
@@ -28,9 +24,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
   }, [initialValues])
 
   const actionWithAlert = async (formData: FormData) => {
-    console.log(select)
     await putSlotPublisher(formData, select)
-
     toast.success("저장되었습니다.")
   }
 
@@ -39,15 +33,7 @@ const SlotPublisherForm = (props: SlotPublisherFormProps) => {
       <div className="flex items-center justify-between">
         <p>현재 선택: {select.length}개</p>
 
-        <Button
-          type="submit"
-          className={cn({
-            invisible: !isChanged,
-            visible: isChanged,
-          })}
-        >
-          저장
-        </Button>
+        <Button type="submit">저장</Button>
       </div>
       <div className="h-2" />
       <input type="hidden" name="slotId" value={slotId} />
