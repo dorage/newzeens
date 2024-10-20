@@ -5,14 +5,17 @@ import LabelTag from "../../atoms/label-tag"
 import { PublisherDto } from "@/app/_apis/main-page/main.type"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
 import { sendEvent } from "@/app/_meta/track"
+import classNames from "@/app/_utils/class-names"
 
 interface NewsLetterItemProps {
   publisher: PublisherDto
   highlightWord?: string
+
+  aspectSquare?: boolean | null
 }
 
 const NewsLetterItem = (props: NewsLetterItemProps) => {
-  const { publisher, highlightWord } = props
+  const { publisher, highlightWord, aspectSquare } = props
 
   const highlightText = (text: string) => {
     if (!highlightWord) return text
@@ -42,7 +45,12 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
         })
       }}
     >
-      <div className="rounded-12 xl:rounded-16 relative aspect-video shrink-0">
+      <div
+        className={classNames("rounded-12 xl:rounded-16 relative shrink-0", {
+          "aspect-video": !aspectSquare,
+          "aspect-square": aspectSquare,
+        })}
+      >
         <Image
           className="rounded-12 xl:rounded-16 bg-white"
           src={publisher.thumbnail || "https://via.placeholder.com/300"}

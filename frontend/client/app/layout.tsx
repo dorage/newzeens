@@ -1,12 +1,10 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import RootContext from "./_context/root-context"
 import { Analytics } from "@vercel/analytics/react"
 import GaScript from "./_ga/ga-script"
 import { OG_IMAGE } from "./_meta/constant"
+import localFont from "next/font/local"
 import "./_styles/globals.css"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: {
@@ -24,6 +22,16 @@ export const metadata: Metadata = {
   },
 }
 
+/**
+ * @see https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/README.md#nextjs
+ */
+const pretendard = localFont({
+  src: "../public/fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+})
+
 export default function RootLayout(
   props: Readonly<{
     children: React.ReactNode
@@ -38,7 +46,7 @@ export default function RootLayout(
         {/* search advisor */}
         <meta name="naver-site-verification" content="402f9ae3e19b80a1937687b96beb2b54645c7c7d" />
       </head>
-      <body className={inter.className}>
+      <body className={`${pretendard.variable} font-pretendard`}>
         <div id="portal" />
         <RootContext>
           {children}

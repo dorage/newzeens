@@ -17,7 +17,7 @@ const SuggestNewsLetters = () => {
   if (!data?.related_publishers || data?.related_publishers?.length === 0) return <></>
 
   return (
-    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40">
+    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40 pb-[118px] xl:pb-40">
       <h4 className="text-gray-80 text-h2">추천 뉴스레터</h4>
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">

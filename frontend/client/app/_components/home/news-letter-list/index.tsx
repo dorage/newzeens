@@ -8,6 +8,7 @@ import mainQueryKey from "@/app/_apis/_query-key/main"
 import mainApi from "@/app/_apis/main-page/main"
 import classNames from "@/app/_utils/class-names"
 import IconRender from "../../atoms/icon-render"
+import { useMediaQuery } from "@/app/_hooks/use-media-query"
 
 const NewsLetterList = () => {
   const { data: publisherList } = useQuery({
@@ -17,6 +18,8 @@ const NewsLetterList = () => {
 
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
+
+  const isMobile = useMediaQuery("(max-width: 1280px)")
 
   return (
     <div className="flex gap-80">
@@ -71,7 +74,7 @@ const NewsLetterList = () => {
           {publisherList?.slots
             ?.find((slot) => slot.name === current)
             ?.publishers?.map((v) => {
-              return <NewsLetterItem key={v.id} publisher={v} />
+              return <NewsLetterItem key={v.id} publisher={v} aspectSquare={isMobile} />
             })}
         </div>
       </div>
