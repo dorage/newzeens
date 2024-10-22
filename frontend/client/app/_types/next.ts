@@ -4,5 +4,5 @@
  */
 export interface NextPageProps<TParams = {}> {
   params: TParams
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | undefined }
 }

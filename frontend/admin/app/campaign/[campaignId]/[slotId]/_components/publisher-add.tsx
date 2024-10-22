@@ -1,6 +1,5 @@
 "use client"
 
-import campaignApi from "@/app/_api/campaign"
 import newsLetterApi from "@/app/_api/news-letter"
 import { AdminNewsLetterResponse } from "@/app/_api/news-letter.type"
 import WidthWrapper from "@/app/_components/layout/width-wrapper"
@@ -9,54 +8,60 @@ import { Input } from "@/app/_components/ui/input"
 import { useDebounce } from "@/app/_hooks/use-debounce"
 import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
-import React, { useEffect, useState, useTransition } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
-import { useIdContext } from "../_context/id-context"
-import { putSlotPublisher } from "@/app/_actions/campaign"
 import SlotPublisherForm from "./slot-publisher-form"
 import { useSlotPublisherContext } from "../_context/slot-publisher-context"
 
-interface PublisherAddProps {}
+interface PublisherAddProps {
+  initialData: AdminNewsLetterResponse[]
+}
 
 const PublisherAdd = (props: PublisherAddProps) => {
+  const { initialData } = props
+
   /**
    * 퍼블리셔 목록
    */
-  const [page, setPage] = useState(0)
-  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>([])
+  const [page, setPage] = useState(1)
+  const [publishers, setPublishers] = useState<AdminNewsLetterResponse[]>(initialData)
 
   const { ref, inView } = useInView()
   const [search, setSearch] = useState("")
   const searchDebounce = useDebounce(search)
 
-  const fetchNext = async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page, name: searchDebounce })
+  const fetchNext = useCallback(async () => {
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: page, name: searchDebounce })
+    if (addPublisher.length === 0) {
+      return
+    }
+    setPage((prev) => prev + 1)
     setPublishers((prev) => [...prev, ...addPublisher])
-    setPage((prev) => prev + 1)
-  }
+  }, [page, searchDebounce])
 
-  const searchFetch = async () => {
+  const searchFetch = useCallback(async () => {
     const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
-    setPublishers(addPublisher) // 검색 결과로 출판사 목록을 업데이트
     setPage((prev) => prev + 1)
-  }
+    setPublishers(addPublisher)
+  }, [searchDebounce])
 
   useEffect(() => {
     if (inView) {
       fetchNext()
     }
-  }, [inView])
+  }, [inView, fetchNext])
 
   useEffect(() => {
     if (searchDebounce) {
       setPage(0)
       searchFetch()
     } else {
-      setPublishers([])
+      setPage(1)
+      setPublishers(initialData)
     }
-  }, [searchDebounce])
+  }, [initialData, searchDebounce, searchFetch])
 
-  const { isChanged, select, initialValues, setSelect } = useSlotPublisherContext()
+  const { select, initialValues, setSelect } = useSlotPublisherContext()
 
   return (
     <WidthWrapper>

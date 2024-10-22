@@ -6,10 +6,7 @@ import { useIdContext } from "@/app/_context/id-context"
 import { useGetPublisherQuery } from "@/app/_hooks/use-client-get-queries"
 import { keywordByGroup, keywordByGroupExclude } from "@/app/_utils/keyword"
 
-interface DescriptionLayerProps {}
-
-const DescriptionLayer = (props: DescriptionLayerProps) => {
-  const {} = props
+const DescriptionLayer = () => {
   const { id } = useIdContext()
   const { data } = useGetPublisherQuery({ publisherId: id })
 
@@ -28,7 +25,7 @@ const DescriptionLayer = (props: DescriptionLayerProps) => {
 
         <div className="flex flex-col gap-12">
           {keywordByGroupExclude(data?.publisher?.keywords)?.map((v) => {
-            return <p key={v.keyword_id}>{v.keyword_name}</p>
+            return <p key={v.keyword_id}>{v.keyword_name || "ㅤ"}</p>
           })}
         </div>
       </div>

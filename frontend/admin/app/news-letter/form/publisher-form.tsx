@@ -2,7 +2,6 @@
 
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { Cross1Icon } from "@radix-ui/react-icons"
 import { FormField, FormItem } from "@/app/_components/ui/form"
 import { Input } from "@/app/_components/ui/input"
 import { Label } from "@/app/_components/ui/label"
@@ -22,16 +21,6 @@ const PublisherForm = (props: PublisherFormProps) => {
   const { control } = useFormContext()
 
   const { publisherId } = useParams()
-
-  const handleThumbnailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null
-    if (!file) return
-
-    const formData = new FormData()
-    formData.append("file", file)
-    await newsLetterApi.postAdminPublisherUpload({ id: publisherId as string, file: formData })
-    revalidateTag(newsLetterKey.publisherDetail(publisherId as string))
-  }
 
   return (
     <div className="">
@@ -90,7 +79,7 @@ const PublisherForm = (props: PublisherFormProps) => {
             <Label className="min-w-[150px] text-[18px] font-semibold">
               발행 스펙<span className="text-[#2141E5]">*</span>
             </Label>
-            <Input className="w-[400px]" placeholder="발행인을 입력해주세요" {...field} />
+            <Input className="w-[400px]" placeholder="발행스펙을 입력해주세요" {...field} />
           </FormItem>
         )}
       />
@@ -108,9 +97,20 @@ const PublisherForm = (props: PublisherFormProps) => {
         )}
       />
 
+      <FormField
+        name="subscriber"
+        control={control}
+        render={({ field }) => (
+          <FormItem className="flex items-center gap-2">
+            <Label className="min-w-[150px] text-[18px] font-semibold">구독자 수</Label>
+            <Input type="number" className="w-[400px]" placeholder="구독자수" {...field} />
+          </FormItem>
+        )}
+      />
+
       <div className="h-10" />
 
-      <PublisherThumbnailInput />
+      {isEdit && <PublisherThumbnailInput />}
 
       <FormField
         name="url_subscribe"

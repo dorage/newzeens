@@ -6,6 +6,7 @@ import Header from "@/app/_components/header"
 import ArticleInfo from "@/app/_components/modal/article-info"
 import { NextPageProps } from "@/app/_types/next"
 import getQueryClient from "@/app/_utils/query-client"
+import { OG_IMAGE } from "@/app/_meta/constant"
 
 const fetchArticle = async (articleId: string) => {
   return await detailApi.getArticle({ articleId })
@@ -21,30 +22,38 @@ export async function generateMetadata({ params }: NextPageProps<ArticlePageProp
 
     const response = await fetchArticle(article)
 
+    const { article: articleData, publisher, related_articles } = response
+
+    const title = articleData.title
+    const description = (articleData?.summary || "").slice(0, 120)
+    const images = [articleData.thumbnail || publisher.thumbnail || OG_IMAGE]
+
     return {
-      title: "test",
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        images,
+      },
     }
   } catch (e) {
     console.log(e)
     console.log("error")
 
-    // TODO: add sentry
     return {}
   }
 }
 
 const ArticlePage = async (props: NextPageProps<ArticlePageProps>) => {
   const { params } = props
-
   const { article } = params
-
   const queryClient = getQueryClient()
 
-  const fetch = await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: detailQueryKey.article.detail({ articleId: article }),
     queryFn: () => fetchArticle(article),
   })
-  console.log(`fetch`, fetch)
 
   return (
     <>

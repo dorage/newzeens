@@ -1,38 +1,36 @@
 import React from "react"
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 import { NextPageProps } from "@/app/_types/next"
-import getQueryClient from "@/app/_utils/query-client"
+import { getRank, RANK_LIMIT } from "../_actions/rank/get-rank"
+import Header from "../_components/header"
+import Template from "./_components/template"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+import getQueryClient from "../_utils/query-client"
+import { Metadata } from "next"
 
 interface RankingPageParams {}
 
-const RankingPage = async (props: NextPageProps<RankingPageParams>) => {
-  // get Server queryClient
+export const metadata: Metadata = {
+  title: "랭킹",
+}
+
+const RankingPage = async (_props: NextPageProps<RankingPageParams>) => {
   const queryClient = getQueryClient()
 
-  // Optional: define params
-  const params = {}
-
-  // prefetch query
-  await queryClient.prefetchQuery({
-    queryKey: [],
-    queryFn: () => {},
-    staleTime: 1000 * 60,
-    gcTime: 1000 * 60 * 60,
+  const params = { limit: RANK_LIMIT, keyword_id: undefined }
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["rank", { ...params }],
+    queryFn: () => getRank(params),
+    initialPageParam: undefined,
   })
-
-  // prefetch infinite query
-  //   await queryClient.prefetchInfiniteQuery({
-  //     queryKey: [],
-  //     queryFn: () => {},
-  //     staleTime: 1000 * 60,
-  //     gcTime: 1000 * 60 * 60,
-  //   })
 
   const dehydratedState = dehydrate(queryClient)
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div>RankingPage</div>
+      <Header />
+      <div className="min-h-[calc(100vh-60px)]">
+        <Template />
+      </div>
     </HydrationBoundary>
   )
 }

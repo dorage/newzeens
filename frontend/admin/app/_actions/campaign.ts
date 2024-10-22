@@ -67,21 +67,19 @@ export const updateSlot = async (formData: FormData) => {
 
 export const deleteSlot = async (formData: FormData) => {
   "use server"
-  const campaignId = Number(formData.get("campaignId"))
   const slotId = Number(formData.get("slotId"))
-  await campaignApi.deleteAdminCampaignSlot(campaignId, slotId)
+  await campaignApi.deleteAdminCampaignSlot(slotId)
   revalidatePath("/campaign")
 }
 
 /**
- * 목록에서 하나씩 추가 / 제
+ * 목록에서 하나씩 추가 / 제거
  */
 export const putSlotPublisher = async (formData: FormData, selectList: any[]) => {
   "use server"
   const slotId = Number(formData.get("slotId"))
 
   const reduce = selectList.reduce((acc, item) => {
-    // TODO: 더 쉽게 하는 방법이 없나..
     const isDelete = !!item.is_to_be_deleted
     if (isDelete) {
       acc[item.id] = false
@@ -92,6 +90,8 @@ export const putSlotPublisher = async (formData: FormData, selectList: any[]) =>
 
     return acc
   }, {} as Record<string, boolean>)
+
+  console.log("server data: ", reduce)
 
   await campaignApi.putAdminSlotPublisher(slotId, reduce)
 

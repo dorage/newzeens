@@ -83,8 +83,8 @@ const campaignApi = {
   /**
    * slot 정보 삭제하기
    */
-  deleteAdminCampaignSlot: async (id: number, slotId: number) => {
-    const { data } = await api(`/admin/campaign/${id}/slot/${slotId}`, {
+  deleteAdminCampaignSlot: async (slotId: number) => {
+    const { data } = await api(`/admin/slot/${slotId}`, {
       method: METHOD.DELETE,
     })
     return data

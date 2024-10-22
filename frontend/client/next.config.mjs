@@ -1,6 +1,6 @@
-
 console.log(process.env.NODE_ENV)
 console.log(process.env.HELLO)
+console.log(process.env.NEXT_PUBLIC_API_URL)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -39,9 +39,14 @@ const nextConfig = {
         hostname: "127.0.0.1",
         port: "3000",
         pathname: "**",
-      }
-    ]
-  }
-};
+      },
+      {
+        protocol: "https",
+        hostname: "api.maillist.site",
+        pathname: "**",
+      },
+    ],
+  },
+}
 
-export default nextConfig;
+export default nextConfig

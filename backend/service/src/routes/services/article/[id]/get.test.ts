@@ -1,7 +1,7 @@
 import { Ky } from "@/src/libs/kysely";
 import { sql } from "kysely";
 import { zRes } from "./get";
-import { getArticleSpec, getPublisherSpec, getRelatedArticles } from "./get.model";
+import { getAnyArticles, getArticleSpec, getPublisherSpec, getRelatedArticles } from "./get.model";
 import { queryPublisherWithKeywords } from "@/src/providers/publishers";
 import { controller } from "./get.controller";
 

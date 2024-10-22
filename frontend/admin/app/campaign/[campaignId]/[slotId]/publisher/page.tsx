@@ -4,6 +4,7 @@ import { NextPageProps } from "@/app/_types/next"
 import campaignApi from "@/app/_api/campaign"
 import { SlotPublisherContextProvider } from "../_context/slot-publisher-context"
 import PublisherAdd from "../_components/publisher-add"
+import newsLetterApi from "@/app/_api/news-letter"
 
 interface SlotPublisherFormPageProps {
   campaignId: string
@@ -16,11 +17,12 @@ const SlotPublisherFormPage = async (props: NextPageProps<SlotPublisherFormPageP
   const slotId = Number(params.slotId)
 
   const publisher = await campaignApi.getAdminCampaignSlotPublisher(slotId)
+  const publisherList = await newsLetterApi.getAdminPublisherList({ page: 0 })
 
   return (
     <IdContextProvider campaignId={campaignId} slotId={slotId}>
       <SlotPublisherContextProvider initialValues={publisher}>
-        <PublisherAdd />
+        <PublisherAdd initialData={publisherList} />
       </SlotPublisherContextProvider>
     </IdContextProvider>
   )

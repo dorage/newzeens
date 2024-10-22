@@ -6,6 +6,7 @@ const Tag = {
   Rank: "Rank",
   Campaign: "Campaign",
   Keyword: "keyword",
+  Search: "Search",
 };
 
 export default Tag;

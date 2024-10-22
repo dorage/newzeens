@@ -4,58 +4,61 @@ import newsLetterApi from "@/app/_api/news-letter"
 import { AdminArticleResponse } from "@/app/_api/news-letter.type"
 import { Input } from "@/app/_components/ui/input"
 import { useDebounce } from "@/app/_hooks/use-debounce"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 import { useSlotArticleContext } from "../_context/slot-article-context"
 import { cn } from "@/app/_lib/utils"
 import Image from "next/image"
 import { Button } from "@/app/_components/ui/button"
 import { putSlotArticle } from "@/app/_actions/campaign"
-import { useParams } from "next/navigation"
 import SlotArticleForm from "./slot-article-form"
 import { useIdContext } from "../_context/id-context"
 
 interface ArticleEditProps {
-  initialValues?: AdminArticleResponse[]
+  initialData: AdminArticleResponse[]
 }
 
 const ArticleEdit = (props: ArticleEditProps) => {
+  const { initialData } = props
   /**
    * 아티클 목록
    */
-  const [page, setPage] = useState(0)
-  const [articles, setArticles] = useState<AdminArticleResponse[]>([])
+  const [page, setPage] = useState(1)
+  const [articles, setArticles] = useState<AdminArticleResponse[]>(initialData)
 
   const { ref, inView } = useInView()
   const [search, setSearch] = useState("")
   const searchDebounce = useDebounce(search)
 
-  const fetchNext = async () => {
-    const addPublisher = await newsLetterApi.getAdminArticleList({ page, name: searchDebounce })
-    setArticles((prev) => [...prev, ...addPublisher])
+  const fetchNext = useCallback(async () => {
+    const addArticles = await newsLetterApi.getAdminArticleList({ page, name: searchDebounce })
+    if (addArticles.length === 0) {
+      return
+    }
+    setArticles((prev) => [...prev, ...addArticles])
     setPage((prev) => prev + 1)
-  }
+  }, [page, searchDebounce])
 
   const searchFetch = useCallback(async () => {
     const newItems = await newsLetterApi.getAdminArticleList({ page: 0, name: searchDebounce })
-    setArticles(newItems)
     setPage((prev) => prev + 1)
+    setArticles(newItems)
   }, [searchDebounce])
 
   useEffect(() => {
     if (inView) {
       fetchNext()
     }
-  }, [inView])
+  }, [inView, fetchNext])
 
   useEffect(() => {
     if (searchDebounce) {
       setPage(0)
       searchFetch()
     } else {
-      setArticles([])
+      setArticles(initialData)
     }
-  }, [searchDebounce, searchFetch])
+  }, [searchDebounce, searchFetch, initialData])
 
   const { slotId } = useIdContext()
   const { initialValues } = useSlotArticleContext()
@@ -92,7 +95,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
                 <div className="ml-2 size-12 shrink-0 overflow-hidden bg-white">
                   <Image
                     className="size-full object-cover"
-                    src={publisher.thumbnail || ""}
+                    src={publisher.thumbnail || "https://via.placeholder.com/48"}
                     alt="썸네일"
                     width={48}
                     height={48}
@@ -104,7 +107,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
                     <p className="text-[18px] font-semibold">{publisher.title}</p>
                     <span className="text-[14px] font-medium text-[#A2ABC7]">{publisher.publisher_id}</span>
                   </div>
-                  <p className="text-[16px]">{publisher.summary}</p>
+                  <p className="text-[16px]">{_sliceText(publisher.summary)}</p>
                 </div>
               </div>
 
@@ -138,3 +141,12 @@ const ArticleEdit = (props: ArticleEditProps) => {
 }
 
 export default ArticleEdit
+
+const _sliceText = (text: string | null | undefined) => {
+  if (!text) return ""
+
+  if (text.length > 100) {
+    return text.slice(0, 100) + "..."
+  }
+  return text
+}
