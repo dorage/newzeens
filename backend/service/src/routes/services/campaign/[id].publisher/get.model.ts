@@ -12,6 +12,7 @@ export const getPublishersWithKeywords = async (query: { slotId: number; limit: 
     .leftJoin("keyword_groups", "keyword_groups.id", "keyword_publisher_rels.keyword_group_id")
     .leftJoin("keywords", "keywords.id", "keyword_publisher_rels.keyword_id")
     .groupBy("publishers.id")
+    .where("publishers.is_enabled", "=", 1)
     .select([
       ...(Object.keys(PublisherSchema.shape).map((key) => `publishers.${key}`) as any),
       sql`JSON_GROUP_ARRAY(JSON_OBJECT(
