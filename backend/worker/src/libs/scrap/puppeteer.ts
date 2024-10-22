@@ -15,9 +15,7 @@ export const puppeteerScraping = (configs: PuppeteerScrapConfigs) => async (opts
   const publisher = await Admin.getPublisher(configs.publisherName);
   if (publisher == null) throw new Error("publisher does not exist");
 
-  const browser = await puppeteer.launch({
-    executablePath: "./chrome/linux-131.0.6770.0/chrome-linux64/chrome",
-  });
+  const browser = await puppeteer.launch({});
   const page = await browser.newPage();
 
   await page.goto(configs.host, {
