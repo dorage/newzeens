@@ -8,6 +8,7 @@ export const getPublishersWithSearchTerm = async (query: { term: string }) => {
       .selectFrom("publishers")
       .selectAll()
       .where("name", "like", `%${query.term}%`)
+      .where("is_enabled", "=", 1)
       .as("publishers")
   )
     .leftJoin("keyword_publisher_rels", "keyword_publisher_rels.publisher_id", "publishers.id")
