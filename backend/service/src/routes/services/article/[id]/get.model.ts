@@ -92,7 +92,9 @@ export const getRelatedArticles = async (query: { articleId: string }) => {
         qb.selectFrom("articles").select("publisher_id").where("id", "=", query.articleId)
       )
     )
-    .executeTakeFirstOrThrow();
+    .executeTakeFirst();
+
+  if (targetPublisher == null) return [];
 
   const relatedArticles = await Ky.selectFrom((eb) =>
     publisherQuery(eb)
