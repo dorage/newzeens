@@ -56,11 +56,13 @@ export interface AdminArticleResponse {
 
 export interface PutAdminArticlePayload {
   id: string
-  payload: {
-    thumbnail?: string
-    title?: string
-    summary?: string
-    publisher_id?: string
-    is_enabled?: boolean
-  }
+  payload: PostAdminArticlePayload
+}
+
+export interface PostAdminArticlePayload {
+  thumbnail?: string | null
+  title?: string
+  summary?: string
+  publisher_id?: string
+  is_enabled?: boolean
 }

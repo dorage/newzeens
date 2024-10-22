@@ -3,6 +3,8 @@ import { NextPageProps } from "@/app/_types/next"
 import React from "react"
 import { dateFormat } from "@/app/_utils/date-format"
 import ArticleForm from "../[articleId]/article-form"
+import { ArticleInitialContextProvider } from "../[articleId]/_context/article-initial-context"
+import { postArticle } from "@/app/_actions"
 
 interface ArticleCreatePageProps {
   publisherId: string
@@ -19,7 +21,7 @@ const ArticleCreatePage = async (props: NextPageProps<ArticleCreatePageProps>) =
 
       <div className="h-12" />
 
-      <ArticleForm />
+      <ArticleForm action={postArticle} />
     </div>
   )
 }

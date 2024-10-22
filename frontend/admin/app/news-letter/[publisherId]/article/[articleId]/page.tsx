@@ -4,6 +4,7 @@ import React from "react"
 import { ArticleInitialContextProvider } from "./_context/article-initial-context"
 import { dateFormat } from "@/app/_utils/date-format"
 import ArticleForm from "./article-form"
+import { putArticle } from "@/app/_actions"
 
 interface ArticleDetailPageProps {
   publisherId: string
@@ -23,7 +24,7 @@ const ArticleDetailPage = async (props: NextPageProps<ArticleDetailPageProps>) =
 
       <div className="h-12" />
 
-      <ArticleForm />
+      <ArticleForm initialValues={article} action={putArticle} />
     </ArticleInitialContextProvider>
   )
 }

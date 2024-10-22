@@ -1,31 +1,36 @@
 "use client"
 
-import { Form, FormField, FormItem } from "@/app/_components/ui/form"
+import { FormField, FormItem } from "@/app/_components/ui/form"
 import React from "react"
 import toast from "react-hot-toast"
-import { useArticleInitialContext } from "./_context/article-initial-context"
 import { FormProvider, useForm } from "react-hook-form"
 import { Input } from "@/app/_components/ui/input"
 import { Textarea } from "@/app/_components/ui/textarea"
-import { Cross1Icon } from "@radix-ui/react-icons"
 import { Button } from "@/app/_components/ui/button"
 import ClientForm from "@/app/_components/helpers/client-form"
 import { putArticle } from "@/app/_actions"
 import ArticleThumbnail from "./aritlce-thumbnail"
 import { Switch } from "@/app/_components/ui/switch"
 import { Label } from "@/app/_components/ui/label"
+import { AdminArticleResponse } from "@/app/_api/news-letter.type"
+import { useParams, useRouter } from "next/navigation"
 
-interface ArticleFormProps {}
+interface ArticleFormProps {
+  initialValues?: AdminArticleResponse
+
+  action: (formData: FormData) => Promise<void> | Promise<string>
+}
 
 const ArticleForm = (props: ArticleFormProps) => {
-  const {} = props
+  const { initialValues, action } = props
 
-  const { initialValues: article } = useArticleInitialContext()
+  const router = useRouter()
 
+  const params = useParams<{ publisherId: string }>()
   const methods = useForm({
     defaultValues: {
-      ...article,
-      is_enabled: article.is_enabled === 1,
+      ...initialValues,
+      is_enabled: initialValues?.is_enabled === 1,
     },
   })
 
@@ -35,12 +40,20 @@ const ArticleForm = (props: ArticleFormProps) => {
     <div className="">
       <FormProvider {...methods}>
         <ClientForm
-          action={putArticle}
-          successCb={() => {
-            toast.success("수정되었습니다.")
+          action={action}
+          successCb={(id) => {
+            if (initialValues) {
+              toast.success("수정되었습니다.")
+            } else {
+              toast.success("생성되었습니다.")
+              if (id) {
+                router.push(`/news-letter/${params?.publisherId}/article/${id}`)
+              }
+            }
           }}
         >
-          <input type="hidden" name="articleId" value={article.id} />
+          <input type="hidden" name="articleId" value={initialValues?.id} />
+          <input type="hidden" name="publisherId" value={params?.publisherId} />
 
           <div className="flex items-center justify-end">
             <FormField
