@@ -51,11 +51,10 @@ export const getPublisherRank = async (query: {
                   .as("_kpr"),
               (join) => join.onRef("_kpr.publisher_id", "=", "publishers.id")
             )
-            .where("publishers.is_enabled", "=", true)
             .where("keyword_id", "is not", null) as any;
         }
 
-        return q.selectAll().as("_p");
+        return q.selectAll().where("publishers.is_enabled", "=", 1).as("_p");
       })
       .selectAll()
       .orderBy("subscriber desc")
