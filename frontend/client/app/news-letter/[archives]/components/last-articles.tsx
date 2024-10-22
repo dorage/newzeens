@@ -15,7 +15,7 @@ const LastArticles = () => {
   if (!data?.recent_articles || data?.recent_articles?.length === 0) return <></>
 
   return (
-    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40">
+    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40 bg-white">
       <h4 className="text-gray-80 text-h2">지난 아티클</h4>
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
@@ -30,7 +30,7 @@ const LastArticles = () => {
                 })
               }}
             >
-              <div className="group relative">
+              <div className="group relative z-10">
                 <div
                   className={classNames(
                     "group-hover:bg-bg-2 bg-transparent transition-colors duration-300 ease-in-out rounded-[22px] absolute -inset-12 z-[-1]",
@@ -50,7 +50,7 @@ const LastArticles = () => {
                     <p className="text-body3 text-gray-80">{v?.title}</p>
                     <p className="text-body5 text-gray-70 truncate">{v?.summary}</p>
 
-                    <div className="mt-8 flex gap-4">{dateBeforeNowKo(v?.created_at)}</div>
+                    <div className="mt-8 flex gap-4 text-[#aebde7] text-element2">{dateBeforeNowKo(v?.created_at)}</div>
                   </div>
                 </div>
               </div>

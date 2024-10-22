@@ -19,12 +19,14 @@ const DescriptionLayer = () => {
       <div className="text-gray-60 flex gap-12">
         <div className="flex flex-col gap-12">
           {keywordByGroupExclude(data?.publisher?.keywords)?.map((v) => {
+            if (v.keyword_group_name === "해외") return null
             return <p key={v.keyword_group_id}>{v.keyword_group_name}</p>
           })}
         </div>
 
         <div className="flex flex-col gap-12">
           {keywordByGroupExclude(data?.publisher?.keywords)?.map((v) => {
+            if (v.keyword_group_name === "해외") return null
             return <p key={v.keyword_id}>{v.keyword_name || "ㅤ"}</p>
           })}
         </div>

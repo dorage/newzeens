@@ -4,9 +4,9 @@ import toast from "react-hot-toast"
 
 interface ClientFormProps {
   children: React.ReactNode
-  action: (formData: FormData) => Promise<void>
+  action: (formData: FormData) => Promise<void> | Promise<string>
 
-  successCb?: () => void
+  successCb?: (result: any) => void
   errorCb?: () => void
 }
 
@@ -17,8 +17,9 @@ const ClientForm = (props: ClientFormProps) => {
     <form
       action={async (formData) => {
         try {
-          await action(formData)
-          successCb && successCb()
+          const a = await action(formData)
+
+          successCb && successCb(a)
         } catch (e) {
           toast.error(JSON.stringify(e))
           errorCb && errorCb()

@@ -7,6 +7,7 @@ import ArticleInfo from "@/app/_components/modal/article-info"
 import { NextPageProps } from "@/app/_types/next"
 import getQueryClient from "@/app/_utils/query-client"
 import { OG_IMAGE } from "@/app/_meta/constant"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
 const fetchArticle = async (articleId: string) => {
   return await detailApi.getArticle({ articleId })
@@ -55,13 +56,15 @@ const ArticlePage = async (props: NextPageProps<ArticlePageProps>) => {
     queryFn: () => fetchArticle(article),
   })
 
+  const dehydratedState = dehydrate(queryClient)
+
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <Header />
       <div className="mx-auto max-w-screen-xl">
         <ArticleInfo />
       </div>
-    </>
+    </HydrationBoundary>
   )
 }
 

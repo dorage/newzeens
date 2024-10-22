@@ -101,7 +101,7 @@ const Template = () => {
                     }}
                   >
                     <div className="flex items-center gap-8">
-                      <div className="relative size-48">
+                      <div className="relative size-48 flex justify-center items-center">
                         <Image
                           src={item.thumbnail}
                           sizes="80px"
@@ -166,7 +166,7 @@ const Template = () => {
                     }}
                   >
                     <div className="flex gap-8 h-fit items-center">
-                      <div className="size-48 p-1 shrink-0 overflow-hidden rounded-8">
+                      <div className="size-48 p-1 shrink-0 overflow-hidden rounded-8 flex justify-center items-center">
                         <Image src={item.thumbnail} className="object-cover" width={48} height={48} alt={item.name} />
                       </div>
                       <div className="flex gap-4 items-center">

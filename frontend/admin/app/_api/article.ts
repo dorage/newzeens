@@ -1,7 +1,7 @@
 import { METHOD } from "./constants"
 import api from "./fetch"
 import articleKey from "./fetch-key/article"
-import { AdminArticleResponse, PutAdminArticlePayload } from "./news-letter.type"
+import { AdminArticleResponse, PostAdminArticlePayload, PutAdminArticlePayload } from "./news-letter.type"
 
 const articleApi = {
   /**
@@ -29,6 +29,17 @@ const articleApi = {
   putAdminArticle: async ({ id, payload }: PutAdminArticlePayload) => {
     const data = await api(`/admin/article/${id}`, {
       method: METHOD.PUT,
+      data: payload,
+    })
+    return data
+  },
+
+  /**
+   * article 추가
+   */
+  postAdminArticle: async (payload: PostAdminArticlePayload) => {
+    const data = await api(`/admin/article`, {
+      method: METHOD.POST,
       data: payload,
     })
     return data

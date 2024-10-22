@@ -162,10 +162,25 @@ export const putArticle = async (formData: FormData) => {
     summary: formData.get("summary") as string,
     is_enabled: formData.get("is_enabled") === "on" ? true : false,
   }
-  console.log(`payload`, payload)
 
   await articleApi.putAdminArticle({ id, payload })
   revalidateTag(articleKey.detail(id))
+}
+
+export const postArticle = async (formData: FormData) => {
+  "use server"
+  const payload = {
+    title: formData.get("title") as string,
+    summary: formData.get("summary") as string,
+    publisher_id: formData.get("publisherId") as string,
+    is_enabled: formData.get("is_enabled") === "on" ? true : false,
+    url: formData.get("url") as string,
+    thumbnail: null,
+  }
+  const result = await articleApi.postAdminArticle(payload)
+  revalidateTag(articleKey.list())
+
+  return result?.id || ""
 }
 
 /**

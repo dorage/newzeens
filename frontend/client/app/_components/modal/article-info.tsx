@@ -14,7 +14,6 @@ import { filterByKeywordGroup } from "@/app/_utils/keyword"
 
 const ArticleInfo = () => {
   const { article } = useParams()
-
   const { data } = useGetArticleQuery({ articleId: article as string })
 
   if (!data) return <></>
@@ -32,7 +31,6 @@ const ArticleInfo = () => {
         <div className="h-16" />
         <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
           {related_articles.map((v) => {
-            // TODO: 타입체크
             return <ArticleCard key={v.title} article={v as any} />
           })}
         </div>

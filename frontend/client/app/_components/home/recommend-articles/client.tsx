@@ -59,7 +59,7 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
 
       <div className="h-20 xl:h-16" />
 
-      <div className="grid grid-cols-1 gap-28 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-28 xl:gap-16 sm:grid-cols-2 xl:grid-cols-4">
         {data?.slots
           .find((slot) => slot.name === currentSelected)
           ?.articles.map((article) => (
