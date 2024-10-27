@@ -53,7 +53,7 @@ const Template = () => {
       <main className="w-full">
         <h1 className="text-h2 text-gray-90 py-8">뉴스레터 랭킹</h1>
 
-        <div className="h-12 xl:h-20" />
+        <div className="h-12 xl:h-40" />
 
         <div className="block xl:hidden">
           <div className="max-w-[calc(100vw-40px)] flex gap-4 overflow-x-auto">
@@ -107,7 +107,7 @@ const Template = () => {
                           sizes="80px"
                           alt="next"
                           fill
-                          className="rounded-8 aspect-square object-cover"
+                          className="rounded-8 aspect-square object-cover bg-white"
                         />
                       </div>
 
@@ -151,7 +151,7 @@ const Template = () => {
               return (
                 <React.Fragment key={item.id}>
                   <div
-                    className={classNames("text-[18px] font-bold", {
+                    className={classNames("text-[18px] font-bold text-gray-70", {
                       "text-primary": isRank,
                     })}
                   >
