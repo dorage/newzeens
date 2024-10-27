@@ -68,8 +68,8 @@ const NewsLetterList = () => {
             </KeywordTab>
           ))}
         </div>
-        <div />
-        <div className="w-full grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
+
+        <div className="mt-24 xl:mt-0 w-full grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
           {publisherList?.slots
             ?.find((slot) => slot.name === current)
             ?.publishers?.map((v) => {
