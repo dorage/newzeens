@@ -91,7 +91,7 @@ const Header = () => {
         </div>
 
         <button
-          className="rounded-6 border border-gray-80 bg-white px-12 py-8 flex items-center justify-center gap-8"
+          className="rounded-6 border-[0.7px] border-gray-80 bg-white px-12 py-8 flex items-center justify-center gap-8"
           onClick={() => {
             sendEvent("pc_send_feedback", {})
           }}
