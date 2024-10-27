@@ -4,9 +4,14 @@ import newsLetterApi from "@/app/_api/news-letter"
 import PublisherList from "./publisher-list"
 import WidthWrapper from "../_components/layout/width-wrapper"
 import { Button } from "../_components/ui/button"
+import { NextPageProps } from "../_types/next"
 
 let page = 0
-const NewsLettersPage = async () => {
+const NewsLettersPage = async ({ searchParams }: NextPageProps) => {
+  const { enabled } = searchParams
+  // const is_enabled = enabled === "true"
+
+  // const publisherList = await newsLetterApi.getAdminPublisherList({ page, is_enabled })
   const publisherList = await newsLetterApi.getAdminPublisherList({ page })
 
   return (

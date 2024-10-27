@@ -8,6 +8,7 @@ import { AdminNewsLetterResponse } from "@/app/_api/news-letter.type"
 import { Button } from "@/app/_components/ui/button"
 import { useDebounce } from "../_hooks/use-debounce"
 import { Input } from "../_components/ui/input"
+import { cn } from "../_lib/utils"
 
 interface PublisherListProps {
   initialValues: AdminNewsLetterResponse[]
@@ -68,13 +69,14 @@ const PublisherList = (props: PublisherListProps) => {
 
       <div className="flex flex-col gap-3">
         {publishers?.map((publisher, i) => {
+          console.log(publisher)
           return (
-            <div
-              key={publisher.id}
-              className="flex items-center gap-2"
-              onClick={() => router.push(`/news-letter/${publisher.id}`)}
-            >
-              <div className="flex w-full items-center bg-[#E0E5F7] px-5 py-4">
+            <div key={publisher.id} className="flex items-center gap-2">
+              <div
+                className={cn("flex w-full items-center bg-[#E0E5F7] px-5 py-4", {
+                  "opacity-60": publisher.is_enabled === 0,
+                })}
+              >
                 <p className="w-10 text-[18px] font-semibold">{i + 1}</p>
 
                 <div className="ml-2 size-12 overflow-hidden bg-white">
@@ -88,15 +90,18 @@ const PublisherList = (props: PublisherListProps) => {
                 </div>
 
                 <div className="ml-4 flex flex-col gap-1">
-                  <div className="flex items-center gap-1">
-                    <p className="text-[18px] font-semibold">{publisher.name}</p>
+                  <div
+                    className="group flex w-fit cursor-pointer items-center gap-1"
+                    onClick={() => router.push(`/news-letter/${publisher.id}`)}
+                  >
+                    <p className="text-[18px] font-semibold group-hover:underline">{publisher.name}</p>
                     <span className="text-[14px] font-medium text-[#A2ABC7]">{publisher.publisher_main}</span>
                   </div>
                   <p className="text-[16px]">{publisher.description}</p>
                 </div>
               </div>
 
-              <Button className="!h-full bg-[#637BF4]">수정</Button>
+              <Button className={cn("!h-full bg-[#637BF4]")}>수정</Button>
               <Button className="!h-full bg-[#6D768E]">삭제</Button>
             </div>
           )
