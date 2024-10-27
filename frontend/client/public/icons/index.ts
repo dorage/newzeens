@@ -8,6 +8,7 @@ import ITIcon from "./category/it.svg"
 import LifestyleIcon from "./category/lifestyle.svg"
 import MarketingIcon from "./category/marketing.svg"
 import CloseIcon from "./close.svg"
+import FlightIcon from "./paper-flight.svg"
 import SearchShortIcon from "./search-short.svg"
 import SearchIcon from "./search.svg"
 import ShareIcon from "./share.svg"
@@ -23,6 +24,7 @@ export {
   LifestyleIcon,
   MarketingIcon,
   CareerIcon,
+  FlightIcon,
   SearchShortIcon,
   ITIcon,
   EconomyIcon,

@@ -43,15 +43,14 @@ const NewsLetterList = () => {
           ))}
 
           <div
-            className="bg-gray-90 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
+            className="bg-gray-80 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
             style={{ top: currentIndex * 56 }}
           />
         </div>
       </div>
 
       {/* right content */}
-      <div className="flex w-full flex-col gap-12">
-        <h5 className="text-mH3 text-gray-80 xl:text-h2">{publisherList?.name}</h5>
+      <div className="flex w-full flex-col">
         <div className="flex gap-4 overflow-x-auto xl:hidden">
           {publisherList?.slots?.map((tab, i) => (
             <KeywordTab

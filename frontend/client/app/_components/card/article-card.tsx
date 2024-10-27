@@ -34,9 +34,10 @@ const ArticleCard = (props: ArticleCardProps) => {
           />
         </div>
 
-        <p className="text-mBody2 mt-12">{article.title}</p>
-        <p className="text-mBody3">{article.publisher.name}</p>
-        <p className="text-mElement3 mt-8 text-gray-50">{dateFormat(article.created_at) + " 전"}</p>
+        <p className="text-mBody2 mt-12 text-gray-80 line-clamp-1 text-ellipsis">{article.title}</p>
+        <p className="text-mBody3 text-gray-70">
+          {article.publisher.name} · {dateFormat(article.created_at) + " 전"}
+        </p>
         <div className="mt-16 flex flex-wrap gap-4">
           {filterByKeywordGroup(article.publisher.keywords, ["목적", "고유"]).map((keyword) => {
             return (

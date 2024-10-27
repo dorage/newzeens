@@ -44,7 +44,7 @@ const Template = () => {
           ))}
 
           <div
-            className="bg-gray-90 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
+            className="bg-gray-80 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
             style={{ top: currentIndex * 56 }}
           />
         </div>
@@ -170,15 +170,15 @@ const Template = () => {
                         <Image src={item.thumbnail} className="object-cover" width={48} height={48} alt={item.name} />
                       </div>
                       <div className="flex gap-4 items-center">
-                        <p className="text-body2 text-gray-70">{item.name}</p>
+                        <p className="text-body1 text-gray-70">{item.name}</p>
                         <p className="text-gray-60 text-element1">발행인1</p>
                         {isRank && <CrownIcon className="size-12" />}
                       </div>
                     </div>
                   </Link>
 
-                  <p className="text-body3 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
-                  <p className="text-body3 text-gray-70 text-end">{_formatSubscriberCount(item.subscriber)}</p>
+                  <p className="text-body4 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
+                  <p className="text-body4 text-gray-70 text-end">{_formatSubscriberCount(item.subscriber)}</p>
 
                   <div className="col-span-4 h-px bg-gray-50 my-12" />
                 </React.Fragment>

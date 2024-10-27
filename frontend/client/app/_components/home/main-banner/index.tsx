@@ -20,7 +20,7 @@ const MainBanner = () => {
   return (
     <>
       <div className="block md:hidden">
-        <div className="w-full">
+        <div className="w-full px-20">
           <Swiper {...BANNER_SWIPER_SETTINGS}>
             {BANNER_DATA.map((banner) => (
               <SwiperSlide key={banner.id}>
@@ -43,11 +43,11 @@ const MainBanner = () => {
       </div>
 
       <div className="hidden md:block">
-        <div className="max-w-[1280px] mx-auto">
+        <div className="pt-28 px-20 xl:px-0 max-w-[1200px] mx-auto">
           <Swiper {...BANNER_SWIPER_SETTINGS}>
             {BANNER_DATA.map((banner) => (
               <SwiperSlide key={banner.id}>
-                <div className="w-full h-auto">
+                <div className="w-full h-auto max-w-[1200px]">
                   <Link
                     href={banner.href}
                     onClick={() => {

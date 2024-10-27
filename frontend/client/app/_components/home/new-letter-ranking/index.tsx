@@ -24,7 +24,7 @@ const NewsLetterRanking = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h3 className="text-mH3">뉴스레터 랭킹</h3>
+        <h3 className="text-mH3 text-gray-80">뉴스레터 랭킹</h3>
 
         <Link href="/ranking" className="text-mBody4 text-gray-60">
           더보기

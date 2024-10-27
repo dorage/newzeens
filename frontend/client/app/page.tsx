@@ -41,7 +41,9 @@ export default async function Home() {
     <HydrationBoundary state={dehydratedState}>
       <Header />
       <main className="min-h-screen">
-        <MainBanner />
+        <div className="bg-white">
+          <MainBanner />
+        </div>
         <div className="w-screen bg-white">
           <div className="mx-auto max-w-screen-xl">
             <div className="pt-40 px-20 xl:pt-60 xl:px-40 bg-white">

@@ -3,7 +3,7 @@
 import React, { ChangeEvent, useState } from "react"
 import Link from "next/link"
 import InteractionIcons from "./header/interaction-icons"
-import { SearchIcon } from "@/public/icons"
+import { FlightIcon, SearchIcon } from "@/public/icons"
 import { usePathname, useRouter } from "next/navigation"
 import classNames from "../_utils/class-names"
 import { sendEvent } from "../_meta/track"
@@ -35,7 +35,7 @@ const Header = () => {
       </header>
 
       {/* pc */}
-      <header className="hidden h-60 items-center justify-between border-b border-gray-40 bg-white px-40 xl:flex">
+      <header className="hidden relative h-60 items-center justify-between border-b border-gray-40 bg-white px-40 xl:flex">
         <div className="flex items-center gap-20">
           <Link
             href="/"
@@ -69,13 +69,13 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-64">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-64">
           <Link
             href="/"
             onClick={() => {
               sendEvent("pc_header_home", {})
             }}
-            className={classNames("text-body2", { "text-gray-50": !isHome })}
+            className={classNames("text-body2 font-semibold text-gray-80", { "text-gray-50": !isHome })}
           >
             홈
           </Link>
@@ -84,19 +84,20 @@ const Header = () => {
             onClick={() => {
               sendEvent("pc_header_ranking", {})
             }}
-            className={classNames("text-body2", { "text-gray-50": !isRank })}
+            className={classNames("text-body2 font-semibold", { "text-gray-50": !isRank })}
           >
             랭킹
           </Link>
         </div>
 
         <button
-          className="rounded-6 border border-gray-40 bg-white px-12 py-8"
+          className="rounded-6 border border-gray-80 bg-white px-12 py-8 flex items-center justify-center gap-8"
           onClick={() => {
             sendEvent("pc_send_feedback", {})
           }}
         >
-          <span className="text-body7 text-gray-80">피드백 보내기</span>
+          <FlightIcon className="size-[14px] text-gray-80" />
+          <span className="text-body7 font-medium text-[1.5rem] leading-[24px] text-gray-80">피드백 보내기</span>
         </button>
       </header>
     </>
