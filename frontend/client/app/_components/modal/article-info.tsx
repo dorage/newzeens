@@ -22,19 +22,22 @@ const ArticleInfo = () => {
   const { related_articles } = data
 
   return (
-    <div>
+    <div className="h-full">
       <PC publisher={data.publisher} article={data.article} />
       <Mobile publisher={data.publisher} article={data.article} />
-      <div className="bg-bg-4 max-h-screen px-20 py-40">
-        <h4 className="text-mH3">관련 아티클</h4>
 
-        <div className="h-16" />
-        <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
-          {related_articles.map((v) => {
-            return <ArticleCard key={v.title} article={v as any} />
-          })}
+      {related_articles.length > 0 && (
+        <div className="bg-bg-4 max-h-screen px-20 py-40">
+          <h4 className="text-mH3">관련 아티클</h4>
+
+          <div className="h-16" />
+          <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
+            {related_articles.map((v) => {
+              return <ArticleCard key={v.title} article={v as any} />
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -50,7 +53,7 @@ const PC = (props: DetailProps) => {
   const { article, publisher } = props
 
   return (
-    <div className="hidden bg-white p-40 xl:block">
+    <div className="hidden p-40 xl:block h-full">
       <div className="gap-[66px] flex justify-between">
         <div className="flex flex-col gap-12">
           <h3 className="text-h4 flex items-center">

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import detailQueryKey from "../_apis/_query-key/detail"
 import detailApi from "../_apis/detail-page"
 
@@ -11,9 +11,9 @@ export const useGetPublisherQuery = ({ publisherId }: { publisherId: string }) =
 }
 
 export const useGetArticleQuery = ({ articleId }: { articleId: string }) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: detailQueryKey.article.detail({ articleId }),
     queryFn: () => detailApi.getArticle({ articleId }),
-    enabled: !!articleId,
+    // queryFn: () => new Promise((resolve) => setTimeout(() => resolve(detailApi.getArticle({ articleId })), 100000)),
   })
 }
