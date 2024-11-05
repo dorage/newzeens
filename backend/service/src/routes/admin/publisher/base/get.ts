@@ -7,7 +7,10 @@ export const zQuery = z.object({
   page: z.coerce.number().optional().default(0),
   limit: z.coerce.number().optional().default(10),
   name: z.coerce.string().optional().default(""),
-  is_enabled: z.coerce.boolean().optional(),
+  is_enabled: z.coerce
+    .string()
+    .transform((q) => (q === "true" ? true : false))
+    .optional(),
 });
 
 export const zRes = OpenAPISchema.AdminPublisher.array();
@@ -47,7 +50,7 @@ export const ep = app.openapi(route, async (c) => {
     .where((eb) => {
       const conditions = [];
       if (query.name) conditions.push(eb("name", "like", `%${query.name}%`));
-      if (query.is_enabled) conditions.push(eb("is_enabled", "=", query.is_enabled));
+      if (query.is_enabled) conditions.push(eb("is_enabled", "=", Number(query.is_enabled)));
       return eb.and(conditions);
     })
     .limit(query.limit)
