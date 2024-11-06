@@ -24,7 +24,7 @@ const NewsLetterRanking = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h3 className="text-mH3 text-gray-80">뉴스레터 랭킹</h3>
+        <h3 className="text-mH3 text-gray-80 xl:text-h2">뉴스레터 랭킹</h3>
 
         <Link href="/ranking" className="text-mBody4 text-gray-60">
           더보기
@@ -78,7 +78,7 @@ const NewsLetterRanking = () => {
                         sizes="80px"
                         alt="next"
                         fill
-                        className="rounded-8 aspect-square object-contain"
+                        className="rounded-8 aspect-square object-contain bg-bg"
                       />
                     </div>
 
@@ -135,7 +135,7 @@ const NewsLetterRanking = () => {
                         sizes="80px"
                         alt="next"
                         fill
-                        className="rounded-8 aspect-square object-contain"
+                        className="rounded-8 aspect-square bg-bg object-contain"
                       />
                     </div>
 
@@ -144,7 +144,6 @@ const NewsLetterRanking = () => {
 
                       {isRank && <CrownIcon className="size-12" />}
                       <p className="text-mElement1 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
-
                       <div
                         className={classNames("border rounded-full py-4 px-6 text-element4", {
                           "text-gray-65 border-gray-65": !isRank,
