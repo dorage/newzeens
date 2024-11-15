@@ -26,7 +26,7 @@ const ArticleCard = (props: ArticleCardProps) => {
       <div>
         <div className="relative aspect-video w-full shrink-0">
           <Image
-            className="rounded-12 object-cover"
+            className="rounded-12 object-cover bg-white"
             sizes="600px"
             fill
             src={article.thumbnail || "https://via.placeholder.com/300"}

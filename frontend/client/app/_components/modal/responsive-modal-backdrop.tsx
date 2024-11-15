@@ -28,7 +28,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
   return createPortal(
     <div
       className={classNames(
-        "fixed bottom-0 left-0 xl:inset-0 z-20 h-screen flex size-full items-center justify-center bg-black/0 transition-colors duration-250 ease-in-out overflow-hidden",
+        "fixed bottom-0 left-0 xl:inset-0 z-[21] h-screen flex size-full items-center justify-center bg-black/0 transition-colors duration-250 ease-in-out overflow-hidden",
         isOpen && "bg-black/20",
       )}
       onClick={onClose}

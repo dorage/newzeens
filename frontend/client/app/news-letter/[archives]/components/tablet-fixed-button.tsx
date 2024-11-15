@@ -15,7 +15,7 @@ const TabletFixedButton = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 z-20 flex w-full bg-white p-20 xl:hidden">
+      <div className="sticky bottom-0 z-20 flex w-full bg-white p-20 xl:hidden">
         <Link
           href={data?.publisher?.url_subscribe || ""}
           target="_blank"

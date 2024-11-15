@@ -17,7 +17,7 @@ const SuggestNewsLetters = () => {
   if (!data?.related_publishers || data?.related_publishers?.length === 0) return <></>
 
   return (
-    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40 pb-[118px] xl:pb-40 bg-white">
+    <div className="flex flex-col gap-16 px-20 py-40 xl:px-40 pb-5 xl:pb-40 bg-white">
       <h4 className="text-gray-80 text-h2">추천 뉴스레터</h4>
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
@@ -44,7 +44,8 @@ const SuggestNewsLetters = () => {
                     width={600}
                     height={400}
                     alt="테스트이미지"
-                    className="rounded-16 aspect-video shrink-0"
+                    className="rounded-16 aspect-video shrink-0 bg-white"
+                    quality={90}
                   />
 
                   <div className="flex flex-col gap-4">

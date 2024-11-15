@@ -33,7 +33,7 @@ const MainBanner = () => {
                       })
                     }}
                   >
-                    <Image src={banner.mobileSrc} alt={banner.category} />
+                    <Image src={banner.mobileSrc} alt={banner.category} quality={100} />
                   </Link>
                 </div>
               </SwiperSlide>
@@ -56,7 +56,7 @@ const MainBanner = () => {
                       })
                     }}
                   >
-                    <Image src={banner.src} alt={banner.category} />
+                    <Image src={banner.src} alt={banner.category} quality={100} />
                   </Link>
                 </div>
               </SwiperSlide>
