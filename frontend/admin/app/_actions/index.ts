@@ -212,3 +212,8 @@ export const deleteArticles = async (ids: string[]) => {
   }
   revalidateTag(articleKey.list())
 }
+
+export const revalidateTagPublisherList = async () => {
+  "use server"
+  revalidateTag(newsLetterKey.publisher())
+}

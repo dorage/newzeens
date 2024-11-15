@@ -8,11 +8,15 @@ import { NextPageProps } from "../_types/next"
 
 let page = 0
 const NewsLettersPage = async ({ searchParams }: NextPageProps) => {
-  const { enabled } = searchParams
-  // const is_enabled = enabled === "true"
+  const { is_enabled, name } = searchParams
 
-  // const publisherList = await newsLetterApi.getAdminPublisherList({ page, is_enabled })
-  const publisherList = await newsLetterApi.getAdminPublisherList({ page })
+  const enabled = is_enabled === "true" || is_enabled === undefined
+
+  const publisherList = await newsLetterApi.getAdminPublisherList({
+    page: 0,
+    is_enabled: enabled,
+    name: name as string,
+  })
 
   return (
     <WidthWrapper>
