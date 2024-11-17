@@ -85,7 +85,8 @@ const NewsLetterRanking = () => {
                     <div>
                       <p className="text-mBody2">{item.name}</p>
                       <p className="text-mElement1">
-                        {item.keywords?.[0]?.keyword_name} · {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                        {item.keywords?.[0]?.keyword_name}
+                        {item.subscriber > 0 && <span>· {`${_formatSubscriberCount(item.subscriber)} 구독`}</span>}
                       </p>
                     </div>
                   </div>
@@ -144,14 +145,17 @@ const NewsLetterRanking = () => {
 
                       {isRank && <CrownIcon className="size-12" />}
                       <p className="text-mElement1 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
-                      <div
-                        className={classNames("border rounded-full py-4 px-6 text-element4", {
-                          "text-gray-65 border-gray-65": !isRank,
-                          "text-primary border-primary": isRank,
-                        })}
-                      >
-                        {`${_formatSubscriberCount(item.subscriber)} 구독`}
-                      </div>
+
+                      {item.subscriber > 0 && (
+                        <div
+                          className={classNames("border rounded-full py-4 px-6 text-element4", {
+                            "text-gray-65 border-gray-65": !isRank,
+                            "text-primary border-primary": isRank,
+                          })}
+                        >
+                          {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </Link>
