@@ -15,6 +15,7 @@ import { filterByKeywordGroup } from "@/app/_utils/keyword"
 const ArticleInfo = () => {
   const { article } = useParams()
   const { data } = useGetArticleQuery({ articleId: article as string })
+  console.log("🚀 ~ ArticleInfo ~ data:", data)
 
   if (!data) return <></>
   if (!data.related_articles) return <></>
@@ -63,7 +64,8 @@ const PC = (props: DetailProps) => {
 
           <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">
             {article.summary.split("\n").map((v) => {
-              if (v === "") return <></>
+              console.log(`v`, v)
+              if (v.trim() === "") return null
               return <li key={v}>{v}</li>
             })}
           </ul>
@@ -147,14 +149,10 @@ const Mobile = (props: DetailProps) => {
       <div className="h-8" />
 
       <ul className="text-mBody3 li-marker-style flex list-disc flex-col gap-4 pl-10">
-        {article.summary.split("\n\n").map((v) => {
-          if (v === "") return <></>
+        {article.summary.split("\n").map((v) => {
+          if (v.trim() === "") return null
           return <li key={v}>{v}</li>
         })}
-
-        {/* <li className="">2024년 개인정보 보호 트렌드: 광고 업계 변화</li>
-        <li className="">구글 프라이버시 샌드박스: 새로운 개인정보 보호 방식 도입, 서드 파티 쿠키</li>
-        <li className="">40대 이상 사용자 비중 증가하며, 주요 앱은 캐시워크, 타임스프레드, 발로소발로소득발로소득</li> */}
       </ul>
 
       <div className="h-16" />
