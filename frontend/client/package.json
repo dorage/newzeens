@@ -25,6 +25,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-intersection-observer": "^9.8.1",
+    "react-tooltip": "^5.28.0",
     "sharp": "^0.33.5",
     "swiper": "11.1.12",
     "tailwind-merge": "^2.2.1"

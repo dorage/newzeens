@@ -11,6 +11,8 @@ import { getArticles } from "./_actions/home/get-articles"
 import { getRank, RANK_LIMIT } from "./_actions/rank/get-rank"
 import { Metadata } from "next"
 
+import "react-tooltip/dist/react-tooltip.css"
+
 export const metadata: Metadata = {
   title: "직무 트렌드 뉴스레터 모아보기",
 }
