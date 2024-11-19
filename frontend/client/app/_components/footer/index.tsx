@@ -27,7 +27,9 @@ const Footer = () => {
 
           <p className="text-body3 text-gray-65">
             문의
-            <span className="ml-8 font-normal leading-[1]">keepsideproject@gmail.com</span>
+            <Link href="mailto:keepsideproject@gmail.com" className="ml-8 font-normal leading-[1]">
+              keepsideproject@gmail.com
+            </Link>
           </p>
 
           <p className="text-body6 text-gray-65">
