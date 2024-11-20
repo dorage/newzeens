@@ -31,7 +31,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
   const searchDebounce = useDebounce(search)
 
   const fetchNext = useCallback(async () => {
-    const addArticles = await newsLetterApi.getAdminArticleList({ page, name: searchDebounce })
+    const addArticles = await newsLetterApi.getAdminArticleList({ page, name: searchDebounce, is_enabled: true })
     if (addArticles.length === 0) {
       return
     }
@@ -40,7 +40,7 @@ const ArticleEdit = (props: ArticleEditProps) => {
   }, [page, searchDebounce])
 
   const searchFetch = useCallback(async () => {
-    const newItems = await newsLetterApi.getAdminArticleList({ page: 0, name: searchDebounce })
+    const newItems = await newsLetterApi.getAdminArticleList({ page: 0, name: searchDebounce, is_enabled: true })
     setPage((prev) => prev + 1)
     setArticles(newItems)
   }, [searchDebounce])

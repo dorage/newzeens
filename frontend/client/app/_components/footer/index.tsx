@@ -20,19 +20,19 @@ const Footer = () => {
         <Tooltip id={`maillist-notion`} />
 
         <div className="flex gap-4 xl:gap-[6.2rem] xl:flex-row flex-col">
-          <p className="text-body3 text-gray-65">
+          <p className="text-body7 text-gray-65">
             메일리스트
-            <span className="ml-8 font-normal leading-[1]">직무 트렌드 뉴스레터 아카이빙 서비스</span>
+            <span className="ml-8 font-normal leading-[22.4px]">직무 트렌드 뉴스레터 아카이빙 서비스</span>
           </p>
 
-          <p className="text-body3 text-gray-65">
+          <p className="text-body7 text-gray-65">
             문의
-            <Link href="mailto:keepsideproject@gmail.com" className="ml-8 font-normal leading-[1]">
+            <Link href="mailto:keepsideproject@gmail.com" className="ml-8 font-normal leading-[22.4px] hover:underline">
               keepsideproject@gmail.com
             </Link>
           </p>
 
-          <p className="text-body6 text-gray-65">
+          <p className="text-body7 text-gray-65">
             <span className="font-normal leading-[22.4px]">Copyright© 2024 Code & Canvas.</span>
           </p>
         </div>

@@ -17,7 +17,7 @@ const SlotPublisherFormPage = async (props: NextPageProps<SlotPublisherFormPageP
   const slotId = Number(params.slotId)
 
   const publisher = await campaignApi.getAdminCampaignSlotPublisher(slotId)
-  const publisherList = await newsLetterApi.getAdminPublisherList({ page: 0 })
+  const publisherList = await newsLetterApi.getAdminPublisherList({ page: 0, is_enabled: true })
 
   return (
     <IdContextProvider campaignId={campaignId} slotId={slotId}>

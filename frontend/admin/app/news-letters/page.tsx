@@ -21,10 +21,7 @@ const NewsLettersPage = async ({ searchParams }: NextPageProps) => {
   return (
     <WidthWrapper>
       <div className="flex items-center justify-between">
-        <h1 className="text-[30px] font-bold">
-          리스트 관리
-          {/* <span className="text-[#2141E5]">{publisherList?.length || 0}</span> */}
-        </h1>
+        <h1 className="text-[30px] font-bold">리스트 관리</h1>
 
         <Link href="/news-letter/create">
           <Button className="">등록</Button>
