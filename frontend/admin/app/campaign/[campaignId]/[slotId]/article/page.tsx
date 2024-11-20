@@ -18,7 +18,7 @@ const SlotArticlePage = async (props: NextPageProps<SlotArticlePageProps>) => {
   const slotId = Number(params.slotId)
 
   const campaignList = await campaignApi.getAdminCampaignSlotArticle(slotId)
-  const articleList = await newsLetterApi.getAdminArticleList({ page: 0, is_enabled: true })
+  const articleList = await newsLetterApi.getAdminArticleList({ page: 0 })
 
   return (
     <IdContextProvider campaignId={campaignId} slotId={slotId}>

@@ -19,8 +19,6 @@ const NewsLetterList = () => {
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const isMobile = useMediaQuery("(max-width: 1280px)")
-
   return (
     <div className="flex gap-80">
       <div className="hidden xl:block">
@@ -73,7 +71,7 @@ const NewsLetterList = () => {
           {publisherList?.slots
             ?.find((slot) => slot.name === current)
             ?.publishers?.map((v) => {
-              return <NewsLetterItem key={v.id} publisher={v} aspectSquare={isMobile} />
+              return <NewsLetterItem key={v.id} publisher={v} />
             })}
         </div>
       </div>

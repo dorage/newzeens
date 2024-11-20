@@ -18,12 +18,14 @@ const ShareButton = (props: ShareButtonProps) => {
     )
   }
 
-  return (
-    <button className="text-gray-70 text-mElement1 border-gray-40 flex shrink-0 items-center justify-center gap-2 rounded-full border px-12 py-8">
-      <ShareIcon />
-      {label ?? "원본"}
-    </button>
-  )
+  return null
+
+  // return (
+  //   <button className="text-gray-70 text-mElement1 border-gray-40 flex shrink-0 items-center justify-center gap-2 rounded-full border px-12 py-8">
+  //     <ShareIcon />
+  //     {label ?? "원본"}
+  //   </button>
+  // )
 }
 
 export default ShareButton
