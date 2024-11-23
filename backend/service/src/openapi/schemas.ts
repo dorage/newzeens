@@ -56,6 +56,8 @@ const PublisherRank = z
       id: true,
       name: true,
       subscriber: true,
+      publisher_main: true,
+      publisher_spec: true,
       thumbnail: true,
     }).extend({
       keywords: Keyword.array(),

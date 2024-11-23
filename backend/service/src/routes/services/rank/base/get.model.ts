@@ -102,7 +102,7 @@ export const getPublisherRank = async (query: {
           .as("kpr"),
       (join) => join.onRef("p.id", "=", "kpr.publisher_id")
     )
-    .select(["id", "name", "subscriber", "thumbnail", "keywords"])
+    .selectAll()
     .execute();
 
   return zRes.parse(result ?? []);
