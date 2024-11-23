@@ -42,8 +42,12 @@ describe("GET /article/:id get.query", () => {
     const article = await getRandomArticle();
 
     const relatedArticles = await getRelatedArticles({ articleId: article.id });
+    const anyArticles = await getAnyArticles({
+      articleId: article.id,
+      limit: 4 - relatedArticles.length,
+    });
 
-    expect(relatedArticles.length).toEqual(4);
+    expect(relatedArticles.length + anyArticles.length).toEqual(4);
   });
 
   test("the result of related articles's keywords should not overwrap", async () => {
@@ -93,6 +97,7 @@ describe("GET /article/:id get.controller", () => {
     const article = await getRandomArticle();
 
     const res = await controller({ articleId: article.id });
+    expect(res.related_articles.length).toEqual(4);
     expect(zRes.safeParse(res).success).toEqual(true);
   });
 });
