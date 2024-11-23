@@ -121,6 +121,7 @@ export const getRelatedArticles = async (query: { articleId: string }) => {
     .select(() => [
       sql<string>`a.id`.as("id"),
       sql<string>`a.title`.as("title"),
+      sql<string>`a.thumbnail`.as("thumbnail"),
       sql<string>`a.created_at`.as("created_at"),
       sql<string>`JSON_OBJECT(
 				'id', ps.id,
@@ -168,6 +169,7 @@ export const getAnyArticles = async (query: { articleId: string; limit: number }
     .select(() => [
       sql<string>`a.id`.as("id"),
       sql<string>`a.title`.as("title"),
+      sql<string>`a.thumbnail`.as("thumbnail"),
       sql<string>`a.created_at`.as("created_at"),
       sql<string>`JSON_OBJECT(
 				'id', ps.id,

@@ -41,6 +41,7 @@ export const zRes = z.object({
         id: true,
         title: true,
         // description: true,
+        thumbnail: true,
         created_at: true,
       })
     )
