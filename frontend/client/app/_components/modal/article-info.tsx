@@ -23,7 +23,7 @@ const ArticleInfo = () => {
   const { related_articles } = data
 
   return (
-    <div className="h-full">
+    <div className="">
       <PC publisher={data.publisher} article={data.article} />
       <Mobile publisher={data.publisher} article={data.article} />
 

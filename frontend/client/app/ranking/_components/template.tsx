@@ -79,6 +79,7 @@ const Template = () => {
         <div className="block xl:hidden">
           <div className="flex flex-col gap-20 mt-28">
             {flatMap.map((item, index) => {
+              console.log("🚀 ~ {flatMap.map ~ item:", item)
               const isRank = index < 3
 
               return (

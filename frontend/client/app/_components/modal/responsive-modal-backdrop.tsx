@@ -35,7 +35,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
     >
       <div
         className={classNames(
-          "rounded-t-[14px] xl:rounded-b-[14px] m-auto absolute bottom-0 xl:inset-0 h-[calc(100vh-7.2rem)] xl:h-[80vh] translate-y-full max-w-[96.4rem] w-full transition-all duration-250 ease-in-out",
+          "rounded-t-[14px] xl:rounded-b-[14px] m-auto absolute bottom-0 xl:inset-0 h-[calc(100vh-7.2rem)] xl:max-h-[80vh] translate-y-full max-w-[96.4rem] w-full transition-all duration-250 ease-in-out",
           {
             "translate-y-0": isOpen,
             "translate-y-full": !isOpen,
@@ -57,7 +57,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
         </div>
 
         {/* <div> */}
-        <div className="bg-white xl:rounded-b-[14px] h-[calc(100vh-7.2rem-4.8rem)] overflow-y-auto scroll-smooth xl:h-[75vh]">
+        <div className="bg-white xl:rounded-b-[14px] h-[calc(100vh-7.2rem-4.8rem)] overflow-y-auto scroll-smooth xl:max-h-[75vh]">
           {children}
         </div>
         {/* </div> */}
