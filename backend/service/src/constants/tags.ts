@@ -7,6 +7,7 @@ const Tag = {
   Campaign: "Campaign",
   Keyword: "keyword",
   Search: "Search",
+  Sitemap: "Sitemap",
 };
 
 export default Tag;

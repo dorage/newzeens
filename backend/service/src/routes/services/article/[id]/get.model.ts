@@ -121,6 +121,7 @@ export const getRelatedArticles = async (query: { articleId: string }) => {
     .select(() => [
       sql<string>`a.id`.as("id"),
       sql<string>`a.title`.as("title"),
+      sql<string>`a.thumbnail`.as("thumbnail"),
       sql<string>`a.created_at`.as("created_at"),
       sql<string>`JSON_OBJECT(
 				'id', ps.id,
@@ -135,42 +136,48 @@ export const getRelatedArticles = async (query: { articleId: string }) => {
     .parse(relatedArticles.filter((article) => article.id != null));
 };
 
-// export const getAnyArticles = async (query: { articleId: string; limit: number }) => {
-//   const publisherQuery = await queryPublisherWithKeywords();
-//
-//   const relatedArticles = await Ky.selectFrom((eb) =>
-//     publisherQuery(eb)
-//       .orderBy(sql`RANDOM()`)
-//       .limit(query.limit)
-//       .as("p")
-//   )
-//     .leftJoin(
-//       (eb) =>
-//         eb
-//           .selectFrom("articles")
-//           .selectAll()
-//           .orderBy(sql`RANDOM()`)
-//           .as("a"),
-//       (join) => join.onRef("p.id", "=", "a.publisher_id")
-//     )
-//     .leftJoin(
-//       (eb) => eb.selectFrom("publishers").selectAll().as("ps"),
-//       (join) => join.onRef("p.id", "=", "ps.id")
-//     )
-//     .groupBy("p.id")
-//     .select(() => [
-//       sql<string>`a.id`.as("id"),
-//       sql<string>`a.title`.as("title"),
-//       sql<string>`a.created_at`.as("created_at"),
-//       sql<string>`JSON_OBJECT(
-// 				'id', ps.id,
-// 				'name', ps.name,
-// 				'keywords', p.keywords
-// 			)`.as("publisher"),
-//     ])
-//     .execute();
-//
-//   console.log(relatedArticles);
-//
-//   return zRes.shape.related_articles.element.array().parse(relatedArticles);
-// };
+export const getAnyArticles = async (query: { articleId: string; limit: number }) => {
+  const publisherQuery = await queryPublisherWithKeywords();
+
+  const targetArticle = await Ky.selectFrom("articles")
+    .selectAll()
+    .where("id", "=", query.articleId)
+    .executeTakeFirstOrThrow();
+
+  const p = await publisherQuery(Ky as any).execute();
+
+  const anyArticles = await Ky.selectFrom((eb) =>
+    publisherQuery(eb)
+      .orderBy(sql`RANDOM()`)
+      .limit(query.limit)
+      .as("p")
+  )
+    .leftJoin(
+      (eb) =>
+        eb
+          .selectFrom("articles")
+          .selectAll()
+          .orderBy(sql`RANDOM()`)
+          .as("a"),
+      (join) => join.onRef("p.id", "=", "a.publisher_id")
+    )
+    .leftJoin(
+      (eb) => eb.selectFrom("publishers").selectAll().as("ps"),
+      (join) => join.onRef("p.id", "=", "ps.id")
+    )
+    .groupBy("p.id")
+    .select(() => [
+      sql<string>`a.id`.as("id"),
+      sql<string>`a.title`.as("title"),
+      sql<string>`a.thumbnail`.as("thumbnail"),
+      sql<string>`a.created_at`.as("created_at"),
+      sql<string>`JSON_OBJECT(
+				'id', ps.id,
+				'name', ps.name,
+				'keywords', p.keywords
+			)`.as("publisher"),
+    ])
+    .execute();
+
+  return zRes.shape.related_articles.element.array().parse(anyArticles);
+};

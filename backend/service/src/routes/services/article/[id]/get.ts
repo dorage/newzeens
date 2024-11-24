@@ -13,7 +13,7 @@ export const zRes = z.object({
     ArticleSchema.pick({
       title: true,
       summary: true,
-      description: true,
+      // description: true,
       thumbnail: true,
       created_at: true,
       url: true,
@@ -36,7 +36,15 @@ export const zRes = z.object({
         keywords: OpenAPISchema.Keyword.array(),
       }),
     })
-    .merge(ArticleSchema.pick({ id: true, title: true, description: true, created_at: true }))
+    .merge(
+      ArticleSchema.pick({
+        id: true,
+        title: true,
+        // description: true,
+        thumbnail: true,
+        created_at: true,
+      })
+    )
     .array(),
 });
 

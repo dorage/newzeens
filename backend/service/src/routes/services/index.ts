@@ -23,4 +23,7 @@ app.route("/publisher", publisher);
 import search from "./search";
 app.route("/search", search);
 
+import sitemap from "./sitemap";
+app.route("/sitemap", sitemap);
+
 export default app;

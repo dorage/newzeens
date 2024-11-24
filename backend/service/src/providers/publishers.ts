@@ -88,6 +88,7 @@ export const queryPublisherWithKeywords = async () => {
             eb
               .selectFrom("articles")
               .select(({ fn }) => [fn("count", ["id"]).as("article_count"), "publisher_id"])
+              .groupBy("publisher_id")
               .as("a"),
           (eb) => eb.onRef("kpr.publisher_id", "=", "a.publisher_id")
         )
