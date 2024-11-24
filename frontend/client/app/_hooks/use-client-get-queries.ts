@@ -7,6 +7,7 @@ export const useGetPublisherQuery = ({ publisherId }: { publisherId: string }) =
     queryKey: detailQueryKey.publisher.detail({ publisherId }),
     queryFn: () => detailApi.getPublisher({ publisherId }),
     enabled: !!publisherId,
+    staleTime: 1000 * 60,
   })
 }
 

@@ -66,6 +66,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
           />
         </div>
 
+        <div className="h-12 xl:h-16" />
         <div className="flex flex-col gap-4">
           <p className="text-mBody2 xl:text-body3">{highlightText(publisher.name)}</p>
 
