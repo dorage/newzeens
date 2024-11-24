@@ -6,6 +6,7 @@ import { ArticleDto } from "@/app/_apis/main-page/main.type"
 import { dateFormat } from "@/app/_utils/date-format"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
 import { sendEvent } from "@/app/_meta/track"
+import classNames from "@/app/_utils/class-names"
 
 interface ArticleCardProps {
   article: ArticleDto
@@ -23,7 +24,12 @@ const ArticleCard = (props: ArticleCardProps) => {
         })
       }}
     >
-      <div>
+      <div className="group relative z-10">
+        <div
+          className={classNames(
+            "group-hover:bg-bg-2 bg-transparent transition-colors duration-300 ease-in-out rounded-[22px] absolute -inset-12 z-[-1]",
+          )}
+        />
         <div className="relative aspect-video w-full shrink-0">
           <Image
             className="rounded-12 object-cover bg-white"

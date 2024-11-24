@@ -15,7 +15,6 @@ import { filterByKeywordGroup } from "@/app/_utils/keyword"
 const ArticleInfo = () => {
   const { article } = useParams()
   const { data } = useGetArticleQuery({ articleId: article as string })
-  console.log("🚀 ~ ArticleInfo ~ data:", data)
 
   if (!data) return <></>
   if (!data.related_articles) return <></>
@@ -28,7 +27,7 @@ const ArticleInfo = () => {
       <Mobile publisher={data.publisher} article={data.article} />
 
       {related_articles.length > 0 && (
-        <div className="bg-bg-4 max-h-screen px-20 py-40">
+        <div className="bg-bg max-h-screen px-20 py-40">
           <h4 className="text-mH3">관련 아티클</h4>
 
           <div className="h-16" />
@@ -64,7 +63,6 @@ const PC = (props: DetailProps) => {
 
           <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">
             {article.summary.split("\n").map((v) => {
-              console.log(`v`, v)
               if (v.trim() === "") return null
               return <li key={v}>{v}</li>
             })}

@@ -79,7 +79,6 @@ const Template = () => {
         <div className="block xl:hidden">
           <div className="flex flex-col gap-20 mt-28">
             {flatMap.map((item, index) => {
-              console.log("🚀 ~ {flatMap.map ~ item:", item)
               const isRank = index < 3
 
               return (
@@ -123,7 +122,7 @@ const Template = () => {
                         </div>
 
                         <div className="flex gap-6 items-center mt-4">
-                          <p className="text-mElement3 text-gray-70">발행인</p>
+                          <p className="text-mElement3 text-gray-70">{item.publisher_main}</p>
                           <p className="text-mElement3 text-[#AEBDE7]">
                             {item.keywords?.[0]?.keyword_name} · {`${_formatSubscriberCount(item.subscriber)} 구독 중`}
                           </p>
@@ -172,7 +171,7 @@ const Template = () => {
                       </div>
                       <div className="flex gap-4 items-center">
                         <p className="text-body1 text-gray-70">{item.name}</p>
-                        <p className="text-gray-60 text-element1">발행인1</p>
+                        <p className="text-gray-60 text-element1">{item.publisher_main}</p>
                         {isRank && <CrownIcon className="size-12" />}
                       </div>
                     </div>

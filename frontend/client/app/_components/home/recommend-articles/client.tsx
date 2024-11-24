@@ -17,10 +17,7 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
   return (
     <div>
       <div className="flex flex-col justify-between xl:flex-row xl:items-center">
-        <h3 className="text-gray-80 text-mH3 xl:text-h2">
-          {/* <span className="text-primary hidden sm:inline">{currentSelected}&nbsp;</span> */}
-          {data?.name}
-        </h3>
+        <h3 className="text-gray-80 text-mH3 xl:text-h2">{data?.name}</h3>
         <div className="h-12 xl:hidden" />
 
         {/* mobile */}
