@@ -17,10 +17,7 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
   return (
     <div>
       <div className="flex flex-col justify-between xl:flex-row xl:items-center">
-        <h3 className="text-gray-80 text-mH3 xl:text-h2">
-          <span className="text-primary hidden sm:inline">{currentSelected}&nbsp;</span>
-          {data?.name}
-        </h3>
+        <h3 className="text-gray-80 text-mH3 xl:text-h2">{data?.name}</h3>
         <div className="h-12 xl:hidden" />
 
         {/* mobile */}
@@ -46,7 +43,8 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
               className={classNames(
                 "h-[38px] text-body3 py-8 px-12 rounded-full transition-all duration-300 ease-in-out",
                 {
-                  "text-primary bg-bg-3": tab.name === currentSelected,
+                  "text-gray-70 bg-bg-3": tab.name === currentSelected,
+                  "text-gray-60 font-medium": tab.name !== currentSelected,
                 },
               )}
               onClick={() => setCurrentSelected(tab.name)}

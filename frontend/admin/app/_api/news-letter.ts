@@ -21,7 +21,8 @@ const newsLetterApi = {
    * publisher 목록 가져오기
    */
   getAdminPublisherList: async (params: AdminPublisherParams) => {
-    const data = await api(`/admin/publisher?${queryString(params)}`, {
+    const qs = queryString(params)
+    const data = await api(`/admin/publisher?${qs}`, {
       next: { tags: [newsLetterKey.publisher()] },
     })
     return data as AdminNewsLetterResponse[]

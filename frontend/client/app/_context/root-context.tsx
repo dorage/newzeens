@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import BottomDrawerProvider from "../_components/modal/bottom-drawer-provider"
 import RelativeModalProvider from "../_components/portal/relative-modal-provider"
 import { initTracking } from "../_meta/track"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 const RootContext = ({ children }: React.PropsWithChildren): JSX.Element => {
   const { Provider } = createContext(null)
@@ -31,6 +32,7 @@ const RootContext = ({ children }: React.PropsWithChildren): JSX.Element => {
         <BottomDrawerProvider>
           <RelativeModalProvider>{children}</RelativeModalProvider>
         </BottomDrawerProvider>
+        {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </Provider>
   )

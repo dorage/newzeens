@@ -8,7 +8,7 @@ const detailApi = {
   },
 
   getPublisher: async ({ publisherId }: { publisherId: string }) => {
-    const response = await fetch(`/publisher/${publisherId}`)
+    const response = await fetch(`/publisher/${publisherId}`, {})
     return response as PublisherDetailDto
   },
 }

@@ -19,8 +19,6 @@ const NewsLetterList = () => {
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const isMobile = useMediaQuery("(max-width: 1280px)")
-
   return (
     <div className="flex gap-80">
       <div className="hidden xl:block">
@@ -43,15 +41,14 @@ const NewsLetterList = () => {
           ))}
 
           <div
-            className="bg-gray-90 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
+            className="bg-gray-80 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
             style={{ top: currentIndex * 56 }}
           />
         </div>
       </div>
 
       {/* right content */}
-      <div className="flex w-full flex-col gap-12">
-        <h5 className="text-mH3 text-gray-80 xl:text-h2">{publisherList?.name}</h5>
+      <div className="flex w-full flex-col">
         <div className="flex gap-4 overflow-x-auto xl:hidden">
           {publisherList?.slots?.map((tab, i) => (
             <KeywordTab
@@ -69,12 +66,12 @@ const NewsLetterList = () => {
             </KeywordTab>
           ))}
         </div>
-        <div />
-        <div className="w-full grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
+
+        <div className="mt-24 xl:mt-0 w-full grid grid-cols-2 gap-x-12 gap-y-28 sm:grid-cols-3 xl:gap-x-16 xl:gap-y-40">
           {publisherList?.slots
             ?.find((slot) => slot.name === current)
             ?.publishers?.map((v) => {
-              return <NewsLetterItem key={v.id} publisher={v} aspectSquare={isMobile} />
+              return <NewsLetterItem key={v.id} publisher={v} />
             })}
         </div>
       </div>

@@ -11,6 +11,8 @@ import { getArticles } from "./_actions/home/get-articles"
 import { getRank, RANK_LIMIT } from "./_actions/rank/get-rank"
 import { Metadata } from "next"
 
+import "react-tooltip/dist/react-tooltip.css"
+
 export const metadata: Metadata = {
   title: "직무 트렌드 뉴스레터 모아보기",
 }
@@ -41,7 +43,9 @@ export default async function Home() {
     <HydrationBoundary state={dehydratedState}>
       <Header />
       <main className="min-h-screen">
-        <MainBanner />
+        <div className="bg-white">
+          <MainBanner />
+        </div>
         <div className="w-screen bg-white">
           <div className="mx-auto max-w-screen-xl">
             <div className="pt-40 px-20 xl:pt-60 xl:px-40 bg-white">

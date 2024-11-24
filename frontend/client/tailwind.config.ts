@@ -19,6 +19,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        pretendard: ["var(--font-pretendard)"],
+      },
       spacing: { ...spacing },
 
       colors: {

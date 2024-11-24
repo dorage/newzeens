@@ -31,7 +31,11 @@ const PublisherAdd = (props: PublisherAddProps) => {
   const searchDebounce = useDebounce(search)
 
   const fetchNext = useCallback(async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: page, name: searchDebounce })
+    const addPublisher = await newsLetterApi.getAdminPublisherList({
+      page: page,
+      name: searchDebounce,
+      is_enabled: true,
+    })
     if (addPublisher.length === 0) {
       return
     }
@@ -40,7 +44,7 @@ const PublisherAdd = (props: PublisherAddProps) => {
   }, [page, searchDebounce])
 
   const searchFetch = useCallback(async () => {
-    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce })
+    const addPublisher = await newsLetterApi.getAdminPublisherList({ page: 0, name: searchDebounce, is_enabled: true })
     setPage((prev) => prev + 1)
     setPublishers(addPublisher)
   }, [searchDebounce])
@@ -82,6 +86,14 @@ const PublisherAdd = (props: PublisherAddProps) => {
       />
 
       <div className="h-3" />
+
+      {/* <div className="flex items-center gap-5">
+        활성화된 뉴스레터만 보기
+        <Switch
+          checked={isEnabled}
+          onCheckedChange={(checked) => updateQueryString("is_enabled", checked ? "true" : "false")}
+        />
+      </div> */}
 
       <div className="flex flex-col gap-3">
         {publishers?.map((publisher, i) => {

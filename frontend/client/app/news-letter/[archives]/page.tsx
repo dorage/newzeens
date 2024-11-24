@@ -67,15 +67,16 @@ const ArchivesPage = async (props: NextPageProps<ArchivesPageParams>) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <IdContextProvider id={archives}>
-        <Header />
-
-        <main className="mx-auto min-h-[100vh-60px] w-full max-w-[128rem]">
-          <NewsLetterTitle />
-          <DescriptionLayer />
-          <LastArticles />
-          <SuggestNewsLetters />
-          <TabletFixedButton />
-        </main>
+        <div className="w-screen min-h-[100vh-1.2rem] bg-white">
+          <Header />
+          <main className="mx-auto w-full max-w-[128rem]">
+            <NewsLetterTitle />
+            <DescriptionLayer />
+            <LastArticles />
+            <SuggestNewsLetters />
+            <TabletFixedButton />
+          </main>
+        </div>
       </IdContextProvider>
     </HydrationBoundary>
   )

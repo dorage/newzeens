@@ -22,19 +22,22 @@ const ArticleInfo = () => {
   const { related_articles } = data
 
   return (
-    <div>
+    <div className="">
       <PC publisher={data.publisher} article={data.article} />
       <Mobile publisher={data.publisher} article={data.article} />
-      <div className="bg-bg-4 max-h-screen px-20 py-40">
-        <h4 className="text-mH3">관련 아티클</h4>
 
-        <div className="h-16" />
-        <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
-          {related_articles.map((v) => {
-            return <ArticleCard key={v.title} article={v as any} />
-          })}
+      {related_articles.length > 0 && (
+        <div className="bg-bg xl:max-h-screen px-20 py-40">
+          <h4 className="text-mH3">관련 아티클</h4>
+
+          <div className="h-16" />
+          <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
+            {related_articles.map((v) => {
+              return <ArticleCard key={v.title} article={v as any} />
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -50,7 +53,7 @@ const PC = (props: DetailProps) => {
   const { article, publisher } = props
 
   return (
-    <div className="hidden bg-white p-40 xl:block">
+    <div className="hidden p-40 xl:block h-full bg-white">
       <div className="gap-[66px] flex justify-between">
         <div className="flex flex-col gap-12">
           <h3 className="text-h4 flex items-center">
@@ -60,7 +63,7 @@ const PC = (props: DetailProps) => {
 
           <ul className="text-body5 li-marker-style flex list-disc flex-col gap-4">
             {article.summary.split("\n").map((v) => {
-              if (v === "") return <></>
+              if (v.trim() === "") return null
               return <li key={v}>{v}</li>
             })}
           </ul>
@@ -144,14 +147,10 @@ const Mobile = (props: DetailProps) => {
       <div className="h-8" />
 
       <ul className="text-mBody3 li-marker-style flex list-disc flex-col gap-4 pl-10">
-        {article.summary.split("\n\n").map((v) => {
-          if (v === "") return <></>
+        {article.summary.split("\n").map((v) => {
+          if (v.trim() === "") return null
           return <li key={v}>{v}</li>
         })}
-
-        {/* <li className="">2024년 개인정보 보호 트렌드: 광고 업계 변화</li>
-        <li className="">구글 프라이버시 샌드박스: 새로운 개인정보 보호 방식 도입, 서드 파티 쿠키</li>
-        <li className="">40대 이상 사용자 비중 증가하며, 주요 앱은 캐시워크, 타임스프레드, 발로소발로소득발로소득</li> */}
       </ul>
 
       <div className="h-16" />

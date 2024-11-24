@@ -44,7 +44,7 @@ const Template = () => {
           ))}
 
           <div
-            className="bg-gray-90 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
+            className="bg-gray-80 absolute -z-10 h-48 w-full rounded-full transition-all duration-300 ease-in-out"
             style={{ top: currentIndex * 56 }}
           />
         </div>
@@ -53,7 +53,7 @@ const Template = () => {
       <main className="w-full">
         <h1 className="text-h2 text-gray-90 py-8">뉴스레터 랭킹</h1>
 
-        <div className="h-12 xl:h-20" />
+        <div className="h-12 xl:h-40" />
 
         <div className="block xl:hidden">
           <div className="max-w-[calc(100vw-40px)] flex gap-4 overflow-x-auto">
@@ -107,7 +107,7 @@ const Template = () => {
                           sizes="80px"
                           alt="next"
                           fill
-                          className="rounded-8 aspect-square object-cover"
+                          className="rounded-8 aspect-square object-contain bg-white"
                         />
                       </div>
 
@@ -122,7 +122,7 @@ const Template = () => {
                         </div>
 
                         <div className="flex gap-6 items-center mt-4">
-                          <p className="text-mElement3 text-gray-70">발행인</p>
+                          <p className="text-mElement3 text-gray-70">{item.publisher_main}</p>
                           <p className="text-mElement3 text-[#AEBDE7]">
                             {item.keywords?.[0]?.keyword_name} · {`${_formatSubscriberCount(item.subscriber)} 구독 중`}
                           </p>
@@ -151,7 +151,7 @@ const Template = () => {
               return (
                 <React.Fragment key={item.id}>
                   <div
-                    className={classNames("text-[18px] font-bold", {
+                    className={classNames("text-[18px] font-bold text-gray-70", {
                       "text-primary": isRank,
                     })}
                   >
@@ -166,19 +166,19 @@ const Template = () => {
                     }}
                   >
                     <div className="flex gap-8 h-fit items-center">
-                      <div className="size-48 p-1 shrink-0 overflow-hidden rounded-8 flex justify-center items-center">
+                      <div className="size-48 p-1 bg-white shrink-0 overflow-hidden rounded-8 flex justify-center items-center">
                         <Image src={item.thumbnail} className="object-cover" width={48} height={48} alt={item.name} />
                       </div>
                       <div className="flex gap-4 items-center">
-                        <p className="text-body2 text-gray-70">{item.name}</p>
-                        <p className="text-gray-60 text-element1">발행인1</p>
+                        <p className="text-body1 text-gray-70">{item.name}</p>
+                        <p className="text-gray-60 text-element1">{item.publisher_main}</p>
                         {isRank && <CrownIcon className="size-12" />}
                       </div>
                     </div>
                   </Link>
 
-                  <p className="text-body3 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
-                  <p className="text-body3 text-gray-70 text-end">{_formatSubscriberCount(item.subscriber)}</p>
+                  <p className="text-body4 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
+                  <p className="text-body4 text-gray-70 text-end">{_formatSubscriberCount(item.subscriber)}</p>
 
                   <div className="col-span-4 h-px bg-gray-50 my-12" />
                 </React.Fragment>
@@ -206,6 +206,7 @@ const Template = () => {
 export default Template
 
 const _formatSubscriberCount = (count: number) => {
+  if (count == 0) return "-"
   if (count >= 10000) {
     return Math.floor(count / 10000) + "만"
   }

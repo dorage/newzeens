@@ -24,7 +24,7 @@ const NewsLetterRanking = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h3 className="text-mH3">뉴스레터 랭킹</h3>
+        <h3 className="text-mH3 text-gray-80 xl:text-h2">뉴스레터 랭킹</h3>
 
         <Link href="/ranking" className="text-mBody4 text-gray-60">
           더보기
@@ -78,14 +78,15 @@ const NewsLetterRanking = () => {
                         sizes="80px"
                         alt="next"
                         fill
-                        className="rounded-8 aspect-square object-cover"
+                        className="rounded-8 aspect-square object-contain bg-bg"
                       />
                     </div>
 
                     <div>
                       <p className="text-mBody2">{item.name}</p>
                       <p className="text-mElement1">
-                        {item.keywords?.[0]?.keyword_name} · {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                        {item.keywords?.[0]?.keyword_name}
+                        {item.subscriber > 0 && <span>· {`${_formatSubscriberCount(item.subscriber)} 구독`}</span>}
                       </p>
                     </div>
                   </div>
@@ -135,7 +136,7 @@ const NewsLetterRanking = () => {
                         sizes="80px"
                         alt="next"
                         fill
-                        className="rounded-8 aspect-square object-cover"
+                        className="rounded-8 aspect-square bg-bg object-contain"
                       />
                     </div>
 
@@ -145,14 +146,16 @@ const NewsLetterRanking = () => {
                       {isRank && <CrownIcon className="size-12" />}
                       <p className="text-mElement1 text-gray-70">{item.keywords?.[0]?.keyword_name}</p>
 
-                      <div
-                        className={classNames("border rounded-full py-4 px-6 text-element4", {
-                          "text-gray-65 border-gray-65": !isRank,
-                          "text-primary border-primary": isRank,
-                        })}
-                      >
-                        {`${_formatSubscriberCount(item.subscriber)} 구독`}
-                      </div>
+                      {item.subscriber > 0 && (
+                        <div
+                          className={classNames("border rounded-full py-4 px-6 text-element4", {
+                            "text-gray-65 border-gray-65": !isRank,
+                            "text-primary border-primary": isRank,
+                          })}
+                        >
+                          {`${_formatSubscriberCount(item.subscriber)} 구독`}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </Link>
