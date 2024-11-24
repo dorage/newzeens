@@ -27,7 +27,7 @@ const ArticleInfo = () => {
       <Mobile publisher={data.publisher} article={data.article} />
 
       {related_articles.length > 0 && (
-        <div className="bg-bg max-h-screen px-20 py-40">
+        <div className="bg-bg xl:max-h-screen px-20 py-40">
           <h4 className="text-mH3">관련 아티클</h4>
 
           <div className="h-16" />
@@ -53,7 +53,7 @@ const PC = (props: DetailProps) => {
   const { article, publisher } = props
 
   return (
-    <div className="hidden p-40 xl:block h-full">
+    <div className="hidden p-40 xl:block h-full bg-white">
       <div className="gap-[66px] flex justify-between">
         <div className="flex flex-col gap-12">
           <h3 className="text-h4 flex items-center">

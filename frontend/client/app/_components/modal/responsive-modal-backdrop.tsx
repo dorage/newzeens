@@ -57,7 +57,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
         </div>
 
         {/* <div> */}
-        <div className="bg-white xl:rounded-b-[14px] h-[calc(100vh-7.2rem-4.8rem)] overflow-y-auto scroll-smooth xl:max-h-[75vh]">
+        <div className="bg-bg xl:rounded-b-[14px] h-[calc(100vh-7.2rem-4.8rem)] overflow-y-auto scroll-smooth xl:max-h-[75vh]">
           {children}
         </div>
         {/* </div> */}
