@@ -206,6 +206,7 @@ const Template = () => {
 export default Template
 
 const _formatSubscriberCount = (count: number) => {
+  if (count == 0) return "-"
   if (count >= 10000) {
     return Math.floor(count / 10000) + "만"
   }
