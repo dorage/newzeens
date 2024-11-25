@@ -6,6 +6,7 @@ import Template from "./_components/template"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import getQueryClient from "../_utils/query-client"
 import { Metadata } from "next"
+import rankApi, { JOB_KEYWORD_GROUP } from "../_apis/rank"
 
 interface RankingPageParams {}
 
@@ -15,6 +16,11 @@ export const metadata: Metadata = {
 
 const RankingPage = async (_props: NextPageProps<RankingPageParams>) => {
   const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ["keyword", JOB_KEYWORD_GROUP],
+    queryFn: rankApi.getKeyword,
+  })
 
   const params = { limit: RANK_LIMIT, keyword_id: undefined }
   await queryClient.prefetchInfiniteQuery({

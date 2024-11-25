@@ -1,6 +1,6 @@
 "use client"
 
-import { RANK_LIMIT, useGetRank } from "@/app/_actions/rank/get-rank"
+import { RANK_LIMIT, useGetKeywordQuery, useGetRank } from "@/app/_actions/rank/get-rank"
 import IconRender, { ICON_LIST } from "@/app/_components/atoms/icon-render"
 import KeywordTab from "@/app/_components/atoms/keyword-tab"
 import { sendEvent } from "@/app/_meta/track"
@@ -13,12 +13,15 @@ import React, { useState } from "react"
 const Template = () => {
   const [current, setCurrent] = useState("전체")
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [keywordId, setKeywordId] = useState(0)
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetRank({
     limit: RANK_LIMIT,
-    keyword_id: currentIndex === 0 ? undefined : currentIndex,
+    keyword_id: keywordId === 0 ? undefined : keywordId,
   })
 
+  const { data: keywordData = [] } = useGetKeywordQuery()
+  const keywordDataWithAll = [{ name: "전체", id: 0 }, ...keywordData]
   const flatMap = (data?.pages ?? []).flatMap((page) => page)
 
   return (
@@ -26,7 +29,7 @@ const Template = () => {
       {/* pc only */}
       <div className="hidden xl:block">
         <div className="w-[224px] relative flex flex-col gap-8">
-          {ICON_LIST.map((tab, i) => (
+          {keywordDataWithAll.map((tab, i) => (
             <div
               key={tab.name}
               className={classNames(
@@ -36,6 +39,7 @@ const Template = () => {
               onClick={() => {
                 setCurrent(tab.name)
                 setCurrentIndex(i)
+                setKeywordId(tab.id)
               }}
             >
               <IconRender index={i} isSelected={current === tab.name} />
@@ -57,13 +61,14 @@ const Template = () => {
 
         <div className="block xl:hidden">
           <div className="max-w-[calc(100vw-40px)] flex gap-4 overflow-x-auto">
-            {ICON_LIST.map((tab, i) => (
+            {keywordDataWithAll.map((tab, i) => (
               <KeywordTab
                 key={tab.name}
                 isSelected={tab.name === current}
                 onClick={() => {
                   setCurrent(tab.name)
                   setCurrentIndex(i)
+                  setKeywordId(tab.id)
                 }}
                 className={classNames("border-transparent", {
                   "bg-white": tab.name !== current,
