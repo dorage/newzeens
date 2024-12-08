@@ -96,7 +96,7 @@ const PC = (props: DetailProps) => {
           <Image
             src={publisher.thumbnail || "https://via.placeholder.com/100"}
             alt={`${publisher.name || "테스트"} 프로필`}
-            className="size-48 shrink-0 rounded-full object-contain border border-gray-40"
+            className="size-48 shrink-0 rounded-full object-cover bg-white border border-gray-40"
             width={100}
             height={100}
           />
@@ -176,7 +176,7 @@ const Mobile = (props: DetailProps) => {
         <Image
           src={publisher.thumbnail || "https://via.placeholder.com/100"}
           alt={`${publisher.name || "테스트"} 프로필`}
-          className="size-48 shrink-0 rounded-full object-contain border border-gray-40"
+          className="size-48 shrink-0 rounded-full object-cover bg-white border border-gray-40"
           width={100}
           height={100}
         />
