@@ -69,8 +69,3 @@ const RecommendArticles = (props: RecommendArticlesProps) => {
 }
 
 export default RecommendArticles
-
-export const RecommendArticlesFallback = (props: any) => {
-  console.log(`props`, props)
-  return <div>gdgd</div>
-}

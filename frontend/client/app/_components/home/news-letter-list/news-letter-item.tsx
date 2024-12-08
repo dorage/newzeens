@@ -38,7 +38,6 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
   return (
     <Link
       href={`/news-letter/${publisher.id}`}
-      className="flex flex-col gap-12"
       onClick={() => {
         sendEvent("news-letter_click", {
           ...publisher,
@@ -58,7 +57,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
           })}
         >
           <Image
-            className="rounded-12 xl:rounded-16 bg-white object-contain xl:object-cover"
+            className="rounded-12 xl:rounded-16 bg-white object-contain xl:object-cover border border-gray-40"
             src={publisher.thumbnail || "https://via.placeholder.com/300"}
             fill
             alt="테스트이미지"
@@ -75,6 +74,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
           </p>
         </div>
 
+        <div className="h-12" />
         <div className="flex flex-wrap items-center gap-4">
           {filterByKeywordGroup(publisher.keywords, ["직무", "목적", "고유", "해외"])?.map((v) => {
             return (

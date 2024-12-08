@@ -22,6 +22,7 @@ export interface Article {
   summary: string
   thumbnail: string
   created_at: string
+  url: string
 }
 
 export interface RelatedPublisher {

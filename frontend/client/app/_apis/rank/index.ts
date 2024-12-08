@@ -7,6 +7,17 @@ export interface RankParams {
   keyword_id?: number
 }
 
+export interface Keyword {
+  id: number
+  name: string
+  is_enabled: boolean
+  keyword_group_id: number
+  created_at: string
+}
+
+// 어드민에 등록된 직무 키워드
+export const JOB_KEYWORD_GROUP = 9
+
 const rankApi = {
   getRank: async ({ keyword_id, last_publisher_id, limit }: RankParams) => {
     const params = new URLSearchParams()
@@ -17,6 +28,14 @@ const rankApi = {
 
     const data = await fetch(`/rank?${params.toString()}`)
     return data
+  },
+
+  /**
+   * 직무 키워드 조회
+   */
+  getKeyword: async () => {
+    const data = await fetch(`/keyword-group/${JOB_KEYWORD_GROUP}/keyword`)
+    return data as Keyword[]
   },
 }
 

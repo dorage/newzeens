@@ -1,5 +1,5 @@
-import rankApi, { RankParams } from "@/app/_apis/rank"
-import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query"
+import rankApi, { JOB_KEYWORD_GROUP, RankParams } from "@/app/_apis/rank"
+import { keepPreviousData, useInfiniteQuery, useQueries, useQuery } from "@tanstack/react-query"
 
 export const getRank = async (params: RankParams) => {
   const result = await rankApi.getRank({ ...params })
@@ -18,5 +18,15 @@ export const useGetRank = (params: RankParams) => {
     },
     initialPageParam: undefined, // 처음에 undefined로 시작 (첫 페이지 요청)
     placeholderData: keepPreviousData,
+
+    staleTime: 1000 * 60,
+  })
+}
+
+// 직무 키워드 조회
+export const useGetKeywordQuery = () => {
+  return useQuery({
+    queryKey: ["keyword", JOB_KEYWORD_GROUP],
+    queryFn: () => rankApi.getKeyword(),
   })
 }

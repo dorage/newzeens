@@ -16,7 +16,7 @@ const LastArticles = () => {
 
   return (
     <div className="flex flex-col gap-16 px-20 py-40 xl:px-40 bg-white">
-      <h4 className="text-gray-80 text-h2">지난 아티클</h4>
+      <h4 className="text-gray-80 text-h2">지난 글</h4>
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
         {data?.recent_articles?.map((v) => {
@@ -42,7 +42,7 @@ const LastArticles = () => {
                     width={600}
                     height={400}
                     alt="테스트이미지"
-                    className="rounded-16 aspect-video shrink-0"
+                    className="rounded-16 aspect-video shrink-0 border border-gray-40"
                     draggable={false}
                   />
 

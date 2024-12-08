@@ -2,7 +2,7 @@
 
 import React from "react"
 import Image from "next/image"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import Button from "../atoms/button"
 import LabelTag from "../atoms/label-tag"
 import ShareButton from "../atoms/share-button"
@@ -11,6 +11,8 @@ import { Article, Publisher } from "@/app/_apis/detail-page/index.type"
 import { useGetArticleQuery } from "@/app/_hooks/use-client-get-queries"
 import { dateFormat } from "@/app/_utils/date-format"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
+import { sendEvent } from "@/app/_meta/track"
+import { normalizeUrl } from "@/app/_utils/https"
 
 const ArticleInfo = () => {
   const { article } = useParams()
@@ -28,7 +30,7 @@ const ArticleInfo = () => {
 
       {related_articles.length > 0 && (
         <div className="bg-bg xl:max-h-screen px-20 py-40">
-          <h4 className="text-mH3">관련 아티클</h4>
+          <h4 className="text-mH3">관련 뉴스레터 요약</h4>
 
           <div className="h-16" />
           <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
@@ -51,6 +53,7 @@ interface DetailProps {
 
 const PC = (props: DetailProps) => {
   const { article, publisher } = props
+  const router = useRouter()
 
   return (
     <div className="hidden p-40 xl:block h-full bg-white">
@@ -73,7 +76,7 @@ const PC = (props: DetailProps) => {
 
         <div className="rounded-16 relative h-[118px] w-[209px] shrink-0">
           <Image
-            className="rounded-16 object-cover"
+            className="rounded-16 object-cover border border-gray-40"
             src={article.thumbnail || "https://via.placeholder.com/400"}
             sizes="300px"
             fill
@@ -85,11 +88,17 @@ const PC = (props: DetailProps) => {
       <div className="h-28" />
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-8">
+        <button
+          className="flex gap-8"
+          onClick={() => {
+            router.back()
+            setTimeout(() => router.push(`/news-letter/${publisher.id}`), 100)
+          }}
+        >
           <Image
             src={publisher.thumbnail || "https://via.placeholder.com/100"}
-            alt="테스트 프로필"
-            className="size-48 shrink-0 rounded-full object-cover"
+            alt={`${publisher.name || "테스트"} 프로필`}
+            className="size-48 shrink-0 rounded-full object-cover bg-white border border-gray-40"
             width={100}
             height={100}
           />
@@ -104,15 +113,29 @@ const PC = (props: DetailProps) => {
 
             <div className="text-gray-60 text-element2">{publisher.description}</div>
           </div>
-        </div>
+        </button>
         <div className="flex items-center justify-center gap-8">
-          <Button color="white" className="w-[101px] h-40">
-            <span className="text-body7 text-gray-80">{publisher.publisher_main}</span>
+          <Button
+            color="white"
+            className="w-[101px] h-40"
+            onClick={() => {
+              globalThis?.window?.open(normalizeUrl(article.url) || publisher.url_main, "_blank")
+              sendEvent("pc_article_open", {
+                url: article.url || publisher.url_main,
+              })
+            }}
+          >
+            <span className="text-body7 text-gray-80">본문</span>
           </Button>
           <Button
             color="primary"
             className="w-[101px] h-40"
-            onClick={() => globalThis?.window?.open(publisher.url_subscribe)}
+            onClick={() => {
+              globalThis?.window?.open(publisher?.url_subscribe)
+              sendEvent("pc_subscribe_open", {
+                url: publisher?.url_subscribe,
+              })
+            }}
           >
             <span className="text-body7 text-white">구독</span>
           </Button>
@@ -124,16 +147,17 @@ const PC = (props: DetailProps) => {
 
 const Mobile = (props: DetailProps) => {
   const { article, publisher } = props
+  const router = useRouter()
 
   return (
     <div className="block bg-white px-20 py-40 xl:hidden">
       <div className="rounded-20 relative shrink-0">
         <Image
-          className="rounded-20 aspect-video w-full object-cover"
+          className="rounded-20 aspect-video w-full object-cover border border-gray-40"
           src={article.thumbnail || "https://via.placeholder.com/400"}
           width={300}
           height={300}
-          alt="테스트 이미지"
+          alt={`${article.title || "테스트"} 이미지`}
         />
       </div>
 
@@ -158,11 +182,17 @@ const Mobile = (props: DetailProps) => {
       <span className="text-mElement1 text-gray-50">{dateFormat(article?.created_at) + " 전"}</span>
 
       <div className="h-32" />
-      <div className="flex gap-8">
+      <button
+        className="flex gap-8"
+        onClick={() => {
+          router.back()
+          setTimeout(() => router.push(`/news-letter/${publisher.id}`), 100)
+        }}
+      >
         <Image
           src={publisher.thumbnail || "https://via.placeholder.com/100"}
-          alt="테스트 프로필"
-          className="size-48 shrink-0 rounded-full object-cover"
+          alt={`${publisher.name || "테스트"} 프로필`}
+          className="size-48 shrink-0 rounded-full object-cover bg-white border border-gray-40"
           width={100}
           height={100}
         />
@@ -177,22 +207,30 @@ const Mobile = (props: DetailProps) => {
 
           <div className="text-gray-60 text-mElement1">{publisher.description}</div>
         </div>
-      </div>
+      </button>
       <div className="h-16" />
       <div className="flex w-full items-center justify-center gap-8">
         <Button
           color="white"
           className="h-40 flex-1"
           onClick={() => {
-            globalThis?.window?.open(publisher.url_main, "_blank")
+            globalThis?.window?.open(normalizeUrl(article.url) || publisher.url_main, "_blank")
+            sendEvent("mobile_article_open", {
+              url: article.url || publisher.url_main,
+            })
           }}
         >
-          <span className="text-mBody5 text-gray-80">{publisher.publisher_main} 홈</span>
+          <span className="text-mBody5 text-gray-80">본문 바로가기</span>
         </Button>
         <Button
           color="primary"
           className="h-40 flex-1"
-          onClick={() => globalThis?.window?.open(publisher.url_subscribe)}
+          onClick={() => {
+            globalThis?.window?.open(publisher?.url_subscribe)
+            sendEvent("mobile_subscribe_open", {
+              url: publisher?.url_subscribe,
+            })
+          }}
         >
           <span className="text-mBody5 text-white">구독</span>
         </Button>
