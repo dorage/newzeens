@@ -45,7 +45,7 @@ const ArticleCard = (props: ArticleCardProps) => {
           {article.publisher.name} · {dateFormat(article.created_at) + " 전"}
         </p>
         <div className="mt-16 flex flex-wrap gap-4">
-          {filterByKeywordGroup(article.publisher.keywords, ["목적", "고유"]).map((keyword) => {
+          {filterByKeywordGroup(article.publisher.keywords, ["직무", "목적", "고유"]).map((keyword) => {
             return (
               <LabelTag key={keyword.keyword_id} isSelected={false}>
                 {keyword.keyword_name}

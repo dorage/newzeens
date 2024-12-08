@@ -11,7 +11,6 @@ import { Article, Publisher } from "@/app/_apis/detail-page/index.type"
 import { useGetArticleQuery } from "@/app/_hooks/use-client-get-queries"
 import { dateFormat } from "@/app/_utils/date-format"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
-import Link from "next/link"
 
 const ArticleInfo = () => {
   const { article } = useParams()
@@ -87,16 +86,20 @@ const PC = (props: DetailProps) => {
       <div className="h-28" />
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-8">
-          <Link href={`/news-letter/${publisher.id}`} onClick={() => router.refresh()}>
-            <Image
-              src={publisher.thumbnail || "https://via.placeholder.com/100"}
-              alt={`${publisher.name || "테스트"} 프로필`}
-              className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
-              width={100}
-              height={100}
-            />
-          </Link>
+        <button
+          className="flex gap-8"
+          onClick={() => {
+            router.back()
+            setTimeout(() => router.push(`/news-letter/${publisher.id}`), 100)
+          }}
+        >
+          <Image
+            src={publisher.thumbnail || "https://via.placeholder.com/100"}
+            alt={`${publisher.name || "테스트"} 프로필`}
+            className="size-48 shrink-0 rounded-full object-contain border border-gray-40"
+            width={100}
+            height={100}
+          />
 
           <div className="flex flex-col justify-center gap-6">
             <div className="flex items-center gap-6">
@@ -108,7 +111,7 @@ const PC = (props: DetailProps) => {
 
             <div className="text-gray-60 text-element2">{publisher.description}</div>
           </div>
-        </div>
+        </button>
         <div className="flex items-center justify-center gap-8">
           <Button color="white" className="w-[101px] h-40">
             <span className="text-body7 text-gray-80">{publisher.publisher_main}</span>
@@ -163,16 +166,20 @@ const Mobile = (props: DetailProps) => {
       <span className="text-mElement1 text-gray-50">{dateFormat(article?.created_at) + " 전"}</span>
 
       <div className="h-32" />
-      <div className="flex gap-8">
-        <Link href={`/news-letter/${publisher.id}`} className="shrink-0" onClick={() => router.refresh()}>
-          <Image
-            src={publisher.thumbnail || "https://via.placeholder.com/100"}
-            alt={`${publisher.name || "테스트"} 프로필`}
-            className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
-            width={100}
-            height={100}
-          />
-        </Link>
+      <button
+        className="flex gap-8"
+        onClick={() => {
+          router.back()
+          setTimeout(() => router.push(`/news-letter/${publisher.id}`), 100)
+        }}
+      >
+        <Image
+          src={publisher.thumbnail || "https://via.placeholder.com/100"}
+          alt={`${publisher.name || "테스트"} 프로필`}
+          className="size-48 shrink-0 rounded-full object-contain border border-gray-40"
+          width={100}
+          height={100}
+        />
 
         <div className="flex flex-col justify-center gap-6">
           <div className="flex items-center gap-6">
@@ -184,7 +191,7 @@ const Mobile = (props: DetailProps) => {
 
           <div className="text-gray-60 text-mElement1">{publisher.description}</div>
         </div>
-      </div>
+      </button>
       <div className="h-16" />
       <div className="flex w-full items-center justify-center gap-8">
         <Button
