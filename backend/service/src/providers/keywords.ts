@@ -4,6 +4,7 @@ const selectAll = (keywordGroupId: number) => {
   return Ky.selectFrom("keywords")
     .selectAll()
     .where("keyword_group_id", "=", keywordGroupId)
+    .orderBy("id", "asc")
     .execute();
 };
 
