@@ -32,7 +32,7 @@ const ArticleCard = (props: ArticleCardProps) => {
         />
         <div className="relative aspect-video w-full shrink-0">
           <Image
-            className="rounded-12 object-cover bg-white"
+            className="rounded-12 object-cover bg-white border border-gray-40"
             sizes="600px"
             fill
             src={article.thumbnail || "https://via.placeholder.com/300"}

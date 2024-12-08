@@ -57,7 +57,7 @@ const NewsLetterItem = (props: NewsLetterItemProps) => {
           })}
         >
           <Image
-            className="rounded-12 xl:rounded-16 bg-white object-contain xl:object-cover"
+            className="rounded-12 xl:rounded-16 bg-white object-contain xl:object-cover border border-gray-40"
             src={publisher.thumbnail || "https://via.placeholder.com/300"}
             fill
             alt="테스트이미지"

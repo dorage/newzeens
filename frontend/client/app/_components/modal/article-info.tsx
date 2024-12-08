@@ -73,7 +73,7 @@ const PC = (props: DetailProps) => {
 
         <div className="rounded-16 relative h-[118px] w-[209px] shrink-0">
           <Image
-            className="rounded-16 object-cover"
+            className="rounded-16 object-cover border border-gray-40"
             src={article.thumbnail || "https://via.placeholder.com/400"}
             sizes="300px"
             fill
@@ -89,7 +89,7 @@ const PC = (props: DetailProps) => {
           <Image
             src={publisher.thumbnail || "https://via.placeholder.com/100"}
             alt="테스트 프로필"
-            className="size-48 shrink-0 rounded-full object-cover"
+            className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
             width={100}
             height={100}
           />
@@ -129,7 +129,7 @@ const Mobile = (props: DetailProps) => {
     <div className="block bg-white px-20 py-40 xl:hidden">
       <div className="rounded-20 relative shrink-0">
         <Image
-          className="rounded-20 aspect-video w-full object-cover"
+          className="rounded-20 aspect-video w-full object-cover border border-gray-40"
           src={article.thumbnail || "https://via.placeholder.com/400"}
           width={300}
           height={300}
@@ -162,7 +162,7 @@ const Mobile = (props: DetailProps) => {
         <Image
           src={publisher.thumbnail || "https://via.placeholder.com/100"}
           alt="테스트 프로필"
-          className="size-48 shrink-0 rounded-full object-cover"
+          className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
           width={100}
           height={100}
         />

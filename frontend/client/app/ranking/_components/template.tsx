@@ -112,7 +112,7 @@ const Template = () => {
                           sizes="80px"
                           alt="next"
                           fill
-                          className="rounded-8 aspect-square object-contain bg-white"
+                          className="rounded-8 aspect-square object-contain bg-white border border-gray-40"
                         />
                       </div>
 
@@ -171,7 +171,7 @@ const Template = () => {
                     }}
                   >
                     <div className="flex gap-8 h-fit items-center">
-                      <div className="size-48 p-1 bg-white shrink-0 overflow-hidden rounded-8 flex justify-center items-center">
+                      <div className="size-48 p-1 bg-white shrink-0 overflow-hidden rounded-8 flex justify-center items-center border border-gray-40">
                         <Image src={item.thumbnail} className="object-cover" width={48} height={48} alt={item.name} />
                       </div>
                       <div className="flex gap-4 items-center">

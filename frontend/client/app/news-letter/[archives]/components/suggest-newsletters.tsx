@@ -44,7 +44,7 @@ const SuggestNewsLetters = () => {
                     width={600}
                     height={400}
                     alt="테스트이미지"
-                    className="rounded-16 aspect-video shrink-0 bg-white"
+                    className="rounded-16 aspect-video shrink-0 bg-white border border-gray-40"
                     quality={90}
                   />
 

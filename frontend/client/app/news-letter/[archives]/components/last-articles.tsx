@@ -42,7 +42,7 @@ const LastArticles = () => {
                     width={600}
                     height={400}
                     alt="테스트이미지"
-                    className="rounded-16 aspect-video shrink-0"
+                    className="rounded-16 aspect-video shrink-0 border border-gray-40"
                     draggable={false}
                   />
 

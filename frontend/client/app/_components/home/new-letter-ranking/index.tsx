@@ -82,7 +82,7 @@ const NewsLetterRanking = () => {
                         sizes="80px"
                         alt="next"
                         fill
-                        className="rounded-8 aspect-square object-contain bg-bg"
+                        className="rounded-8 aspect-square object-contain bg-bg border border-gray-40"
                       />
                     </div>
 
@@ -140,7 +140,7 @@ const NewsLetterRanking = () => {
                         sizes="80px"
                         alt="next"
                         fill
-                        className="rounded-8 aspect-square bg-bg object-contain"
+                        className="rounded-8 aspect-square bg-bg object-contain border border-gray-40"
                       />
                     </div>
 
