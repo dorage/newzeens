@@ -18,7 +18,7 @@ const SuggestNewsLetters = () => {
 
   return (
     <div className="flex flex-col gap-16 px-20 py-40 xl:px-40 pb-5 xl:pb-40 bg-white">
-      <h4 className="text-gray-80 text-h2">추천 뉴스레터</h4>
+      <h4 className="text-gray-80 text-h2">비슷한 뉴스레터</h4>
 
       <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 xl:grid-cols-4">
         {data?.related_publishers?.map((v) => {

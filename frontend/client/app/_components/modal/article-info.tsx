@@ -28,7 +28,7 @@ const ArticleInfo = () => {
 
       {related_articles.length > 0 && (
         <div className="bg-bg xl:max-h-screen px-20 py-40">
-          <h4 className="text-mH3">관련 글</h4>
+          <h4 className="text-mH3">관련 뉴스레터 요약</h4>
 
           <div className="h-16" />
           <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
@@ -113,8 +113,14 @@ const PC = (props: DetailProps) => {
           </div>
         </button>
         <div className="flex items-center justify-center gap-8">
-          <Button color="white" className="w-[101px] h-40">
-            <span className="text-body7 text-gray-80">{publisher.publisher_main}</span>
+          <Button
+            color="white"
+            className="w-[101px] h-40"
+            onClick={() => {
+              globalThis?.window?.open(publisher.url_main, "_blank")
+            }}
+          >
+            <span className="text-body7 text-gray-80">본문</span>
           </Button>
           <Button
             color="primary"
