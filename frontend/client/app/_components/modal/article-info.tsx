@@ -2,7 +2,7 @@
 
 import React from "react"
 import Image from "next/image"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import Button from "../atoms/button"
 import LabelTag from "../atoms/label-tag"
 import ShareButton from "../atoms/share-button"
@@ -11,6 +11,7 @@ import { Article, Publisher } from "@/app/_apis/detail-page/index.type"
 import { useGetArticleQuery } from "@/app/_hooks/use-client-get-queries"
 import { dateFormat } from "@/app/_utils/date-format"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
+import Link from "next/link"
 
 const ArticleInfo = () => {
   const { article } = useParams()
@@ -28,7 +29,7 @@ const ArticleInfo = () => {
 
       {related_articles.length > 0 && (
         <div className="bg-bg xl:max-h-screen px-20 py-40">
-          <h4 className="text-mH3">관련 아티클</h4>
+          <h4 className="text-mH3">관련 글</h4>
 
           <div className="h-16" />
           <div className="flex flex-col gap-28 md:grid md:grid-cols-4 md:gap-16">
@@ -51,6 +52,7 @@ interface DetailProps {
 
 const PC = (props: DetailProps) => {
   const { article, publisher } = props
+  const router = useRouter()
 
   return (
     <div className="hidden p-40 xl:block h-full bg-white">
@@ -86,13 +88,15 @@ const PC = (props: DetailProps) => {
 
       <div className="flex items-center justify-between">
         <div className="flex gap-8">
-          <Image
-            src={publisher.thumbnail || "https://via.placeholder.com/100"}
-            alt="테스트 프로필"
-            className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
-            width={100}
-            height={100}
-          />
+          <Link href={`/news-letter/${publisher.id}`} onClick={() => router.refresh()}>
+            <Image
+              src={publisher.thumbnail || "https://via.placeholder.com/100"}
+              alt={`${publisher.name || "테스트"} 프로필`}
+              className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
+              width={100}
+              height={100}
+            />
+          </Link>
 
           <div className="flex flex-col justify-center gap-6">
             <div className="flex items-center gap-6">
@@ -124,6 +128,7 @@ const PC = (props: DetailProps) => {
 
 const Mobile = (props: DetailProps) => {
   const { article, publisher } = props
+  const router = useRouter()
 
   return (
     <div className="block bg-white px-20 py-40 xl:hidden">
@@ -133,7 +138,7 @@ const Mobile = (props: DetailProps) => {
           src={article.thumbnail || "https://via.placeholder.com/400"}
           width={300}
           height={300}
-          alt="테스트 이미지"
+          alt={`${article.title || "테스트"} 이미지`}
         />
       </div>
 
@@ -159,13 +164,15 @@ const Mobile = (props: DetailProps) => {
 
       <div className="h-32" />
       <div className="flex gap-8">
-        <Image
-          src={publisher.thumbnail || "https://via.placeholder.com/100"}
-          alt="테스트 프로필"
-          className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
-          width={100}
-          height={100}
-        />
+        <Link href={`/news-letter/${publisher.id}`} className="shrink-0" onClick={() => router.refresh()}>
+          <Image
+            src={publisher.thumbnail || "https://via.placeholder.com/100"}
+            alt={`${publisher.name || "테스트"} 프로필`}
+            className="size-48 shrink-0 rounded-full object-cover border border-gray-40"
+            width={100}
+            height={100}
+          />
+        </Link>
 
         <div className="flex flex-col justify-center gap-6">
           <div className="flex items-center gap-6">
@@ -187,7 +194,7 @@ const Mobile = (props: DetailProps) => {
             globalThis?.window?.open(publisher.url_main, "_blank")
           }}
         >
-          <span className="text-mBody5 text-gray-80">{publisher.publisher_main} 홈</span>
+          <span className="text-mBody5 text-gray-80">본문 바로가기</span>
         </Button>
         <Button
           color="primary"
