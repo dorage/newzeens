@@ -11,6 +11,7 @@ import { Article, Publisher } from "@/app/_apis/detail-page/index.type"
 import { useGetArticleQuery } from "@/app/_hooks/use-client-get-queries"
 import { dateFormat } from "@/app/_utils/date-format"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
+import { sendEvent } from "@/app/_meta/track"
 
 const ArticleInfo = () => {
   const { article } = useParams()
@@ -117,7 +118,10 @@ const PC = (props: DetailProps) => {
             color="white"
             className="w-[101px] h-40"
             onClick={() => {
-              globalThis?.window?.open(publisher.url_main, "_blank")
+              globalThis?.window?.open(article.url || publisher.url_main, "_blank")
+              sendEvent("pc_article_open", {
+                url: article.url || publisher.url_main,
+              })
             }}
           >
             <span className="text-body7 text-gray-80">본문</span>
@@ -125,7 +129,12 @@ const PC = (props: DetailProps) => {
           <Button
             color="primary"
             className="w-[101px] h-40"
-            onClick={() => globalThis?.window?.open(publisher.url_subscribe)}
+            onClick={() => {
+              globalThis?.window?.open(publisher?.url_subscribe)
+              sendEvent("pc_subscribe_open", {
+                url: publisher?.url_subscribe,
+              })
+            }}
           >
             <span className="text-body7 text-white">구독</span>
           </Button>
@@ -204,7 +213,10 @@ const Mobile = (props: DetailProps) => {
           color="white"
           className="h-40 flex-1"
           onClick={() => {
-            globalThis?.window?.open(publisher.url_main, "_blank")
+            globalThis?.window?.open(article.url || publisher.url_main, "_blank")
+            sendEvent("mobile_article_open", {
+              url: article.url || publisher.url_main,
+            })
           }}
         >
           <span className="text-mBody5 text-gray-80">본문 바로가기</span>
@@ -212,7 +224,12 @@ const Mobile = (props: DetailProps) => {
         <Button
           color="primary"
           className="h-40 flex-1"
-          onClick={() => globalThis?.window?.open(publisher.url_subscribe)}
+          onClick={() => {
+            globalThis?.window?.open(publisher?.url_subscribe)
+            sendEvent("mobile_subscribe_open", {
+              url: publisher?.url_subscribe,
+            })
+          }}
         >
           <span className="text-mBody5 text-white">구독</span>
         </Button>
