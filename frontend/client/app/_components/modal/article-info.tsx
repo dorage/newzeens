@@ -12,6 +12,7 @@ import { useGetArticleQuery } from "@/app/_hooks/use-client-get-queries"
 import { dateFormat } from "@/app/_utils/date-format"
 import { filterByKeywordGroup } from "@/app/_utils/keyword"
 import { sendEvent } from "@/app/_meta/track"
+import { normalizeUrl } from "@/app/_utils/https"
 
 const ArticleInfo = () => {
   const { article } = useParams()
@@ -118,7 +119,7 @@ const PC = (props: DetailProps) => {
             color="white"
             className="w-[101px] h-40"
             onClick={() => {
-              globalThis?.window?.open(article.url || publisher.url_main, "_blank")
+              globalThis?.window?.open(normalizeUrl(article.url) || publisher.url_main, "_blank")
               sendEvent("pc_article_open", {
                 url: article.url || publisher.url_main,
               })
@@ -213,7 +214,7 @@ const Mobile = (props: DetailProps) => {
           color="white"
           className="h-40 flex-1"
           onClick={() => {
-            globalThis?.window?.open(article.url || publisher.url_main, "_blank")
+            globalThis?.window?.open(normalizeUrl(article.url) || publisher.url_main, "_blank")
             sendEvent("mobile_article_open", {
               url: article.url || publisher.url_main,
             })
