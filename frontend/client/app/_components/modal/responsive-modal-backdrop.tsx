@@ -48,7 +48,7 @@ const ResponsiveModalBackdrop = (props: ResponsiveModalBackdropProps) => {
         <div className="bg-primary-2 text-mBody2 xl:text-body3 rounded-t-[14px] flex h-[48px] items-center justify-between text-gray-50 xl:h-48">
           <div className="w-40" />
           <div className="flex items-center gap-4">
-            아티클 요약
+            지난 뉴스레터 요약
             <GPTMark />
           </div>
           <button className="p-[14px] cursor-pointer" onClick={onClose}>

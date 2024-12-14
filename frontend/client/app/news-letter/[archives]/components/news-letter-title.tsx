@@ -22,7 +22,7 @@ const NewsLetterTitle = (props: NewsLetterTitleProps) => {
     <div className="border-b border-gray-40 bg-white px-20 pb-16 pt-28 xl:px-40">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-16 xl:flex-row xl:items-center">
-          <div className="size-[76px] shrink-0 overflow-hidden rounded-[14px] xl:size-[68px] bg-[#F1F6FF] flex items-center">
+          <div className="size-[76px] shrink-0 overflow-hidden rounded-[14px] xl:size-[68px] bg-[#F1F6FF] flex items-center border border-gray-40">
             <Image
               src={data?.publisher?.thumbnail || "https://via.placeholder.com/300"}
               width={76}
