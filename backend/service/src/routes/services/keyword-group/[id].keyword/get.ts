@@ -38,7 +38,17 @@ export type EndpointType = typeof ep;
 export const ep = app.openapi(route, async (c) => {
   const param = zParam.parse(c.req.param());
 
-  return c.json(zRes.parse(await KeywordProvider.selectAll(param.id)));
+  const keywords = await KeywordProvider.selectAll(param.id);
+  if (keywords.some((keyword) => keyword.name.includes("기획자"))) {
+    const orderedKeywords = [
+      ...keywords.filter((keyword) => keyword.name.includes("기획자")),
+      ...keywords.filter((keyword) => !keyword.name.includes("기획자")),
+    ];
+
+    return c.json(zRes.parse(orderedKeywords));
+  }
+
+  return c.json(zRes.parse(keywords));
 });
 
 export default app;
